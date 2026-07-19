@@ -602,39 +602,51 @@
         // 載入行程列表
         async function loadItineraries() {
             try {
-                // 從 data 目錄載入所有行程
-                const response = await fetch('data/2026-08-holland-germany.json');
-                if (!response.ok) throw new Error('Failed to load');
+                // 從 manifest 載入清單
+                const manifestRes = await fetch('data/manifest.json');
+                if (!manifestRes.ok) throw new Error('Failed to load manifest');
 
-                const data = await response.json();
+                const manifest = await manifestRes.json();
+                itineraries = [];
 
-                // 計算天數（使用日期計算，更準確）
-                let days = 0;
-                if (data.startDate && data.endDate) {
-                    const start = new Date(data.startDate);
-                    const end = new Date(data.endDate);
-                    days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-                } else {
-                    // 備用：計算有效行程行
-                    days = (data.itinerary || []).filter(day =>
-                        day && (day['時間'] || day['地點 / 移動'])
-                    ).length;
+                // 載入每個行程
+                for (const item of manifest.itineraries) {
+                    try {
+                        const response = await fetch(`data/${item.filename}`);
+                        if (!response.ok) throw new Error('Failed to load');
+
+                        const data = await response.json();
+
+                        // 計算天數
+                        let days = 0;
+                        if (data.startDate && data.endDate) {
+                            const start = new Date(data.startDate);
+                            const end = new Date(data.endDate);
+                            days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+                        } else {
+                            days = (data.itinerary || []).filter(day =>
+                                day && (day['時間'] || day['地點 / 移動'])
+                            ).length;
+                        }
+
+                        // 提取路線
+                        const route = generateRoute(data);
+
+                        itineraries.push({
+                            id: item.filename.replace('.json', ''),
+                            filename: item.filename,
+                            title: data.title,
+                            destination: item.countries,
+                            route: route,
+                            startDate: data.startDate,
+                            endDate: data.endDate,
+                            days: days,
+                            description: '旅遊紀錄'
+                        });
+                    } catch (error) {
+                        console.error(`Error loading ${item.filename}:`, error);
+                    }
                 }
-
-                // 提取路線：台北 ✈ 荷蘭 🚂 德國 ✈ 台北
-                const route = generateRoute(data);
-
-                itineraries = [{
-                    id: '2026-08-holland-germany',
-                    filename: '2026-08-holland-germany.json',
-                    title: data.title,
-                    destination: '荷蘭 & 德國',
-                    route: route,
-                    startDate: data.startDate,
-                    endDate: data.endDate,
-                    days: days,
-                    description: '周年紀念雙國之旅'
-                }];
 
                 // 也可以從 localStorage 載入自定義行程
                 const saved = localStorage.getItem('customItineraries');

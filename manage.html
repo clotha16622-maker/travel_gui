@@ -237,25 +237,39 @@
 
         function loadItineraries() {
             try {
-                // 從 data 目錄載入預設行程
-                fetch('data/2026-08-holland-germany.json')
+                // 從 manifest 載入清單
+                fetch('data/manifest.json')
                     .then(res => res.json())
-                    .then(data => {
-                        // 計算天數
-                        const start = new Date(data.startDate);
-                        const end = new Date(data.endDate);
-                        const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+                    .then(async (manifest) => {
+                        itineraries = [];
 
-                        itineraries = [{
-                            id: '2026-08-holland-germany',
-                            filename: '2026-08-holland-germany.json',
-                            title: data.title,
-                            destination: '荷蘭 & 德國',
-                            startDate: data.startDate,
-                            endDate: data.endDate,
-                            days: days,
-                            isDefault: true
-                        }];
+                        // 載入每個行程
+                        for (const item of manifest.itineraries) {
+                            try {
+                                const response = await fetch(`data/${item.filename}`);
+                                if (!response.ok) throw new Error('Failed to load');
+
+                                const data = await response.json();
+
+                                // 計算天數
+                                const start = new Date(data.startDate);
+                                const end = new Date(data.endDate);
+                                const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+
+                                itineraries.push({
+                                    id: item.filename.replace('.json', ''),
+                                    filename: item.filename,
+                                    title: data.title,
+                                    destination: item.countries,
+                                    startDate: data.startDate,
+                                    endDate: data.endDate,
+                                    days: days,
+                                    isDefault: true
+                                });
+                            } catch (error) {
+                                console.error(`Error loading ${item.filename}:`, error);
+                            }
+                        }
 
                         // 載入自訂行程
                         const saved = localStorage.getItem('customItineraries');

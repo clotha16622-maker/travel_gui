@@ -701,13 +701,25 @@
             try {
                 let data;
 
-                // 先尝试从文件加载
-                if (id === '2026-08-holland-germany') {
-                    const response = await fetch(`data/${id}.json`);
-                    if (!response.ok) throw new Error('File not found');
-                    data = await response.json();
-                } else {
-                    // 从 localStorage 加载自定义行程
+                // 先尝试从 manifest 找文件
+                try {
+                    const manifestRes = await fetch('data/manifest.json');
+                    if (manifestRes.ok) {
+                        const manifest = await manifestRes.json();
+                        const item = manifest.itineraries.find(it => it.filename.replace('.json', '') === id);
+
+                        if (item) {
+                            const response = await fetch(`data/${item.filename}`);
+                            if (!response.ok) throw new Error('File not found');
+                            data = await response.json();
+                        }
+                    }
+                } catch (error) {
+                    console.log('Manifest not found, trying localStorage');
+                }
+
+                // 如果从文件加载失败，尝试从 localStorage 加载自定义行程
+                if (!data) {
                     const saved = localStorage.getItem('customItineraries');
                     if (!saved) throw new Error('Itinerary not found');
 
