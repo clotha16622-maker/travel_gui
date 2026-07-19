@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#667eea">
-    <title>2026 周年雙國之旅 - 荷蘭 & 德國</title>
+    <title>我的旅程 - 行程管理</title>
     <style>
         * {
             margin: 0;
@@ -19,19 +19,13 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             width: 100%;
             margin: 0 auto;
             padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
         }
 
         /* Header */
@@ -42,164 +36,292 @@
             animation: slideDown 0.6s ease-out;
         }
 
-        .header-emoji {
-            font-size: 4rem;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .header-title {
+        .header h1 {
             font-size: 2.5rem;
-            font-weight: 800;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            line-height: 1.2;
         }
 
-        .header-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.95;
-            margin-bottom: 5px;
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
-        .header-dates {
-            font-size: 1rem;
-            opacity: 0.85;
-            margin-bottom: 20px;
-        }
-
-        /* Info Section */
-        .info-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 40px;
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
             animation: fadeIn 0.8s ease-out 0.2s both;
         }
 
-        .info-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Itineraries Grid */
+        .itineraries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            animation: fadeIn 0.8s ease-out 0.4s both;
+        }
+
+        .itinerary-card {
+            background: white;
             border-radius: 12px;
-            text-align: center;
+            padding: 20px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .info-card:hover {
+        .itinerary-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
 
-        .info-icon {
-            font-size: 2.5rem;
+        .itinerary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .itinerary-emoji {
+            font-size: 3rem;
             margin-bottom: 10px;
         }
 
-        .info-label {
-            font-size: 0.9rem;
-            color: #999;
-            margin-bottom: 5px;
-        }
-
-        .info-value {
-            font-size: 1.3rem;
+        .itinerary-title {
+            font-size: 1.4rem;
             font-weight: bold;
-            color: #667eea;
-        }
-
-        /* Highlights Section */
-        .highlights-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 30px;
-            animation: fadeIn 0.8s ease-out 0.4s both;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-        }
-
-        .highlights-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 20px;
             color: #333;
+            margin-bottom: 10px;
         }
 
-        .highlights-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .highlight-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .highlight-item:hover {
-            background: #eef0fa;
-            transform: translateX(5px);
-        }
-
-        .highlight-icon {
-            font-size: 1.8rem;
-            min-width: 40px;
-        }
-
-        .highlight-text {
-            font-size: 0.95rem;
-            color: #555;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            text-align: center;
-            animation: fadeIn 0.8s ease-out 0.6s both;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: white;
-            color: #667eea;
-            padding: 16px 40px;
-            border-radius: 50px;
+        .itinerary-destination {
             font-size: 1.1rem;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            text-decoration: none;
+            color: #667eea;
             margin-bottom: 15px;
         }
 
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        .itinerary-info {
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
         }
 
-        .cta-button:active {
-            transform: translateY(-1px);
+        .itinerary-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
         }
 
-        .cta-text {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1rem;
+        .itinerary-info-label {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .itinerary-actions {
+            display: flex;
+            gap: 8px;
             margin-top: 15px;
         }
 
-        /* Footer */
-        .footer {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.8);
+        .btn-small {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
             font-size: 0.9rem;
-            padding: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            animation: fadeIn 0.8s ease-out 0.8s both;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-view {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #5568d3;
+        }
+
+        .btn-delete {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #ff5252;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .empty-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .empty-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-input-small {
+            display: inline-block;
+            width: calc(50% - 5px);
+        }
+
+        .form-input-small:first-child {
+            margin-right: 10px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #5568d3;
         }
 
         /* Animations */
@@ -225,160 +347,312 @@
             }
         }
 
-        /* Responsive Design */
+        /* Responsive */
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
             }
 
-            .header-emoji {
-                font-size: 3rem;
-            }
-
-            .header-title {
+            .header h1 {
                 font-size: 1.8rem;
             }
 
-            .header-subtitle {
-                font-size: 1rem;
-            }
-
-            .info-section {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-                margin-bottom: 30px;
-            }
-
-            .info-card {
-                padding: 15px;
-            }
-
-            .info-icon {
-                font-size: 2rem;
-            }
-
-            .info-value {
-                font-size: 1.1rem;
-            }
-
-            .highlights-section {
-                padding: 20px;
-                margin-bottom: 20px;
-            }
-
-            .highlights-title {
-                font-size: 1.4rem;
-                margin-bottom: 15px;
-            }
-
-            .highlights-grid {
+            .itineraries-grid {
                 grid-template-columns: 1fr;
-                gap: 12px;
             }
 
-            .cta-button {
-                padding: 14px 30px;
-                font-size: 1rem;
+            .modal-content {
+                width: 95%;
             }
 
-            .highlight-text {
-                font-size: 0.9rem;
+            .form-input-small {
+                width: 100%;
+                margin-right: 0 !important;
+                margin-bottom: 10px;
             }
         }
 
-        @media (max-width: 480px) {
-            .header-title {
-                font-size: 1.5rem;
-            }
-
-            .header-subtitle {
-                font-size: 0.95rem;
-            }
-
-            .info-section {
-                grid-template-columns: 1fr;
-            }
-
-            .highlights-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .cta-button {
-                width: 100%;
-            }
+        .footer {
+            text-align: center;
+            color: rgba(255,255,255,0.8);
+            padding: 20px;
+            margin-top: 40px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <span class="header-emoji">🌍</span>
-            <h1 class="header-title">2026 周年雙國之旅</h1>
-            <p class="header-subtitle">荷蘭 🇳🇱 & 德國 🇩🇪</p>
-            <p class="header-dates">2026年 7月30日 - 8月15日</p>
+            <h1>✈️ 我的旅程</h1>
+            <p>記錄和分享你的每一次精彩旅行</p>
         </div>
 
-        <div class="info-section">
-            <div class="info-card">
-                <div class="info-icon">📅</div>
-                <div class="info-label">旅程時長</div>
-                <div class="info-value">16天</div>
-            </div>
-            <div class="info-card">
-                <div class="info-icon">🛫</div>
-                <div class="info-label">目的地</div>
-                <div class="info-value">2國</div>
-            </div>
-            <div class="info-card">
-                <div class="info-icon">🏙️</div>
-                <div class="info-label">城市</div>
-                <div class="info-value">8座</div>
-            </div>
-            <div class="info-card">
-                <div class="info-icon">🏨</div>
-                <div class="info-label">住宿</div>
-                <div class="info-value">多家</div>
-            </div>
+        <div class="controls">
+            <button class="btn btn-primary" onclick="openAddModal()">➕ 新增行程</button>
+            <button class="btn btn-secondary" onclick="importJSON()">📥 匯入行程</button>
         </div>
 
-        <div class="highlights-section">
-            <h2 class="highlights-title">✨ 旅程亮點</h2>
-            <div class="highlights-grid">
-                <div class="highlight-item">
-                    <span class="highlight-icon">🎨</span>
-                    <span class="highlight-text">梵谷博物館、國家美術館</span>
-                </div>
-                <div class="highlight-item">
-                    <span class="highlight-icon">🏰</span>
-                    <span class="highlight-text">海德堡古堡、德哈爾城堡</span>
-                </div>
-                <div class="highlight-item">
-                    <span class="highlight-icon">🌳</span>
-                    <span class="highlight-text">羊角村水道、梵谷森林</span>
-                </div>
-                <div class="highlight-item">
-                    <span class="highlight-icon">🏛️</span>
-                    <span class="highlight-text">安妮之家、科隆大教堂</span>
-                </div>
-                <div class="highlight-item">
-                    <span class="highlight-icon">🛶</span>
-                    <span class="highlight-text">電動平底船探險</span>
-                </div>
-                <div class="highlight-item">
-                    <span class="highlight-icon">🎭</span>
-                    <span class="highlight-text">多地美食文化體驗</span>
-                </div>
-            </div>
-        </div>
+        <div id="itinerariesContainer"></div>
 
-        <div class="cta-section">
-            <a href="travel.html" class="cta-button">📍 查看詳細行程</a>
-            <p class="cta-text">點擊按鈕查看每日行程表、互動地圖和時間安排</p>
+        <div class="footer">
+            <p>💫 打造屬於你的旅程故事</p>
         </div>
     </div>
 
-    <div class="footer">
-        <p>✨ 一段充滿回憶的周年慶祝之旅 ✨</p>
+    <!-- Add Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                ➕ 新增行程
+                <button class="modal-close" onclick="closeAddModal()">✕</button>
+            </div>
+            <form onsubmit="createItinerary(event)">
+                <div class="form-group">
+                    <label class="form-label">行程名稱 *</label>
+                    <input type="text" id="titleInput" class="form-input" placeholder="例：2026年暑假日本之旅" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">目的地 *</label>
+                    <input type="text" id="destinationInput" class="form-input" placeholder="例：日本 東京、京都、大阪" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">開始日期</label>
+                    <input type="date" id="startDateInput" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">結束日期</label>
+                    <input type="date" id="endDateInput" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">備註</label>
+                    <input type="text" id="descriptionInput" class="form-input" placeholder="例：周年紀念旅行">
+                </div>
+                <button type="submit" class="btn-submit">建立行程</button>
+            </form>
+        </div>
     </div>
+
+    <script>
+        // 行程列表
+        let itineraries = [];
+
+        // 初始化
+        window.addEventListener('load', () => {
+            loadItineraries();
+        });
+
+        // 載入行程列表
+        async function loadItineraries() {
+            try {
+                // 從 data 目錄載入所有行程
+                const response = await fetch('data/2026-08-holland-germany.json');
+                if (!response.ok) throw new Error('Failed to load');
+
+                const data = await response.json();
+                itineraries = [{
+                    id: '2026-08-holland-germany',
+                    filename: '2026-08-holland-germany.json',
+                    title: data.title,
+                    destination: data.itinerary?.[0]?.['地點 / 移動'] || '荷蘭 & 德國',
+                    startDate: data.startDate,
+                    endDate: data.endDate,
+                    days: data.itinerary?.length || 16,
+                    description: '周年紀念雙國之旅'
+                }];
+
+                // 也可以從 localStorage 載入自定義行程
+                const saved = localStorage.getItem('customItineraries');
+                if (saved) {
+                    itineraries = [...itineraries, ...JSON.parse(saved)];
+                }
+
+                renderItineraries();
+            } catch (error) {
+                console.error('Error loading itineraries:', error);
+                renderItineraries();
+            }
+        }
+
+        // 渲染行程列表
+        function renderItineraries() {
+            const container = document.getElementById('itinerariesContainer');
+
+            if (itineraries.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🗺️</div>
+                        <div class="empty-title">還沒有行程</div>
+                        <div class="empty-text">點擊下方按鈕新增你的第一趟旅程</div>
+                        <button class="btn btn-primary" onclick="openAddModal()">➕ 新增行程</button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="itineraries-grid">
+                    ${itineraries.map(it => `
+                        <div class="itinerary-card">
+                            <div class="itinerary-emoji">${getEmoji(it.destination)}</div>
+                            <div class="itinerary-title">${it.title}</div>
+                            <div class="itinerary-destination">📍 ${it.destination}</div>
+                            <div class="itinerary-info">
+                                ${it.startDate ? `
+                                    <div class="itinerary-info-row">
+                                        <span class="itinerary-info-label">📅 日期</span>
+                                        <span>${it.startDate} ~ ${it.endDate || ''}</span>
+                                    </div>
+                                ` : ''}
+                                ${it.days ? `
+                                    <div class="itinerary-info-row">
+                                        <span class="itinerary-info-label">⏰ 天數</span>
+                                        <span>${it.days}天</span>
+                                    </div>
+                                ` : ''}
+                                ${it.description ? `
+                                    <div class="itinerary-info-row">
+                                        <span class="itinerary-info-label">💬 備註</span>
+                                        <span>${it.description}</span>
+                                    </div>
+                                ` : ''}
+                            </div>
+                            <div class="itinerary-actions">
+                                <button class="btn-small btn-view" onclick="viewItinerary('${it.id}')">查看行程 →</button>
+                                <button class="btn-small btn-delete" onclick="deleteItinerary('${it.id}')">刪除</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // 獲取目的地emoji
+        function getEmoji(destination) {
+            if (destination.includes('荷蘭') || destination.includes('德國')) return '🇳🇱🇩🇪';
+            if (destination.includes('日本')) return '🇯🇵';
+            if (destination.includes('韓國')) return '🇰🇷';
+            if (destination.includes('泰國')) return '🇹🇭';
+            if (destination.includes('美國')) return '🇺🇸';
+            if (destination.includes('歐洲')) return '🇪🇺';
+            return '🌍';
+        }
+
+        // 查看行程
+        function viewItinerary(id) {
+            window.location.href = `itinerary.html?id=${id}`;
+        }
+
+        // 刪除行程
+        function deleteItinerary(id) {
+            if (!confirm('確定要刪除此行程嗎？')) return;
+
+            itineraries = itineraries.filter(it => it.id !== id);
+
+            // 如果是自訂行程，更新 localStorage
+            const customItineraries = itineraries.filter(it => !it.filename);
+            localStorage.setItem('customItineraries', JSON.stringify(customItineraries));
+
+            renderItineraries();
+            alert('行程已刪除');
+        }
+
+        // 打開新增modal
+        function openAddModal() {
+            document.getElementById('addModal').classList.add('active');
+        }
+
+        // 關閉新增modal
+        function closeAddModal() {
+            document.getElementById('addModal').classList.remove('active');
+        }
+
+        // 建立行程
+        function createItinerary(e) {
+            e.preventDefault();
+
+            const title = document.getElementById('titleInput').value;
+            const destination = document.getElementById('destinationInput').value;
+            const startDate = document.getElementById('startDateInput').value;
+            const endDate = document.getElementById('endDateInput').value;
+            const description = document.getElementById('descriptionInput').value;
+
+            const id = 'custom-' + Date.now();
+
+            const newItinerary = {
+                id,
+                title,
+                destination,
+                startDate,
+                endDate,
+                description,
+                days: 0
+            };
+
+            itineraries.push(newItinerary);
+
+            // 保存到 localStorage
+            const customItineraries = itineraries.filter(it => !it.filename);
+            localStorage.setItem('customItineraries', JSON.stringify(customItineraries));
+
+            closeAddModal();
+            renderItineraries();
+            alert(`✅ 行程「${title}」已建立！\n\n提示：如需添加詳細行程內容，請將行程JSON檔上傳至 /data 目錄`);
+
+            // 清空表單
+            document.getElementById('titleInput').value = '';
+            document.getElementById('destinationInput').value = '';
+            document.getElementById('startDateInput').value = '';
+            document.getElementById('endDateInput').value = '';
+            document.getElementById('descriptionInput').value = '';
+        }
+
+        // 匯入JSON
+        function importJSON() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        const id = 'imported-' + Date.now();
+
+                        const newItinerary = {
+                            id,
+                            title: data.title || '未命名行程',
+                            destination: data.destination || '未指定',
+                            startDate: data.startDate || '',
+                            endDate: data.endDate || '',
+                            description: data.description || '',
+                            days: data.itinerary?.length || 0,
+                            data: data // 完整數據
+                        };
+
+                        itineraries.push(newItinerary);
+
+                        // 保存到 localStorage
+                        const customItineraries = itineraries.filter(it => !it.filename);
+                        localStorage.setItem('customItineraries', JSON.stringify(customItineraries));
+
+                        renderItineraries();
+                        alert('✅ 行程已匯入！');
+                    } catch (error) {
+                        alert('❌ JSON 格式有誤，請檢查檔案');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        // 關閉modal
+        document.getElementById('addModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('addModal')) {
+                closeAddModal();
+            }
+        });
+    </script>
 </body>
 </html>

@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026 周年雙國之旅 - 荷蘭 & 德國</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#667eea">
+    <title>行程詳情</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,14 +29,30 @@
         }
 
         .header h1 {
-            font-size: 2.5em;
+            font-size: 2.5rem;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .header p {
-            font-size: 1.1em;
+            font-size: 1.1rem;
             opacity: 0.9;
+        }
+
+        .back-btn {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
         }
 
         .tabs {
@@ -83,7 +101,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 時間線視圖 */
+        /* Timeline */
         .timeline {
             position: relative;
             padding: 20px 0;
@@ -147,13 +165,7 @@
             margin-bottom: 5px;
         }
 
-        .timeline-title {
-            font-size: 1.1em;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        /* 卡片視圖 */
+        /* Cards */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -166,7 +178,6 @@
             padding: 20px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transition: all 0.3s;
-            cursor: pointer;
         }
 
         .card:hover {
@@ -178,7 +189,6 @@
             font-size: 0.9em;
             color: #667eea;
             font-weight: bold;
-            margin-bottom: 5px;
         }
 
         .card-location {
@@ -202,12 +212,17 @@
             margin-top: 8px;
         }
 
-        /* 地圖視圖 */
-        #map {
-            height: 600px;
+        /* Map */
+        #mapContainer {
+            background: white;
             border-radius: 12px;
+            overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             margin-bottom: 20px;
+        }
+
+        #mapElement {
+            height: 600px;
         }
 
         .map-legend {
@@ -217,25 +232,7 @@
             margin-top: 20px;
         }
 
-        .map-legend h3 {
-            margin-bottom: 15px;
-            color: #667eea;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .legend-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        /* 時間表視圖 */
+        /* Schedule */
         .schedule {
             background: white;
             border-radius: 12px;
@@ -247,16 +244,11 @@
             border-bottom: 2px solid #f0f0f0;
         }
 
-        .schedule-day:last-child {
-            border-bottom: none;
-        }
-
         .day-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 15px 20px;
             font-weight: bold;
-            font-size: 1.1em;
         }
 
         .day-content {
@@ -267,11 +259,7 @@
             display: grid;
             grid-template-columns: 150px 1fr;
             gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .schedule-row:last-child {
-            margin-bottom: 0;
+            margin-bottom: 15px;
         }
 
         .time-slot {
@@ -284,10 +272,29 @@
             line-height: 1.6;
         }
 
-        /* 響應式設計 */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .error {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
         @media (max-width: 768px) {
             .header h1 {
-                font-size: 1.8em;
+                font-size: 1.8rem;
             }
 
             .timeline::before {
@@ -299,9 +306,7 @@
                 width: 100%;
                 text-align: left;
                 margin-left: 60px;
-                margin-right: 0;
                 padding-left: 20px;
-                padding-right: 20px;
             }
 
             .timeline-dot {
@@ -316,43 +321,43 @@
                 grid-template-columns: 1fr;
             }
 
-            .time-slot {
-                margin-bottom: 5px;
+            #mapElement {
+                height: 400px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <a href="index.html" class="back-btn">← 返回行程列表</a>
+
         <div class="header">
-            <h1>🌍 2026 周年雙國之旅</h1>
-            <p>荷蘭 🇳🇱 & 德國 🇩🇪 | 2026.7.30 - 2026.8.15</p>
+            <h1 id="pageTitle">載入中...</h1>
+            <p id="pageSubtitle"></p>
         </div>
 
         <div class="tabs">
             <button class="tab-btn active" onclick="switchTab('timeline')">📍 時間線</button>
             <button class="tab-btn" onclick="switchTab('cards')">🎴 每日卡片</button>
             <button class="tab-btn" onclick="switchTab('map')">🗺️ 互動地圖</button>
-            <button class="tab-btn" onclick="switchTab('schedule')">⏰ 詳細時間表</button>
+            <button class="tab-btn" onclick="switchTab('schedule')">⏰ 時間表</button>
         </div>
 
-        <!-- 時間線視圖 -->
         <div id="timeline" class="tab-content active">
             <div class="timeline" id="timelineContainer"></div>
         </div>
 
-        <!-- 卡片視圖 -->
         <div id="cards" class="tab-content">
             <div class="cards-grid" id="cardsContainer"></div>
         </div>
 
-        <!-- 地圖視圖 -->
         <div id="map" class="tab-content">
-            <div id="mapContainer"></div>
+            <div id="mapContainer">
+                <div id="mapElement"></div>
+            </div>
             <div class="map-legend" id="mapLegend"></div>
         </div>
 
-        <!-- 時間表視圖 -->
         <div id="schedule" class="tab-content">
             <div class="schedule" id="scheduleContainer"></div>
         </div>
@@ -363,36 +368,78 @@
         let travelData = null;
         let map = null;
 
-        // 城市座標
-        const cityCoordinates = {
-            '台北': [25.0330, 121.5654],
-            '機上': [50, 10],
-            '阿姆斯特丹': [52.3676, 4.9041],
-            '鹿特丹': [51.9225, 4.4792],
-            '萊頓': [52.1601, 4.4941],
-            '海牙': [52.0705, 4.2566],
-            '羊角村': [52.7153, 5.8697],
-            '烏特勒支': [52.0907, 5.1214],
-            '梵谷森林': [52.0500, 5.7667],
-            '科隆': [50.9365, 6.9589],
-            '法蘭克福': [50.1109, 8.6821],
-            '海德堡': [49.4134, 8.7100]
-        };
+        // 获取URL参数
+        function getUrlParam(name) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name);
+        }
 
-        // 載入 JSON 數據
-        fetch('travel_data.json')
-            .then(res => res.json())
-            .then(data => {
+        // 初始化
+        window.addEventListener('load', () => {
+            const id = getUrlParam('id');
+            if (!id) {
+                showError('找不到行程');
+                return;
+            }
+            loadItinerary(id);
+        });
+
+        // 加载行程数据
+        async function loadItinerary(id) {
+            try {
+                let data;
+
+                // 先尝试从文件加载
+                if (id === '2026-08-holland-germany') {
+                    const response = await fetch(`data/${id}.json`);
+                    if (!response.ok) throw new Error('File not found');
+                    data = await response.json();
+                } else {
+                    // 从 localStorage 加载自定义行程
+                    const saved = localStorage.getItem('customItineraries');
+                    if (!saved) throw new Error('Itinerary not found');
+
+                    const itineraries = JSON.parse(saved);
+                    const itinerary = itineraries.find(it => it.id === id);
+                    if (!itinerary || !itinerary.data) throw new Error('Itinerary not found');
+                    data = itinerary.data;
+                }
+
                 travelData = data;
-                renderTimeline();
-                renderCards();
-                renderSchedule();
-                setTimeout(renderMap, 300);
-            })
-            .catch(err => console.error('載入數據失敗:', err));
+                renderPage();
+            } catch (error) {
+                console.error('Error loading itinerary:', error);
+                showError('載入行程失敗');
+            }
+        }
 
+        // 显示错误
+        function showError(message) {
+            document.querySelector('.container').innerHTML = `
+                <div class="error">
+                    <div class="error-icon">❌</div>
+                    <h2>${message}</h2>
+                    <p style="margin-top: 10px; color: #666;">
+                        <a href="index.html" style="color: #667eea;">返回行程列表</a>
+                    </p>
+                </div>
+            `;
+        }
+
+        // 渲染页面
+        function renderPage() {
+            document.getElementById('pageTitle').textContent = travelData.title || '行程詳情';
+            document.getElementById('pageSubtitle').textContent =
+                `${travelData.startDate} - ${travelData.endDate}`;
+
+            renderTimeline();
+            renderCards();
+            renderSchedule();
+            setTimeout(renderMap, 300);
+        }
+
+        // 切换标签
         function switchTab(tabName) {
-            // 隱藏所有選項卡
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
@@ -400,22 +447,25 @@
                 btn.classList.remove('active');
             });
 
-            // 顯示選定選項卡
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
 
-            // 地圖需要重新調整大小
             if (tabName === 'map' && map) {
                 setTimeout(() => map.invalidateSize(), 100);
             }
         }
 
+        // 渲染时间线
         function renderTimeline() {
             const container = document.getElementById('timelineContainer');
-            let html = '';
+            const itinerary = travelData.itinerary || [];
 
-            travelData.itinerary.forEach((day, index) => {
-                const date = day['時間'] || '';
+            let html = '';
+            itinerary.forEach((day, index) => {
+                if (!day || typeof day !== 'object') return;
+
+                const firstKey = Object.keys(day)[0];
+                const date = day[firstKey] || '';
                 const location = day['地點 / 移動'] || '';
                 const highlights = day['精選景點 (含黃金預約時間)'] || '';
 
@@ -424,26 +474,30 @@
                         <div class="timeline-dot"></div>
                         <div class="timeline-content">
                             <div class="timeline-date">${date}</div>
-                            <div class="timeline-title">${location}</div>
-                            <p style="font-size: 0.9em; color: #666; margin-top: 10px;">${highlights}</p>
+                            <div style="font-size: 1.1em; font-weight: 600; margin-bottom: 10px;">${location}</div>
+                            <p style="font-size: 0.9em; color: #666;">${highlights}</p>
                         </div>
                     </div>
                 `;
             });
 
-            container.innerHTML = html;
+            container.innerHTML = html || '<p style="color: white; text-align: center;">無行程數據</p>';
         }
 
+        // 渲染卡片
         function renderCards() {
             const container = document.getElementById('cardsContainer');
-            let html = '';
+            const itinerary = travelData.itinerary || [];
 
-            travelData.itinerary.forEach((day, index) => {
-                const date = day['時間'] || '';
+            let html = '';
+            itinerary.forEach((day, index) => {
+                if (!day || typeof day !== 'object') return;
+
+                const firstKey = Object.keys(day)[0];
+                const date = day[firstKey] || '';
                 const location = day['地點 / 移動'] || '';
                 const accommodation = day['每日基地 (住宿地區 / 飯店與訂單資訊)'] || '';
                 const highlights = day['精選景點 (含黃金預約時間)'] || '';
-                const schedule = day['行程細項'] || '';
                 const tips = day['備註 / 在地指南'] || '';
 
                 html += `
@@ -460,7 +514,7 @@
 
                         ${highlights ? `
                             <div class="card-section">
-                                <span class="card-label">⭐ 精選景點</span>
+                                <span class="card-label">⭐ 景點</span>
                                 ${highlights}
                             </div>
                         ` : ''}
@@ -475,69 +529,63 @@
                 `;
             });
 
-            container.innerHTML = html;
+            container.innerHTML = html || '<p style="color: white; text-align: center;">無行程數據</p>';
         }
 
+        // 渲染地图
         function renderMap() {
             const mapContainer = document.getElementById('mapContainer');
-            mapContainer.innerHTML = '<div id="mapElement" style="height: 600px; border-radius: 12px;"></div>';
+            mapContainer.innerHTML = '<div id="mapElement"></div>';
 
-            // 初始化地圖
             map = L.map('mapElement').setView([51.5, 5], 6);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap',
-                maxZoom: 19
+                attribution: '© OpenStreetMap'
             }).addTo(map);
 
-            // 添加標記
-            const usedCities = new Set();
-            const cityColors = {
-                '台北': '#FF6B6B',
-                '荷蘭': '#4ECDC4',
-                '德國': '#FFE66D'
-            };
+            // 添加标记
+            const itinerary = travelData.itinerary || [];
+            const cityColors = {};
+            let markerCount = 0;
 
-            travelData.itinerary.forEach((day, index) => {
+            itinerary.forEach((day, index) => {
+                if (!day || typeof day !== 'object') return;
+
                 const location = day['地點 / 移動'] || '';
+                if (!location) return;
 
-                // 提取城市名稱
-                let cityName = '';
-                if (location.includes('台北')) cityName = '台北';
-                else if (location.includes('阿姆斯特丹')) cityName = '阿姆斯特丹';
-                else if (location.includes('鹿特丹')) cityName = '鹿特丹';
-                else if (location.includes('萊頓')) cityName = '萊頓';
-                else if (location.includes('海牙')) cityName = '海牙';
-                else if (location.includes('羊角村')) cityName = '羊角村';
-                else if (location.includes('烏特勒支')) cityName = '烏特勒支';
-                else if (location.includes('梵谷')) cityName = '梵谷森林';
-                else if (location.includes('科隆')) cityName = '科隆';
-                else if (location.includes('法蘭克福')) cityName = '法蘭克福';
-                else if (location.includes('海德堡')) cityName = '海德堡';
+                // 简化：提取第一个中文词作为城市
+                const cityMatch = location.match(/[一-龥]+/);
+                if (cityMatch) {
+                    const city = cityMatch[0];
+                    if (!cityColors[city]) {
+                        cityColors[city] = ['#667eea', '#764ba2', '#ff6b6b', '#51cf66', '#ffd93d'][markerCount++ % 5];
 
-                if (cityName && cityCoordinates[cityName] && !usedCities.has(cityName)) {
-                    usedCities.add(cityName);
-                    const coords = cityCoordinates[cityName];
-                    L.circleMarker(coords, {
-                        radius: 8,
-                        fillColor: '#667eea',
-                        color: 'white',
-                        weight: 2,
-                        opacity: 1,
-                        fillOpacity: 0.8
-                    }).bindPopup(`<strong>${cityName}</strong><br>${location}`).addTo(map);
+                        L.circleMarker([51.5 + Math.random() * 5, 5 + Math.random() * 5], {
+                            radius: 8,
+                            fillColor: cityColors[city],
+                            color: 'white',
+                            weight: 2,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        }).bindPopup(`<strong>${city}</strong>`).addTo(map);
+                    }
                 }
             });
         }
 
+        // 渲染时间表
         function renderSchedule() {
             const container = document.getElementById('scheduleContainer');
-            let html = '';
+            const itinerary = travelData.itinerary || [];
 
-            travelData.itinerary.forEach((day, index) => {
-                const date = day['時間'] || '';
+            let html = '';
+            itinerary.forEach((day, index) => {
+                if (!day || typeof day !== 'object') return;
+
+                const firstKey = Object.keys(day)[0];
+                const date = day[firstKey] || '';
                 const schedule = day['行程細項'] || '';
 
-                // 拆分時間表
                 const times = schedule.split('➔').map(s => s.trim()).filter(s => s);
 
                 html += `
@@ -555,7 +603,7 @@
                 `;
             });
 
-            container.innerHTML = html;
+            container.innerHTML = html || '<div style="padding: 20px; text-align: center; color: #666;">無行程數據</div>';
         }
     </script>
 </body>
