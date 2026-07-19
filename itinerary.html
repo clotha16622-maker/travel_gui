@@ -823,17 +823,20 @@
             itinerary.forEach((day, index) => {
                 if (!day || typeof day !== 'object') return;
 
-                const firstKey = Object.keys(day)[0];
-                const date = day[firstKey] || '';
+                const date = day['時間'] || '';
                 const location = day['地點 / 移動'] || '';
+
+                // 只顯示有日期或地點的行程
+                if (!date && !location) return;
+
                 const accommodation = day['每日基地 (住宿地區 / 飯店與訂單資訊)'] || '';
                 const highlights = day['精選景點 (含黃金預約時間)'] || '';
                 const tips = day['備註 / 在地指南'] || '';
 
                 html += `
                     <div class="card">
-                        <div class="card-date">${date}</div>
-                        <div class="card-location">${location}</div>
+                        <div class="card-date">${date || '待定'}</div>
+                        <div class="card-location">${location || '行程'}</div>
 
                         ${accommodation ? `
                             <div class="card-section">
