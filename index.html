@@ -15,10 +15,26 @@
         }
 
         body {
-            font-family: -apple-system, 'PingFang TC', BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
+            font-family: 'Segoe UI', -apple-system, 'PingFang TC', BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 50%, #dfc49e 100%);
+            background-attachment: fixed;
+            color: #4a4a4a;
             min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+            pointer-events: none;
+            z-index: -1;
         }
 
         .container {
@@ -28,23 +44,52 @@
             padding: 20px;
         }
 
-        /* Header */
+        /* Header - Travel Journal Style */
         .header {
             text-align: center;
-            color: white;
             margin-bottom: 40px;
             animation: slideDown 0.6s ease-out;
+            position: relative;
+            padding: 30px;
+            background: rgba(255, 248, 240, 0.6);
+            border: 3px solid #d4a574;
+            border-radius: 10px;
+            box-shadow:
+                5px 5px 15px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.5);
+            transform: rotate(-1deg);
+        }
+
+        .header::before {
+            content: '✈';
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+
+        .header::after {
+            content: '🌍';
+            position: absolute;
+            bottom: -10px;
+            left: 40px;
+            font-size: 2.5rem;
+            opacity: 0.3;
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            color: #8b5a3c;
+            font-weight: 800;
+            letter-spacing: 2px;
         }
 
         .header p {
             font-size: 1.1rem;
-            opacity: 0.9;
+            color: #a0826d;
+            font-weight: 500;
         }
 
         /* Controls */
@@ -60,7 +105,7 @@
         .btn {
             padding: 12px 24px;
             border: none;
-            border-radius: 8px;
+            border-radius: 25px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
@@ -68,23 +113,24 @@
         }
 
         .btn-primary {
-            background: white;
-            color: #667eea;
+            background: linear-gradient(135deg, #d4a574, #c19461);
+            color: white;
+            box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(212, 165, 116, 0.4);
         }
 
         .btn-secondary {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 2px solid white;
+            background: rgba(212, 165, 116, 0.3);
+            color: #8b5a3c;
+            border: 2px solid #d4a574;
         }
 
         .btn-secondary:hover {
-            background: rgba(255,255,255,0.3);
+            background: rgba(212, 165, 116, 0.5);
         }
 
         /* Itineraries Grid */
@@ -95,22 +141,35 @@
             animation: fadeIn 0.8s ease-out 0.4s both;
         }
 
-        /* Ticket Style */
+        /* Ticket Style - Travel Journal */
         .itinerary-card {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            border-radius: 0;
+            background: linear-gradient(135deg, #fffbf7 0%, #fff5ee 100%);
+            border-radius: 8px;
             padding: 0;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            box-shadow:
+                6px 6px 20px rgba(139, 90, 60, 0.15),
+                -2px -2px 8px rgba(255, 255, 255, 0.5);
             cursor: pointer;
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
-            border: 2px solid #ddd;
+            border: 2px solid #d4a574;
+            transform: rotate(var(--rotation, 0deg));
+        }
+
+        .itinerary-card:nth-child(2n) {
+            --rotation: 1deg;
+        }
+
+        .itinerary-card:nth-child(3n) {
+            --rotation: -0.5deg;
         }
 
         .itinerary-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+            transform: translateY(-8px) scale(1.02) rotate(0deg);
+            box-shadow:
+                8px 8px 24px rgba(139, 90, 60, 0.2),
+                -2px -2px 8px rgba(255, 255, 255, 0.5);
         }
 
         /* 撕裂邊效果 */
@@ -121,13 +180,7 @@
             left: 0;
             right: 0;
             height: 8px;
-            background: repeating-linear-gradient(
-                90deg,
-                #667eea 0px,
-                #667eea 10px,
-                transparent 10px,
-                transparent 20px
-            );
+            background: linear-gradient(90deg, #d4a574, #c19461, #d4a574);
             clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
         }
 
@@ -163,7 +216,7 @@
 
         .ticket-airline {
             font-size: 0.8rem;
-            color: #999;
+            color: #a0826d;
             text-transform: uppercase;
             letter-spacing: 2px;
             font-weight: 700;
@@ -191,13 +244,13 @@
         .ticket-city-code {
             font-size: 1.6rem;
             font-weight: 800;
-            color: #667eea;
+            color: #d4a574;
             letter-spacing: 2px;
         }
 
         .ticket-city-name {
             font-size: 0.75rem;
-            color: #999;
+            color: #a0826d;
             margin-top: 3px;
             text-transform: uppercase;
         }
@@ -205,14 +258,14 @@
         .ticket-arrow {
             flex: 0.3;
             text-align: center;
-            color: #667eea;
+            color: #d4a574;
             font-size: 1.2rem;
         }
 
         .itinerary-title {
             font-size: 0.9rem;
             font-weight: bold;
-            color: #333;
+            color: #8b5a3c;
             margin-bottom: 12px;
             text-align: center;
             letter-spacing: 0.5px;
@@ -235,7 +288,7 @@
 
         .ticket-info-label {
             font-size: 0.7rem;
-            color: #999;
+            color: #a0826d;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 4px;
@@ -244,7 +297,7 @@
         .ticket-info-value {
             font-size: 0.95rem;
             font-weight: 700;
-            color: #333;
+            color: #8b5a3c;
         }
 
         /* 二維碼區域 */

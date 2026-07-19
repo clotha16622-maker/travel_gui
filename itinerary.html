@@ -401,9 +401,28 @@
             font-size: 1rem;
             font-weight: bold;
             color: #667eea;
-            margin-bottom: 12px;
-            padding-bottom: 10px;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
             border-bottom: 2px solid #f0f0f0;
+        }
+
+        .flexible-location {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 8px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 3px solid #667eea;
+        }
+
+        .flexible-highlights {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #fff8f0;
+            border-radius: 4px;
         }
 
         .flexible-title {
@@ -845,24 +864,20 @@
 
                 const date = day['時間'] || '';
                 const flexible = day['💡 博物館卡 / 空檔備案推薦 (持卡免費或順遊)'] || '';
+                const location = day['地點 / 移動'] || '';
+                const highlights = day['精選景點 (含黃金預約時間)'] || '';
 
-                // 只顯示有博物館卡推薦的行程
-                if (!flexible || !date) return;
-
-                // 提取景點
-                const attractions = flexible.split('：').map(s => s.trim());
+                // 只顯示有博物館卡推薦且不是"-"的行程
+                if (!flexible || flexible === '-' || !date) return;
 
                 html += `
                     <div class="flexible-card">
                         <div class="flexible-day">${date}</div>
-                        ${attractions.map((attr, idx) => {
-                            if (idx === 0) return ''; // 跳過標題
-                            return `
-                                <div class="flexible-content" style="margin-bottom: 10px;">
-                                    ${attr}
-                                </div>
-                            `;
-                        }).join('')}
+                        ${location ? `<div class="flexible-location">${location}</div>` : ''}
+                        ${highlights ? `<div class="flexible-highlights"><strong>景點：</strong> ${highlights}</div>` : ''}
+                        <div class="flexible-content">
+                            ${flexible}
+                        </div>
                     </div>
                 `;
             });
