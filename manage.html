@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#d4a574">
+    <title>行程管理 - 旅行手札</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, 'PingFang TC', BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 50%, #dfc49e 100%);
+            color: #4a4a4a;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: #d4a574;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #c19461;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            color: #8b5a3c;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #a0826d;
+            font-size: 1rem;
+        }
+
+        .management-table {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(139, 90, 60, 0.15);
+            border: 2px solid #d4a574;
+            overflow: hidden;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #d4a574, #c19461);
+            color: white;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1fr 1.2fr;
+            gap: 15px;
+            font-weight: 700;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1fr 1.2fr;
+            gap: 15px;
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .table-row:hover {
+            background: #fffbf7;
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .trip-title {
+            font-weight: 700;
+            color: #8b5a3c;
+            font-size: 1.05rem;
+        }
+
+        .trip-destination {
+            color: #a0826d;
+            font-size: 0.95rem;
+        }
+
+        .trip-dates {
+            color: #a0826d;
+            font-size: 0.9rem;
+        }
+
+        .trip-days {
+            background: #f0f0fa;
+            color: #d4a574;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-view {
+            background: #d4a574;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #c19461;
+        }
+
+        .btn-delete {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #ff5252;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #a0826d;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .empty-title {
+            font-size: 1.5rem;
+            color: #8b5a3c;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .table-header,
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .table-header {
+                display: none;
+            }
+
+            .table-row {
+                border: 2px solid #d4a574;
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }
+
+            .table-row::before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: #d4a574;
+                display: block;
+            }
+
+            .action-buttons {
+                width: 100%;
+            }
+
+            .btn-small {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">← 返回首頁</a>
+
+        <div class="header">
+            <h1>📋 行程管理</h1>
+            <p>查看、管理你的所有旅程</p>
+        </div>
+
+        <div class="management-table">
+            <div class="table-header">
+                <div>行程名稱</div>
+                <div>目的地</div>
+                <div>天數</div>
+                <div>操作</div>
+            </div>
+            <div id="tableBody"></div>
+        </div>
+    </div>
+
+    <script>
+        let itineraries = [];
+
+        window.addEventListener('load', () => {
+            loadItineraries();
+        });
+
+        function loadItineraries() {
+            try {
+                // 從 data 目錄載入預設行程
+                fetch('data/2026-08-holland-germany.json')
+                    .then(res => res.json())
+                    .then(data => {
+                        // 計算天數
+                        const start = new Date(data.startDate);
+                        const end = new Date(data.endDate);
+                        const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+
+                        itineraries = [{
+                            id: '2026-08-holland-germany',
+                            filename: '2026-08-holland-germany.json',
+                            title: data.title,
+                            destination: '荷蘭 & 德國',
+                            startDate: data.startDate,
+                            endDate: data.endDate,
+                            days: days,
+                            isDefault: true
+                        }];
+
+                        // 載入自訂行程
+                        const saved = localStorage.getItem('customItineraries');
+                        if (saved) {
+                            itineraries = [...itineraries, ...JSON.parse(saved)];
+                        }
+
+                        renderTable();
+                    })
+                    .catch(() => {
+                        // 如果檔案不存在，只顯示自訂行程
+                        const saved = localStorage.getItem('customItineraries');
+                        if (saved) {
+                            itineraries = JSON.parse(saved);
+                        }
+                        renderTable();
+                    });
+            } catch (error) {
+                console.error('Error loading itineraries:', error);
+                renderTable();
+            }
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+
+            if (itineraries.length === 0) {
+                tbody.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🗺️</div>
+                        <div class="empty-title">暫無行程</div>
+                        <p>返回首頁新增你的第一趟旅程</p>
+                    </div>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = itineraries.map(it => `
+                <div class="table-row" data-label="">
+                    <div>
+                        <div class="trip-title">${it.title}</div>
+                        <div class="trip-destination">${it.destination}</div>
+                        <div class="trip-dates">${it.startDate || '待定'} ~ ${it.endDate || '待定'}</div>
+                    </div>
+                    <div style="text-align: left;">
+                        ${it.destination || '待定'}
+                    </div>
+                    <div>
+                        <div class="trip-days">${it.days || '-'}天</div>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-small btn-view" onclick="viewItinerary('${it.id}')">查看</button>
+                        ${!it.isDefault ? `<button class="btn-small btn-delete" onclick="deleteItinerary('${it.id}')">刪除</button>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viewItinerary(id) {
+            window.location.href = `itinerary.html?id=${id}`;
+        }
+
+        function deleteItinerary(id) {
+            if (!confirm('確定要刪除此行程嗎？')) return;
+
+            itineraries = itineraries.filter(it => it.id !== id);
+
+            const customItineraries = itineraries.filter(it => !it.isDefault);
+            localStorage.setItem('customItineraries', JSON.stringify(customItineraries));
+
+            renderTable();
+            alert('行程已刪除');
+        }
+    </script>
+</body>
+</html>

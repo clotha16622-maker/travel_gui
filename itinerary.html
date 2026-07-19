@@ -497,6 +497,78 @@
                 font-size: 1.2rem;
             }
 
+            /* Timeline Mobile */
+            .timeline::before {
+                left: 15px;
+            }
+
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                width: 100%;
+                text-align: left;
+                margin-left: 50px;
+                margin-right: 0;
+                padding: 15px;
+                padding-left: 15px;
+            }
+
+            .timeline-dot {
+                left: 15px;
+            }
+
+            .timeline-date {
+                font-size: 1.1em;
+            }
+
+            /* Cards Mobile */
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .card-date {
+                font-size: 1em;
+            }
+
+            .card-location {
+                font-size: 1.2em;
+            }
+
+            .card-section {
+                font-size: 1em;
+            }
+
+            /* Schedule Mobile */
+            .schedule-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .time-slot {
+                font-size: 1rem;
+                margin-bottom: 5px;
+            }
+
+            .activity {
+                font-size: 1rem;
+            }
+
+            /* Flexible Cards Mobile */
+            .flexible-card {
+                padding: 15px;
+            }
+
+            .flexible-day {
+                font-size: 1.1rem;
+            }
+
+            .flexible-content {
+                font-size: 1rem;
+            }
+
             .timeline::before {
                 left: 20px;
             }
@@ -777,25 +849,24 @@
             container.innerHTML = html || '<p style="color: white; text-align: center;">無行程數據</p>';
         }
 
-        // 城市座標
-        const cityCoordinates = {
-            '台北': [25.0330, 121.5654],
-            '機上': [50, 10],  // 上空
-            '阿姆斯特丹': [52.3676, 4.9041],
-            '鹿特丹': [51.9225, 4.4792],
-            '萊頓': [52.1601, 4.4941],
-            '海牙': [52.0705, 4.2566],
-            '代爾夫特': [51.9903, 4.3598],
-            '羊角村': [52.7153, 5.8697],
-            '烏特勒支': [52.0907, 5.1214],
-            '梵谷森林': [52.0500, 5.7667],
-            '科隆': [50.9365, 6.9589],
-            '法蘭克福': [50.1109, 8.6821],
-            '海德堡': [49.4134, 8.7100]
-        };
-
         // 渲染地图 - 顯示行程軌跡
         function renderMap() {
+            // 城市座標
+            const cityCoordinates = {
+                '台北': [25.0330, 121.5654],
+                '機上': [50, 10],  // 上空
+                '阿姆斯特丹': [52.3676, 4.9041],
+                '鹿特丹': [51.9225, 4.4792],
+                '萊頓': [52.1601, 4.4941],
+                '海牙': [52.0705, 4.2566],
+                '代爾夫特': [51.9903, 4.3598],
+                '羊角村': [52.7153, 5.8697],
+                '烏特勒支': [52.0907, 5.1214],
+                '梵谷森林': [52.0500, 5.7667],
+                '科隆': [50.9365, 6.9589],
+                '法蘭克福': [50.1109, 8.6821],
+                '海德堡': [49.4134, 8.7100]
+            };
             const mapContainer = document.getElementById('mapContainer');
             mapContainer.innerHTML = '<div id="mapElement"></div>';
 

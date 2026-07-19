@@ -547,6 +547,7 @@
         <div class="controls">
             <button class="btn btn-primary" onclick="openAddModal()">➕ 新增行程</button>
             <button class="btn btn-secondary" onclick="importJSON()">📥 匯入行程</button>
+            <button class="btn btn-secondary" onclick="location.href='manage.html'">⚙️ 行程管理</button>
         </div>
 
         <div id="itinerariesContainer"></div>
@@ -715,7 +716,6 @@
 
                                     <div class="itinerary-actions">
                                         <button class="btn-small btn-view" onclick="viewItinerary('${it.id}')">🔍 查看行程</button>
-                                        <button class="btn-small btn-delete" onclick="deleteItinerary('${it.id}')">🗑️</button>
                                     </div>
                                 </div>
                             </div>
