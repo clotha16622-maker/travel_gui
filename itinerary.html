@@ -777,45 +777,112 @@
             container.innerHTML = html || '<p style="color: white; text-align: center;">無行程數據</p>';
         }
 
-        // 渲染地图
+        // 城市座標
+        const cityCoordinates = {
+            '台北': [25.0330, 121.5654],
+            '機上': [50, 10],  // 上空
+            '阿姆斯特丹': [52.3676, 4.9041],
+            '鹿特丹': [51.9225, 4.4792],
+            '萊頓': [52.1601, 4.4941],
+            '海牙': [52.0705, 4.2566],
+            '代爾夫特': [51.9903, 4.3598],
+            '羊角村': [52.7153, 5.8697],
+            '烏特勒支': [52.0907, 5.1214],
+            '梵谷森林': [52.0500, 5.7667],
+            '科隆': [50.9365, 6.9589],
+            '法蘭克福': [50.1109, 8.6821],
+            '海德堡': [49.4134, 8.7100]
+        };
+
+        // 渲染地图 - 顯示行程軌跡
         function renderMap() {
             const mapContainer = document.getElementById('mapContainer');
             mapContainer.innerHTML = '<div id="mapElement"></div>';
 
             map = L.map('mapElement').setView([51.5, 5], 6);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap'
+                attribution: '© OpenStreetMap contributors'
             }).addTo(map);
 
-            // 添加标记
             const itinerary = travelData.itinerary || [];
-            const cityColors = {};
-            let markerCount = 0;
+            const visitedCities = [];
+            const routePoints = [];
+            let dayCount = 0;
 
+            // 提取行程軌跡
             itinerary.forEach((day, index) => {
                 if (!day || typeof day !== 'object') return;
 
+                const date = day['時間'] || '';
                 const location = day['地點 / 移動'] || '';
-                if (!location) return;
+                if (!date || !location) return;
 
-                // 简化：提取第一个中文词作为城市
-                const cityMatch = location.match(/[一-龥]+/);
-                if (cityMatch) {
-                    const city = cityMatch[0];
-                    if (!cityColors[city]) {
-                        cityColors[city] = ['#667eea', '#764ba2', '#ff6b6b', '#51cf66', '#ffd93d'][markerCount++ % 5];
+                dayCount++;
 
-                        L.circleMarker([51.5 + Math.random() * 5, 5 + Math.random() * 5], {
-                            radius: 8,
-                            fillColor: cityColors[city],
-                            color: 'white',
-                            weight: 2,
-                            opacity: 1,
-                            fillOpacity: 0.8
-                        }).bindPopup(`<strong>${city}</strong>`).addTo(map);
+                // 解析位置（如：阿姆斯特丹 ➔ 鹿特丹）
+                const cities = location.split(/[➔→-]/).map(s => s.trim()).filter(s => s);
+
+                cities.forEach(cityName => {
+                    if (cityCoordinates[cityName]) {
+                        const coords = cityCoordinates[cityName];
+                        routePoints.push(coords);
+
+                        // 避免重複添加同一城市
+                        if (!visitedCities.find(v => v.name === cityName)) {
+                            visitedCities.push({
+                                name: cityName,
+                                coords: coords,
+                                day: dayCount,
+                                date: date
+                            });
+                        }
                     }
-                }
+                });
             });
+
+            // 繪製軌跡線
+            if (routePoints.length > 1) {
+                L.polyline(routePoints, {
+                    color: '#d4a574',
+                    weight: 3,
+                    opacity: 0.6,
+                    dashArray: '5, 5'
+                }).addTo(map);
+            }
+
+            // 添加城市標記
+            visitedCities.forEach((city, idx) => {
+                const isFirstCity = idx === 0;
+                const isLastCity = idx === visitedCities.length - 1;
+
+                L.circleMarker(city.coords, {
+                    radius: isFirstCity || isLastCity ? 12 : 8,
+                    fillColor: isFirstCity ? '#51cf66' : (isLastCity ? '#ff6b6b' : '#d4a574'),
+                    color: 'white',
+                    weight: 2,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                }).bindPopup(`
+                    <strong>${city.name}</strong><br>
+                    Day ${city.day}<br>
+                    ${city.date}
+                `).addTo(map);
+
+                // 添加日期標籤
+                L.marker(city.coords, {
+                    icon: L.divIcon({
+                        className: 'day-label',
+                        html: `<div style="background:#d4a574;color:white;padding:4px 8px;border-radius:50%;font-weight:bold;font-size:12px;">${city.day}</div>`,
+                        iconSize: [30, 30]
+                    })
+                }).addTo(map);
+            });
+
+            // 如果有標記，自動調整地圖範圍
+            if (visitedCities.length > 0) {
+                const bounds = L.latLngBounds(visitedCities.map(c => c.coords));
+                map.fitBounds(bounds, { padding: [50, 50] });
+            }
         }
 
         // 渲染时间表
