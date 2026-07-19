@@ -789,7 +789,7 @@
                     map.invalidateSize();
                     // 重新調整地圖範圍以適應新的容器尺寸
                     const itinerary = travelData.itinerary || [];
-                    const cityCoordinates = {
+                    const allCityCoordinates = {
                         '台北': [25.0330, 121.5654],
                         '機上': [50, 10],
                         '阿姆斯特丹': [52.3676, 4.9041],
@@ -811,20 +811,19 @@
                         const location = day['地點 / 移動'] || '';
                         if (!location) return;
 
-                        const cities = location.split(/[➔→-]/).map(s => s.trim()).filter(s => s);
-                        cities.forEach(cityName => {
-                            if (cityCoordinates[cityName] && !visitedCoords.some(c =>
-                                c[0] === cityCoordinates[cityName][0] &&
-                                c[1] === cityCoordinates[cityName][1]
+                        // 只加入location中實際出現的城市
+                        for (const [cityName, coords] of Object.entries(allCityCoordinates)) {
+                            if (location.includes(cityName) && !visitedCoords.some(c =>
+                                c[0] === coords[0] && c[1] === coords[1]
                             )) {
-                                visitedCoords.push(cityCoordinates[cityName]);
+                                visitedCoords.push(coords);
                             }
-                        });
+                        }
                     });
 
                     if (visitedCoords.length > 0) {
                         const bounds = L.latLngBounds(visitedCoords);
-                        map.fitBounds(bounds, { padding: [100, 100], maxZoom: 5 });
+                        map.fitBounds(bounds, { padding: [120, 120], maxZoom: 5 });
                     }
                 }, 150);
             }
@@ -925,8 +924,8 @@
 
             mapContainer.innerHTML = '<div id="mapElement"></div>';
 
-            // 城市座標
-            const cityCoordinates = {
+            // 完整城市座標庫
+            const allCityCoordinates = {
                 '台北': [25.0330, 121.5654],
                 '機上': [50, 10],
                 '阿姆斯特丹': [52.3676, 4.9041],
@@ -957,7 +956,7 @@
             const routePoints = [];
             let dayCount = 0;
 
-            // 提取行程軌跡
+            // 提取行程軌跡 - 只使用JSON中實際出現的城市
             itinerary.forEach((day, index) => {
                 if (!day || typeof day !== 'object') return;
 
@@ -967,23 +966,26 @@
 
                 dayCount++;
 
-                // 解析位置（如：阿姆斯特丹 ➔ 鹿特丹）
-                const cities = location.split(/[➔→-]/).map(s => s.trim()).filter(s => s);
+                // 解析位置（從地點字段中提取實際城市名）
+                // 只在座標庫中存在的城市才會被顯示
+                const cityMatches = [];
+                for (const [cityName, coords] of Object.entries(allCityCoordinates)) {
+                    if (location.includes(cityName)) {
+                        cityMatches.push({ name: cityName, coords: coords });
+                    }
+                }
 
-                cities.forEach(cityName => {
-                    if (cityCoordinates[cityName]) {
-                        const coords = cityCoordinates[cityName];
-                        routePoints.push(coords);
+                cityMatches.forEach(city => {
+                    routePoints.push(city.coords);
 
-                        // 避免重複添加同一城市
-                        if (!visitedCities.find(v => v.name === cityName)) {
-                            visitedCities.push({
-                                name: cityName,
-                                coords: coords,
-                                day: dayCount,
-                                date: date
-                            });
-                        }
+                    // 避免重複添加同一城市
+                    if (!visitedCities.find(v => v.name === city.name)) {
+                        visitedCities.push({
+                            name: city.name,
+                            coords: city.coords,
+                            day: dayCount,
+                            date: date
+                        });
                     }
                 });
             });
@@ -1029,7 +1031,6 @@
             // 如果有標記，自動調整地圖範圍
             if (visitedCities.length > 0) {
                 const bounds = L.latLngBounds(visitedCities.map(c => c.coords));
-                // 更激進的padding和更低的maxZoom，確保所有點都可見
                 map.fitBounds(bounds, {
                     padding: [120, 120],
                     maxZoom: 5
