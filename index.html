@@ -90,97 +90,201 @@
         /* Itineraries Grid */
         .itineraries-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
             animation: fadeIn 0.8s ease-out 0.4s both;
         }
 
+        /* Ticket Style */
         .itinerary-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 0;
+            padding: 0;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
             cursor: pointer;
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
+            border: 2px solid #ddd;
         }
 
         .itinerary-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
         }
 
+        /* 撕裂邊效果 */
         .itinerary-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 8px;
+            background: repeating-linear-gradient(
+                90deg,
+                #667eea 0px,
+                #667eea 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .itinerary-card::after {
+            content: '';
+            position: absolute;
+            bottom: 60px;
+            left: -2px;
+            right: -2px;
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent 0px,
+                transparent 10px,
+                #ddd 10px,
+                #ddd 20px
+            );
+        }
+
+        /* 機票主體 */
+        .ticket-content {
+            padding: 20px;
+        }
+
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .ticket-airline {
+            font-size: 0.8rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
         }
 
         .itinerary-emoji {
-            font-size: 3rem;
-            margin-bottom: 10px;
+            font-size: 2.5rem;
+            text-align: right;
+        }
+
+        /* 路線 */
+        .ticket-route {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 0;
+        }
+
+        .ticket-city {
+            flex: 1;
+            text-align: center;
+        }
+
+        .ticket-city-code {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #667eea;
+            letter-spacing: 2px;
+        }
+
+        .ticket-city-name {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 3px;
+            text-transform: uppercase;
+        }
+
+        .ticket-arrow {
+            flex: 0.3;
+            text-align: center;
+            color: #667eea;
+            font-size: 1.2rem;
         }
 
         .itinerary-title {
-            font-size: 1.4rem;
+            font-size: 0.9rem;
             font-weight: bold;
             color: #333;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            text-align: center;
+            letter-spacing: 0.5px;
         }
 
-        .itinerary-destination {
-            font-size: 1.1rem;
-            color: #667eea;
+        /* 信息行 */
+        .ticket-info-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
             margin-bottom: 15px;
+            padding: 10px 0;
+            border-top: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0;
         }
 
-        .itinerary-info {
+        .ticket-info-box {
+            text-align: center;
+        }
+
+        .ticket-info-label {
+            font-size: 0.7rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .ticket-info-value {
             font-size: 0.95rem;
-            color: #666;
-            line-height: 1.6;
+            font-weight: 700;
+            color: #333;
+        }
+
+        /* 二維碼區域 */
+        .ticket-barcode {
+            background: #f8f9fa;
+            border: 1px solid #f0f0f0;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
             margin-bottom: 15px;
-        }
-
-        .itinerary-info-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .itinerary-info-label {
-            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
             color: #667eea;
         }
 
         .itinerary-actions {
             display: flex;
             gap: 8px;
-            margin-top: 15px;
+            padding-top: 15px;
         }
 
         .btn-small {
             flex: 1;
-            padding: 8px 12px;
+            padding: 10px 12px;
             border: none;
-            border-radius: 6px;
-            font-size: 0.9rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
         }
 
         .btn-view {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
         }
 
         .btn-view:hover {
-            background: #5568d3;
+            background: linear-gradient(135deg, #5568d3, #6a3e8f);
         }
 
         .btn-delete {
@@ -491,37 +595,65 @@
 
             container.innerHTML = `
                 <div class="itineraries-grid">
-                    ${itineraries.map(it => `
-                        <div class="itinerary-card">
-                            <div class="itinerary-emoji">${getEmoji(it.destination)}</div>
-                            <div class="itinerary-title">${it.title}</div>
-                            <div class="itinerary-destination">📍 ${it.destination}</div>
-                            <div class="itinerary-info">
-                                ${it.startDate ? `
-                                    <div class="itinerary-info-row">
-                                        <span class="itinerary-info-label">📅 日期</span>
-                                        <span>${it.startDate} ~ ${it.endDate || ''}</span>
+                    ${itineraries.map(it => {
+                        const startCity = it.destination.split(/[&、,]/)[0].trim();
+                        const endCity = it.destination.split(/[&、,]/).pop().trim();
+                        const startCode = getCountryCode(startCity);
+                        const endCode = getCountryCode(endCity);
+                        const durationDays = it.days || 7;
+
+                        return `
+                            <div class="itinerary-card">
+                                <div class="ticket-content">
+                                    <div class="ticket-header">
+                                        <div>
+                                            <div class="ticket-airline">✈ TRAVEL PASS</div>
+                                            <div class="itinerary-title">${it.title}</div>
+                                        </div>
+                                        <div class="itinerary-emoji">${getEmoji(it.destination)}</div>
                                     </div>
-                                ` : ''}
-                                ${it.days ? `
-                                    <div class="itinerary-info-row">
-                                        <span class="itinerary-info-label">⏰ 天數</span>
-                                        <span>${it.days}天</span>
+
+                                    <div class="ticket-route">
+                                        <div class="ticket-city">
+                                            <div class="ticket-city-code">${startCode}</div>
+                                            <div class="ticket-city-name">${startCity}</div>
+                                        </div>
+                                        <div class="ticket-arrow">✈</div>
+                                        <div class="ticket-city">
+                                            <div class="ticket-city-code">${endCode}</div>
+                                            <div class="ticket-city-name">${endCity}</div>
+                                        </div>
                                     </div>
-                                ` : ''}
-                                ${it.description ? `
-                                    <div class="itinerary-info-row">
-                                        <span class="itinerary-info-label">💬 備註</span>
-                                        <span>${it.description}</span>
+
+                                    <div class="ticket-info-row">
+                                        <div class="ticket-info-box">
+                                            <div class="ticket-info-label">出發</div>
+                                            <div class="ticket-info-value">${it.startDate || '待定'}</div>
+                                        </div>
+                                        <div class="ticket-info-box">
+                                            <div class="ticket-info-label">天數</div>
+                                            <div class="ticket-info-value">${durationDays}天</div>
+                                        </div>
+                                        <div class="ticket-info-box">
+                                            <div class="ticket-info-label">返回</div>
+                                            <div class="ticket-info-value">${it.endDate || '待定'}</div>
+                                        </div>
                                     </div>
-                                ` : ''}
+
+                                    ${it.description ? `
+                                        <div class="ticket-barcode">
+                                            Seat: ${it.description.substring(0, 16).toUpperCase()}
+                                        </div>
+                                    ` : ''}
+
+                                    <div class="itinerary-actions">
+                                        <button class="btn-small btn-view" onclick="viewItinerary('${it.id}')">🔍 查看行程</button>
+                                        <button class="btn-small btn-delete" onclick="deleteItinerary('${it.id}')">🗑️</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="itinerary-actions">
-                                <button class="btn-small btn-view" onclick="viewItinerary('${it.id}')">查看行程 →</button>
-                                <button class="btn-small btn-delete" onclick="deleteItinerary('${it.id}')">刪除</button>
-                            </div>
-                        </div>
-                    `).join('')}
+                        `;
+                    }).join('')}
                 </div>
             `;
         }
@@ -535,6 +667,32 @@
             if (destination.includes('美國')) return '🇺🇸';
             if (destination.includes('歐洲')) return '🇪🇺';
             return '🌍';
+        }
+
+        // 獲取國家代碼
+        function getCountryCode(city) {
+            const codes = {
+                '台北': 'TPE',
+                '台灣': 'TWN',
+                '荷蘭': 'AMS',
+                '阿姆斯特丹': 'AMS',
+                '鹿特丹': 'RTM',
+                '海牙': 'AMS',
+                '萊頓': 'AMS',
+                '烏特勒支': 'AMS',
+                '羊角村': 'AMS',
+                '德國': 'BER',
+                '科隆': 'CGN',
+                '法蘭克福': 'FRA',
+                '海德堡': 'FRA',
+                '日本': 'NRT',
+                '東京': 'NRT',
+                '大阪': 'KIX',
+                '韓國': 'ICN',
+                '泰國': 'BKK',
+                '美國': 'LAX'
+            };
+            return codes[city] || city.substring(0, 3).toUpperCase();
         }
 
         // 查看行程
