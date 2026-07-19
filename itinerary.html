@@ -997,6 +997,7 @@
             }
 
             // 添加城市標記
+            const cityLabels = [];
             visitedCities.forEach((city, idx) => {
                 const isFirstCity = idx === 0;
                 const isLastCity = idx === visitedCities.length - 1;
@@ -1022,7 +1023,33 @@
                         iconSize: [30, 30]
                     })
                 }).addTo(map);
+
+                // 添加城市名標籤 (縮放時顯示)
+                const cityNameMarker = L.marker(city.coords, {
+                    icon: L.divIcon({
+                        className: 'city-name-label',
+                        html: `<div style="background:rgba(212,165,116,0.9);color:white;padding:4px 8px;border-radius:4px;font-weight:bold;font-size:11px;white-space:nowrap;margin-top:25px;">${city.name}</div>`,
+                        iconSize: [80, 40],
+                        iconAnchor: [40, 0]
+                    })
+                }).addTo(map);
+                cityLabels.push(cityNameMarker);
             });
+
+            // 根據縮放級別顯示/隱藏城市名
+            const updateCityLabels = () => {
+                const zoomLevel = map.getZoom();
+                cityLabels.forEach(label => {
+                    if (zoomLevel >= 7) {
+                        label.setOpacity(1);
+                    } else {
+                        label.setOpacity(0);
+                    }
+                });
+            };
+
+            map.on('zoomend', updateCityLabels);
+            updateCityLabels();
 
             // 如果有標記，自動調整地圖範圍
             if (visitedCities.length > 0) {
