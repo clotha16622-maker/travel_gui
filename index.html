@@ -554,10 +554,18 @@
 
                 const data = await response.json();
 
-                // 計算有效天數（排除空行）
-                const validDays = (data.itinerary || []).filter(day =>
-                    day && Object.values(day).some(v => v)
-                ).length;
+                // 計算天數（使用日期計算，更準確）
+                let days = 0;
+                if (data.startDate && data.endDate) {
+                    const start = new Date(data.startDate);
+                    const end = new Date(data.endDate);
+                    days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+                } else {
+                    // 備用：計算有效行程行
+                    days = (data.itinerary || []).filter(day =>
+                        day && (day['時間'] || day['地點 / 移動'])
+                    ).length;
+                }
 
                 itineraries = [{
                     id: '2026-08-holland-germany',
@@ -566,7 +574,7 @@
                     destination: data.itinerary?.[0]?.['地點 / 移動'] || '荷蘭 & 德國',
                     startDate: data.startDate,
                     endDate: data.endDate,
-                    days: validDays,
+                    days: days,
                     description: '周年紀念雙國之旅'
                 }];
 

@@ -376,6 +376,70 @@
             line-height: 1.6;
         }
 
+        /* Flexible Schedule */
+        .flexible-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .flexible-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border-left: 4px solid #667eea;
+        }
+
+        .flexible-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .flexible-day {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .flexible-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .flexible-content {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .flexible-tag {
+            display: inline-block;
+            background: #f0f0fa;
+            color: #667eea;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 4px 4px 4px 0;
+        }
+
+        .empty-flexible {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-flexible-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
         .loading {
             text-align: center;
             padding: 40px;
@@ -480,6 +544,7 @@
             <button class="tab-btn" onclick="switchTab('cards')">🎴 每日卡片</button>
             <button class="tab-btn" onclick="switchTab('map')">🗺️ 互動地圖</button>
             <button class="tab-btn" onclick="switchTab('schedule')">⏰ 時間表</button>
+            <button class="tab-btn" onclick="switchTab('flexible')">🏛️ 彈性行程</button>
         </div>
 
         <div id="timeline" class="tab-content active">
@@ -499,6 +564,10 @@
 
         <div id="schedule" class="tab-content">
             <div class="schedule" id="scheduleContainer"></div>
+        </div>
+
+        <div id="flexible" class="tab-content">
+            <div class="flexible-container" id="flexibleContainer"></div>
         </div>
     </div>
 
@@ -589,6 +658,7 @@
             renderTimeline();
             renderCards();
             renderSchedule();
+            renderFlexible();
             setTimeout(renderMap, 300);
         }
 
@@ -618,17 +688,19 @@
             itinerary.forEach((day, index) => {
                 if (!day || typeof day !== 'object') return;
 
-                const firstKey = Object.keys(day)[0];
-                const date = day[firstKey] || '';
+                const date = day['時間'] || '';
                 const location = day['地點 / 移動'] || '';
                 const highlights = day['精選景點 (含黃金預約時間)'] || '';
+
+                // 只顯示有日期或地點的行程
+                if (!date && !location) return;
 
                 html += `
                     <div class="timeline-item">
                         <div class="timeline-dot"></div>
                         <div class="timeline-content">
-                            <div class="timeline-date">${date}</div>
-                            <div style="font-size: 1.1em; font-weight: 600; margin-bottom: 10px;">${location}</div>
+                            <div class="timeline-date">${date || '待定'}</div>
+                            <div style="font-size: 1.1em; font-weight: 600; margin-bottom: 10px;">${location || '行程'}</div>
                             <p style="font-size: 0.9em; color: #666;">${highlights}</p>
                         </div>
                     </div>
@@ -736,9 +808,11 @@
             itinerary.forEach((day, index) => {
                 if (!day || typeof day !== 'object') return;
 
-                const firstKey = Object.keys(day)[0];
-                const date = day[firstKey] || '';
+                const date = day['時間'] || '';
                 const schedule = day['行程細項'] || '';
+
+                // 只显示有日期的行程
+                if (!date) return;
 
                 const times = schedule.split('➔').map(s => s.trim()).filter(s => s);
 
@@ -758,6 +832,51 @@
             });
 
             container.innerHTML = html || '<div style="padding: 20px; text-align: center; color: #666;">無行程數據</div>';
+        }
+
+        // 渲染彈性行程（博物館卡推薦）
+        function renderFlexible() {
+            const container = document.getElementById('flexibleContainer');
+            const itinerary = travelData.itinerary || [];
+
+            let html = '';
+            itinerary.forEach((day, index) => {
+                if (!day || typeof day !== 'object') return;
+
+                const date = day['時間'] || '';
+                const flexible = day['💡 博物館卡 / 空檔備案推薦 (持卡免費或順遊)'] || '';
+
+                // 只顯示有博物館卡推薦的行程
+                if (!flexible || !date) return;
+
+                // 提取景點
+                const attractions = flexible.split('：').map(s => s.trim());
+
+                html += `
+                    <div class="flexible-card">
+                        <div class="flexible-day">${date}</div>
+                        ${attractions.map((attr, idx) => {
+                            if (idx === 0) return ''; // 跳過標題
+                            return `
+                                <div class="flexible-content" style="margin-bottom: 10px;">
+                                    ${attr}
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            });
+
+            if (html) {
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = `
+                    <div class="empty-flexible" style="grid-column: 1 / -1;">
+                        <div class="empty-flexible-icon">🏛️</div>
+                        <p>暫無博物館卡推薦</p>
+                    </div>
+                `;
+            }
         }
     </script>
 </body>
