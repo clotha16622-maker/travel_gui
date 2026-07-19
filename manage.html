@@ -308,7 +308,7 @@
                     </div>
                     <div class="action-buttons">
                         <button class="btn-small btn-view" onclick="viewItinerary('${it.id}')">查看</button>
-                        ${!it.isDefault ? `<button class="btn-small btn-delete" onclick="deleteItinerary('${it.id}')">刪除</button>` : ''}
+                        <button class="btn-small btn-delete" onclick="deleteItinerary('${it.id}')">刪除</button>
                     </div>
                 </div>
             `).join('');

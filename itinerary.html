@@ -11,10 +11,12 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, 'PingFang TC', BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', -apple-system, 'PingFang TC', BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 50%, #dfc49e 100%);
+            background-attachment: fixed;
             min-height: 100vh;
             padding: 20px;
+            color: #4a4a4a;
         }
 
         .container {
@@ -46,13 +48,14 @@
             font-size: 1rem;
             margin-bottom: 20px;
             padding: 8px 16px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 6px;
+            background: #d4a574;
+            border-radius: 20px;
             transition: all 0.3s;
+            font-weight: 600;
         }
 
         .back-btn:hover {
-            background: rgba(255,255,255,0.3);
+            background: #c19461;
         }
 
         /* Ticket Cover */
@@ -169,31 +172,38 @@
 
         .tab-btn {
             padding: 12px 24px;
-            background: white;
-            border: none;
-            border-radius: 8px;
+            background: rgba(255, 248, 240, 0.8);
+            border: 2px solid #d4a574;
+            border-radius: 25px;
             cursor: pointer;
             font-size: 1em;
             font-weight: 600;
             transition: all 0.3s;
-            color: #667eea;
+            color: #8b5a3c;
+            box-shadow: 0 2px 8px rgba(139, 90, 60, 0.1);
         }
 
         .tab-btn.active {
-            background: #667eea;
+            background: linear-gradient(135deg, #d4a574, #c19461);
             color: white;
+            border-color: #c19461;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 18px rgba(212, 165, 116, 0.3);
         }
 
         .tab-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(139, 90, 60, 0.15);
         }
 
         .tab-content {
             display: none;
             animation: fadeIn 0.3s ease-in;
+            background: rgba(255, 251, 247, 0.8);
+            border: 2px solid #d4a574;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 6px 20px rgba(139, 90, 60, 0.1);
         }
 
         .tab-content.active {
@@ -249,7 +259,7 @@
             width: 20px;
             height: 20px;
             background: white;
-            border: 4px solid #667eea;
+            border: 4px solid #d4a574;
             border-radius: 50%;
             top: 20px;
             z-index: 10;
@@ -259,13 +269,14 @@
             background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(139, 90, 60, 0.1);
+            border-left: 4px solid #d4a574;
         }
 
         .timeline-date {
             font-size: 1.2em;
             font-weight: bold;
-            color: #667eea;
+            color: #d4a574;
             margin-bottom: 5px;
         }
 
@@ -277,28 +288,30 @@
         }
 
         .card {
-            background: white;
+            background: linear-gradient(135deg, #fffbf7 0%, #fff5ee 100%);
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(139, 90, 60, 0.1);
             transition: all 0.3s;
+            border: 2px solid #d4a574;
+            border-left: 5px solid #d4a574;
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 20px rgba(139, 90, 60, 0.15);
         }
 
         .card-date {
             font-size: 0.9em;
-            color: #667eea;
+            color: #d4a574;
             font-weight: bold;
         }
 
         .card-location {
             font-size: 1.3em;
             font-weight: bold;
-            color: #333;
+            color: #8b5a3c;
             margin-bottom: 10px;
         }
 
@@ -311,7 +324,7 @@
 
         .card-label {
             font-weight: bold;
-            color: #667eea;
+            color: #d4a574;
             display: block;
             margin-top: 8px;
         }
@@ -368,7 +381,7 @@
 
         .time-slot {
             font-weight: bold;
-            color: #667eea;
+            color: #d4a574;
         }
 
         .activity {
