@@ -55,6 +55,110 @@
             background: rgba(255,255,255,0.3);
         }
 
+        /* Ticket Cover */
+        .ticket-cover {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ticket-cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+        }
+
+        .ticket-header-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .ticket-airline-name {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #667eea;
+            font-weight: 800;
+        }
+
+        .ticket-flight-number {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #667eea;
+            font-family: 'Courier New', monospace;
+        }
+
+        .ticket-main-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .ticket-info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #f0f1fa 100%);
+            border-radius: 8px;
+        }
+
+        .ticket-info-item {
+            text-align: center;
+        }
+
+        .ticket-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #999;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .ticket-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #667eea;
+            font-family: 'Courier New', monospace;
+        }
+
+        .ticket-divider {
+            height: 2px;
+            background: repeating-linear-gradient(
+                90deg,
+                #ddd 0px,
+                #ddd 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            margin: 20px 0;
+        }
+
+        .ticket-description {
+            text-align: center;
+            font-size: 1rem;
+            color: #666;
+            font-weight: 500;
+        }
+
         .tabs {
             display: flex;
             gap: 10px;
@@ -293,8 +397,21 @@
         }
 
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8rem;
+            .ticket-cover {
+                padding: 20px;
+            }
+
+            .ticket-main-title {
+                font-size: 1.5rem;
+            }
+
+            .ticket-info-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .ticket-value {
+                font-size: 1.2rem;
             }
 
             .timeline::before {
@@ -331,9 +448,31 @@
     <div class="container">
         <a href="index.html" class="back-btn">← 返回行程列表</a>
 
-        <div class="header">
-            <h1 id="pageTitle">載入中...</h1>
-            <p id="pageSubtitle"></p>
+        <div class="ticket-cover">
+            <div class="ticket-header-banner">
+                <div class="ticket-airline-name">✈ TRAVEL ITINERARY</div>
+                <div class="ticket-flight-number" id="flightNumber">TG-2026</div>
+            </div>
+
+            <div class="ticket-main-title" id="pageTitle">載入中...</div>
+
+            <div class="ticket-info-grid">
+                <div class="ticket-info-item">
+                    <div class="ticket-label">出發</div>
+                    <div class="ticket-value" id="departureDateDisplay">--</div>
+                </div>
+                <div class="ticket-info-item">
+                    <div class="ticket-label">返回</div>
+                    <div class="ticket-value" id="returnDateDisplay">--</div>
+                </div>
+                <div class="ticket-info-item">
+                    <div class="ticket-label">總天數</div>
+                    <div class="ticket-value" id="totalDaysDisplay">--</div>
+                </div>
+            </div>
+
+            <div class="ticket-divider"></div>
+            <p id="pageSubtitle" class="ticket-description"></p>
         </div>
 
         <div class="tabs">
@@ -426,11 +565,26 @@
             `;
         }
 
+        // 计算天数
+        function calculateDays() {
+            if (!travelData.startDate || !travelData.endDate) return '--';
+
+            const start = new Date(travelData.startDate);
+            const end = new Date(travelData.endDate);
+            const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+            return days;
+        }
+
         // 渲染页面
         function renderPage() {
+            const days = calculateDays();
+
             document.getElementById('pageTitle').textContent = travelData.title || '行程詳情';
+            document.getElementById('departureDateDisplay').textContent = travelData.startDate || '--';
+            document.getElementById('returnDateDisplay').textContent = travelData.endDate || '--';
+            document.getElementById('totalDaysDisplay').textContent = days + '天';
             document.getElementById('pageSubtitle').textContent =
-                `${travelData.startDate} - ${travelData.endDate}`;
+                `${travelData.startDate} ✈ ${travelData.endDate}`;
 
             renderTimeline();
             renderCards();
