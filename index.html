@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#4F46E5">
+    <title>我的旅程</title>
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-light: #818CF8;
+            --success: #10B981;
+            --danger: #EF4444;
+            --bg: #F3F4F6;
+            --card: #FFFFFF;
+            --text: #111827;
+            --text-secondary: #6B7280;
+            --border: #E5E7EB;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: -apple-system, 'PingFang TC', BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            max-width: 500px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        /* ---- Loading ---- */
+        #loading {
+            position: fixed; inset: 0; background: white;
+            display: flex; align-items: center; justify-content: center; z-index: 9999;
+        }
+        .spinner {
+            width: 44px; height: 44px;
+            border: 4px solid var(--border); border-top-color: var(--primary);
+            border-radius: 50%; animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ---- Toast ---- */
+        #toast {
+            position: fixed; bottom: 5rem; left: 50%; transform: translateX(-50%);
+            background: #1F2937; color: white; padding: 0.65rem 1.25rem;
+            border-radius: 50px; font-size: 0.9rem; z-index: 9990;
+            opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap;
+        }
+        #toast.show { opacity: 1; }
+
+        /* ---- Screens ---- */
+        .screen { display: none; min-height: 100vh; }
+        .screen.active { display: block; }
+
+        /* ---- Login ---- */
+        #loginScreen {
+            background: linear-gradient(150deg, #4F46E5 0%, #7C3AED 100%);
+            display: none; flex-direction: column; align-items: center;
+            justify-content: center; padding: 2.5rem 2rem; text-align: center;
+        }
+        #loginScreen.active { display: flex; }
+        .login-emoji { font-size: 5rem; margin-bottom: 1rem; }
+        .login-title { color: white; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; }
+        .login-sub { color: rgba(255,255,255,0.75); font-size: 1rem; margin: 0.6rem 0 2.5rem; line-height: 1.6; }
+        .google-btn {
+            background: white; color: #374151; border: none; border-radius: 50px;
+            padding: 1rem 2rem; font-size: 1rem; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; gap: 0.75rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2); transition: transform 0.15s;
+        }
+        .google-btn:active { transform: scale(0.96); }
+
+        /* ---- Header ---- */
+        .header {
+            background: white; padding: 0.9rem 1rem;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+        .header-title { font-size: 1.15rem; font-weight: 700; color: var(--primary); }
+        .icon-btn {
+            background: none; border: none; cursor: pointer;
+            padding: 0.4rem 0.6rem; border-radius: 8px;
+            color: var(--text-secondary); font-size: 0.9rem; font-weight: 600;
+        }
+        .btn-back { font-size: 1.4rem; color: var(--primary); padding: 0.2rem 0.5rem; }
+        .avatar {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--primary-light); display: flex; align-items: center;
+            justify-content: center; color: white; font-weight: 700; font-size: 0.9rem; overflow: hidden;
+        }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .user-row { display: flex; align-items: center; gap: 0.5rem; }
+
+        /* ---- Content ---- */
+        .content { padding: 1rem 1rem 6rem; }
+
+        /* ---- FAB ---- */
+        .fab {
+            position: fixed; bottom: 1.75rem; right: 1.25rem;
+            background: var(--primary); color: white; border: none;
+            border-radius: 50px; padding: 0.9rem 1.4rem;
+            font-size: 1rem; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 16px rgba(79,70,229,0.45);
+            display: flex; align-items: center; gap: 0.4rem;
+            transition: transform 0.15s; z-index: 50;
+        }
+        .fab:active { transform: scale(0.94); }
+
+        /* ---- Trip Cards ---- */
+        .trip-card {
+            background: white; border-radius: 16px; padding: 1.1rem 1.25rem;
+            margin-bottom: 0.85rem; cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            border-left: 5px solid var(--primary); transition: transform 0.15s;
+        }
+        .trip-card:active { transform: scale(0.98); }
+        .tc-name { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .tc-dest { color: var(--primary); font-size: 0.88rem; margin-bottom: 0.25rem; }
+        .tc-dates { color: var(--text-secondary); font-size: 0.82rem; }
+        .tc-badge {
+            display: inline-block; margin-top: 0.5rem;
+            padding: 0.15rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+            background: rgba(79,70,229,0.1); color: var(--primary);
+        }
+
+        /* ---- Empty State ---- */
+        .empty { text-align: center; padding: 3.5rem 1.5rem; color: var(--text-secondary); }
+        .empty-icon { font-size: 3.5rem; margin-bottom: 0.75rem; }
+        .empty p { font-size: 0.9rem; line-height: 1.6; }
+
+        /* ---- Tabs ---- */
+        .tabs {
+            display: flex; background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 57px; z-index: 90;
+        }
+        .tab {
+            flex: 1; padding: 0.75rem 0.25rem; text-align: center;
+            font-size: 0.78rem; font-weight: 600; color: var(--text-secondary);
+            cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s;
+        }
+        .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+        .tab-pane { display: none; padding: 1rem 1rem 6rem; }
+        .tab-pane.active { display: block; }
+
+        /* ---- Section header ---- */
+        .sec-head {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 0.85rem;
+        }
+        .sec-title { font-weight: 700; font-size: 0.95rem; }
+
+        /* ---- Day section ---- */
+        .day-block { margin-bottom: 1.5rem; }
+        .day-head {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 0.65rem; padding-bottom: 0.4rem;
+            border-bottom: 2px solid rgba(79,70,229,0.15);
+        }
+        .day-label { font-weight: 700; color: var(--primary); font-size: 0.95rem; }
+
+        /* ---- Activity item ---- */
+        .act-item {
+            background: white; border-radius: 12px; padding: 0.85rem 1rem;
+            margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 0.75rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06); cursor: pointer;
+        }
+        .act-time {
+            font-size: 0.78rem; color: var(--text-secondary); white-space: nowrap;
+            min-width: 44px; font-weight: 700; margin-top: 2px;
+        }
+        .act-body { flex: 1; }
+        .act-loc { font-weight: 600; font-size: 0.95rem; }
+        .act-desc { font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.2rem; }
+
+        /* ---- Accom card ---- */
+        .accom-card {
+            background: white; border-radius: 12px; padding: 1rem 1.1rem;
+            margin-bottom: 0.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            cursor: pointer;
+        }
+        .accom-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem; }
+        .accom-addr { font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .accom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 0.75rem; }
+        .accom-kv .k { font-size: 0.72rem; color: var(--text-secondary); }
+        .accom-kv .v { font-size: 0.85rem; font-weight: 600; }
+
+        /* ---- Budget ---- */
+        .budget-banner {
+            background: linear-gradient(135deg, var(--primary), #7C3AED);
+            border-radius: 16px; padding: 1.4rem 1.25rem; color: white;
+            margin-bottom: 1rem; text-align: center;
+        }
+        .bb-label { font-size: 0.82rem; opacity: 0.8; margin-bottom: 0.2rem; }
+        .bb-amount { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; }
+        .bb-sub { font-size: 0.82rem; opacity: 0.8; margin-top: 0.4rem; }
+        .bb-sub strong { font-weight: 700; }
+
+        .exp-item {
+            background: white; border-radius: 12px; padding: 0.85rem 1rem;
+            margin-bottom: 0.5rem; display: flex; align-items: center;
+            justify-content: space-between; box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            cursor: pointer;
+        }
+        .exp-name { font-weight: 600; font-size: 0.92rem; }
+        .exp-cat { font-size: 0.78rem; color: var(--text-secondary); }
+        .exp-amt { font-weight: 700; color: var(--danger); }
+
+        /* ---- Notes ---- */
+        #notesArea {
+            width: 100%; min-height: 260px; padding: 0.9rem;
+            border: 1.5px solid var(--border); border-radius: 12px;
+            font-size: 0.95rem; font-family: inherit; color: var(--text);
+            background: white; resize: vertical; line-height: 1.7;
+        }
+        #notesArea:focus { outline: none; border-color: var(--primary); }
+
+        /* ---- Modals ---- */
+        .overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+            z-index: 200; display: none; align-items: flex-end; justify-content: center;
+        }
+        .overlay.active { display: flex; }
+        .modal {
+            background: white; border-radius: 24px 24px 0 0;
+            padding: 1.4rem 1.25rem 2rem; width: 100%; max-width: 500px;
+            max-height: 88vh; overflow-y: auto; animation: up 0.28s ease;
+        }
+        @keyframes up { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .modal-head {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1.2rem;
+        }
+        .modal-title { font-size: 1.1rem; font-weight: 700; }
+        .modal-x {
+            background: var(--bg); border: none; border-radius: 50%;
+            width: 30px; height: 30px; font-size: 1rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ---- Form ---- */
+        .fg { margin-bottom: 0.9rem; }
+        .fl { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.35rem; }
+        .fc {
+            width: 100%; padding: 0.7rem 0.9rem;
+            border: 1.5px solid var(--border); border-radius: 10px;
+            font-size: 0.95rem; font-family: inherit; color: var(--text);
+            background: white; transition: border-color 0.2s;
+        }
+        .fc:focus { outline: none; border-color: var(--primary); }
+        textarea.fc { resize: vertical; min-height: 72px; }
+        .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+        /* ---- Buttons ---- */
+        .btn {
+            padding: 0.72rem 1.25rem; border-radius: 10px; font-size: 0.95rem;
+            font-weight: 700; border: none; cursor: pointer; transition: opacity 0.15s;
+        }
+        .btn:active { opacity: 0.75; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-danger { background: var(--danger); color: white; }
+        .btn-ghost { background: var(--bg); color: var(--text); }
+        .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; border-radius: 8px; }
+        .btn-full { width: 100%; }
+        .btn-row { display: flex; gap: 0.6rem; margin-top: 0.25rem; }
+    </style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loading"><div class="spinner"></div></div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- ===== TRIP LIST ===== -->
+<div id="tripListScreen" class="screen">
+    <div class="header">
+        <span class="header-title">✈️ 我的旅程</span>
+        <span style="font-size:0.8rem;color:var(--text-secondary);">✈️ 我的旅程本</span>
+    </div>
+    <div class="content" id="tripListContent"></div>
+    <button class="fab" id="addTripBtn">＋ 新增旅程</button>
+</div>
+
+<!-- ===== TRIP DETAIL ===== -->
+<div id="tripDetailScreen" class="screen">
+    <div class="header">
+        <button class="icon-btn btn-back" id="backBtn">←</button>
+        <span class="header-title" id="detailTitle" style="max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+        <button class="icon-btn" id="editTripBtn">✏️ 編輯</button>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" data-tab="itinerary">📅 行程</div>
+        <div class="tab" data-tab="accommodation">🏨 住宿</div>
+        <div class="tab" data-tab="budget">💰 預算</div>
+        <div class="tab" data-tab="notes">📝 筆記</div>
+    </div>
+
+    <!-- Itinerary -->
+    <div class="tab-pane active" id="itineraryPane">
+        <div class="sec-head">
+            <span class="sec-title">每日行程</span>
+            <button class="btn btn-ghost btn-sm" id="addDayBtn">＋ 新增天</button>
+        </div>
+        <div id="itineraryBody"></div>
+    </div>
+
+    <!-- Accommodation -->
+    <div class="tab-pane" id="accommodationPane">
+        <div class="sec-head">
+            <span class="sec-title">住宿資訊</span>
+            <button class="btn btn-ghost btn-sm" id="addAccomBtn">＋ 新增</button>
+        </div>
+        <div id="accommodationBody"></div>
+    </div>
+
+    <!-- Budget -->
+    <div class="tab-pane" id="budgetPane">
+        <div id="budgetBanner"></div>
+        <div class="sec-head">
+            <span class="sec-title">花費明細</span>
+            <button class="btn btn-ghost btn-sm" id="addExpenseBtn">＋ 新增</button>
+        </div>
+        <div id="expenseBody"></div>
+    </div>
+
+    <!-- Notes -->
+    <div class="tab-pane" id="notesPane">
+        <div class="sec-head">
+            <span class="sec-title">旅遊筆記</span>
+            <button class="btn btn-primary btn-sm" id="saveNotesBtn">儲存</button>
+        </div>
+        <textarea id="notesArea" placeholder="記錄旅途中任何想法、提醒、電話…"></textarea>
+    </div>
+</div>
+
+<!-- ===== MODAL: Trip ===== -->
+<div class="overlay" id="tripModal">
+    <div class="modal">
+        <div class="modal-head">
+            <span class="modal-title" id="tripModalTitle">新增旅程</span>
+            <button class="modal-x" id="closeTripModal">✕</button>
+        </div>
+        <div class="fg">
+            <label class="fl">旅程名稱 *</label>
+            <input class="fc" id="f_tripName" placeholder="例：日本東京五日遊">
+        </div>
+        <div class="fg">
+            <label class="fl">目的地 *</label>
+            <input class="fc" id="f_tripDest" placeholder="例：日本 東京">
+        </div>
+        <div class="row2">
+            <div class="fg">
+                <label class="fl">出發日期</label>
+                <input type="date" class="fc" id="f_tripStart">
+            </div>
+            <div class="fg">
+                <label class="fl">返程日期</label>
+                <input type="date" class="fc" id="f_tripEnd">
+            </div>
+        </div>
+        <div class="fg">
+            <label class="fl">總預算（NT$）</label>
+            <input type="number" class="fc" id="f_tripBudget" placeholder="0">
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-danger btn-sm" id="deleteTripBtn" style="display:none;">刪除旅程</button>
+            <button class="btn btn-primary" id="saveTripBtn" style="flex:1;">儲存</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MODAL: Day ===== -->
+<div class="overlay" id="dayModal">
+    <div class="modal">
+        <div class="modal-head">
+            <span class="modal-title" id="dayModalTitle">新增天</span>
+            <button class="modal-x" id="closeDayModal">✕</button>
+        </div>
+        <div class="fg">
+            <label class="fl">日期（選填）</label>
+            <input type="date" class="fc" id="f_dayDate">
+        </div>
+        <div class="fg">
+            <label class="fl">標題（選填）</label>
+            <input class="fc" id="f_dayLabel" placeholder="例：抵達東京、京都一日遊">
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-danger btn-sm" id="deleteDayBtn" style="display:none;">刪除這天</button>
+            <button class="btn btn-primary" id="saveDayBtn" style="flex:1;">儲存</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MODAL: Activity ===== -->
+<div class="overlay" id="actModal">
+    <div class="modal">
+        <div class="modal-head">
+            <span class="modal-title" id="actModalTitle">新增活動</span>
+            <button class="modal-x" id="closeActModal">✕</button>
+        </div>
+        <div class="fg">
+            <label class="fl">地點 / 活動名稱 *</label>
+            <input class="fc" id="f_actLoc" placeholder="例：淺草寺">
+        </div>
+        <div class="fg">
+            <label class="fl">時間</label>
+            <input type="time" class="fc" id="f_actTime">
+        </div>
+        <div class="fg">
+            <label class="fl">備註</label>
+            <textarea class="fc" id="f_actDesc" placeholder="備註說明…" rows="3"></textarea>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-danger btn-sm" id="deleteActBtn" style="display:none;">刪除</button>
+            <button class="btn btn-primary" id="saveActBtn" style="flex:1;">儲存</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MODAL: Accommodation ===== -->
+<div class="overlay" id="accomModal">
+    <div class="modal">
+        <div class="modal-head">
+            <span class="modal-title" id="accomModalTitle">新增住宿</span>
+            <button class="modal-x" id="closeAccomModal">✕</button>
+        </div>
+        <div class="fg">
+            <label class="fl">飯店 / 民宿名稱 *</label>
+            <input class="fc" id="f_accomName" placeholder="例：新宿格蘭貝爾酒店">
+        </div>
+        <div class="fg">
+            <label class="fl">地址</label>
+            <input class="fc" id="f_accomAddr" placeholder="">
+        </div>
+        <div class="fg">
+            <label class="fl">電話</label>
+            <input type="tel" class="fc" id="f_accomPhone" placeholder="">
+        </div>
+        <div class="row2">
+            <div class="fg">
+                <label class="fl">入住日期</label>
+                <input type="date" class="fc" id="f_accomIn">
+            </div>
+            <div class="fg">
+                <label class="fl">退房日期</label>
+                <input type="date" class="fc" id="f_accomOut">
+            </div>
+        </div>
+        <div class="fg">
+            <label class="fl">訂房確認碼</label>
+            <input class="fc" id="f_accomCode" placeholder="">
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-danger btn-sm" id="deleteAccomBtn" style="display:none;">刪除</button>
+            <button class="btn btn-primary" id="saveAccomBtn" style="flex:1;">儲存</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MODAL: Expense ===== -->
+<div class="overlay" id="expModal">
+    <div class="modal">
+        <div class="modal-head">
+            <span class="modal-title" id="expModalTitle">新增花費</span>
+            <button class="modal-x" id="closeExpModal">✕</button>
+        </div>
+        <div class="fg">
+            <label class="fl">項目名稱 *</label>
+            <input class="fc" id="f_expName" placeholder="例：午餐、地鐵票">
+        </div>
+        <div class="row2">
+            <div class="fg">
+                <label class="fl">金額（NT$）*</label>
+                <input type="number" class="fc" id="f_expAmt" placeholder="0">
+            </div>
+            <div class="fg">
+                <label class="fl">類別</label>
+                <select class="fc" id="f_expCat">
+                    <option>餐飲</option>
+                    <option>交通</option>
+                    <option>住宿</option>
+                    <option>購物</option>
+                    <option>景點門票</option>
+                    <option>其他</option>
+                </select>
+            </div>
+        </div>
+        <div class="btn-row">
+            <button class="btn btn-danger btn-sm" id="deleteExpBtn" style="display:none;">刪除</button>
+            <button class="btn btn-primary" id="saveExpBtn" style="flex:1;">儲存</button>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc,
+    getDocs, getDoc, query, where, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// ⚠️ 請把下方的 YOUR_XXX 換成你的 Firebase 設定
+const firebaseConfig = {
+    apiKey:            "AIzaSyDs_SPZ6o7RRqcy9hrUIH6T2HpSenZFGLQ",
+    authDomain:        "travel-6b933.firebaseapp.com",
+    projectId:         "travel-6b933",
+    storageBucket:     "travel-.firebasestorage.app",
+    messagingSenderId: "13182308125",
+    appId:             "1:13182308125:web:0a1744ca81b8ca3c0adbf4"
+};
+
+const app  = initializeApp(firebaseConfig);
+const db   = getFirestore(app);
+
+// 個人識別碼（不需登入，所有裝置用同一組 ID 存取同一份資料）
+const USER_ID = "travel-6b933-personal";
+
+// ---------- State ----------
+let trip = null;        // current trip object
+let editKey = null;     // id being edited (generic)
+let editDayIdx  = null;
+let editActIdx  = null;
+let editAccomIdx = null;
+let editExpIdx  = null;
+
+// ---------- Helpers ----------
+function $(id){ return document.getElementById(id); }
+
+function showScreen(id){
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    $(id).classList.add('active');
+}
+
+function toast(msg){
+    const el = $('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2400);
+}
+
+function openOverlay(id){ $(id).classList.add('active'); }
+function closeOverlay(id){ $(id).classList.remove('active'); }
+
+function fv(id){ return $(id).value.trim(); }
+function fset(id, v){ $(id).value = v ?? ''; }
+
+// ---------- 初始化（不需登入）----------
+window.addEventListener('load', () => {
+    $('loading').style.display = 'none';
+    showScreen('tripListScreen');
+    loadTrips();
+});
+
+// ---------- Trips ----------
+async function loadTrips(){
+    const q = query(collection(db,'trips'), where('userId','==',USER_ID));
+    const snap = await getDocs(q);
+    const trips = snap.docs.map(d=>({id:d.id,...d.data()}))
+        .sort((a,b)=>(b.createdAt?.seconds??0)-(a.createdAt?.seconds??0));
+    renderTripList(trips);
+}
+
+function renderTripList(trips){
+    const el = $('tripListContent');
+    if(!trips.length){
+        el.innerHTML = `<div class="empty">
+            <div class="empty-icon">🗺️</div>
+            <p>還沒有旅程<br>點擊下方按鈕新增你的第一趟旅程！</p>
+        </div>`;
+        return;
+    }
+    el.innerHTML = trips.map(t=>`
+        <div class="trip-card" data-id="${t.id}">
+            <div class="tc-name">${esc(t.name)}</div>
+            <div class="tc-dest">📍 ${esc(t.destination||'未設定目的地')}</div>
+            <div class="tc-dates">${t.startDate ? t.startDate+' ～ '+(t.endDate||'') : '日期未設定'}</div>
+            ${t.budget ? `<span class="tc-badge">預算 NT$ ${Number(t.budget).toLocaleString()}</span>` : ''}
+        </div>
+    `).join('');
+    el.querySelectorAll('.trip-card').forEach(card => {
+        card.onclick = () => openTrip(card.dataset.id);
+    });
+}
+
+async function openTrip(tripId){
+    const snap = await getDoc(doc(db,'trips',tripId));
+    trip = {id:snap.id,...snap.data()};
+    $('detailTitle').textContent = trip.name;
+    showScreen('tripDetailScreen');
+    // reset tabs
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+    document.querySelector('.tab[data-tab="itinerary"]').classList.add('active');
+    $('itineraryPane').classList.add('active');
+    renderAll();
+}
+
+function renderAll(){
+    renderItinerary();
+    renderAccom();
+    renderBudget();
+    renderNotes();
+}
+
+// Trip modal
+$('addTripBtn').onclick = () => {
+    editKey = null;
+    $('tripModalTitle').textContent = '新增旅程';
+    $('deleteTripBtn').style.display = 'none';
+    ['f_tripName','f_tripDest','f_tripStart','f_tripEnd','f_tripBudget'].forEach(id=>fset(id,''));
+    openOverlay('tripModal');
+};
+$('editTripBtn').onclick = () => {
+    editKey = trip.id;
+    $('tripModalTitle').textContent = '編輯旅程';
+    $('deleteTripBtn').style.display = 'block';
+    fset('f_tripName',   trip.name);
+    fset('f_tripDest',   trip.destination);
+    fset('f_tripStart',  trip.startDate);
+    fset('f_tripEnd',    trip.endDate);
+    fset('f_tripBudget', trip.budget);
+    openOverlay('tripModal');
+};
+$('closeTripModal').onclick = () => closeOverlay('tripModal');
+
+$('saveTripBtn').onclick = async () => {
+    const name = fv('f_tripName'), dest = fv('f_tripDest');
+    if(!name||!dest){ toast('請填入旅程名稱和目的地'); return; }
+    const data = { name, destination:dest, startDate:fv('f_tripStart'),
+        endDate:fv('f_tripEnd'), budget:$('f_tripBudget').value };
+    if(editKey){
+        await updateDoc(doc(db,'trips',editKey), data);
+        Object.assign(trip, data);
+        $('detailTitle').textContent = trip.name;
+        renderBudget();
+        toast('旅程已更新');
+    } else {
+        await addDoc(collection(db,'trips'), {
+            ...data, userId:USER_ID, days:[], accommodation:[], expenses:[], notes:'',
+            createdAt: serverTimestamp()
+        });
+        toast('旅程已新增');
+    }
+    closeOverlay('tripModal');
+    loadTrips();
+};
+
+$('deleteTripBtn').onclick = async () => {
+    if(!confirm('確定刪除此旅程？所有資料將無法復原。')) return;
+    await deleteDoc(doc(db,'trips',trip.id));
+    closeOverlay('tripModal');
+    showScreen('tripListScreen');
+    loadTrips();
+    toast('旅程已刪除');
+};
+
+$('backBtn').onclick = () => {
+    showScreen('tripListScreen');
+    loadTrips();
+};
+
+// ---------- Tabs ----------
+document.querySelectorAll('.tab').forEach(tab => {
+    tab.onclick = () => {
+        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+        document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+        tab.classList.add('active');
+        $(tab.dataset.tab+'Pane').classList.add('active');
+    };
+});
+
+// ---------- Itinerary ----------
+function renderItinerary(){
+    const days = trip.days || [];
+    const el = $('itineraryBody');
+    if(!days.length){
+        el.innerHTML = `<div class="empty"><div class="empty-icon">📅</div><p>點擊「新增天」開始規劃行程</p></div>`;
+        return;
+    }
+    el.innerHTML = days.map((day,di)=>`
+        <div class="day-block">
+            <div class="day-head">
+                <span class="day-label">第 ${di+1} 天 ${day.date?'('+day.date+')':''} ${day.label?'— '+esc(day.label):''}</span>
+                <div style="display:flex;gap:0.4rem;">
+                    <button class="btn btn-ghost btn-sm" data-di="${di}" data-act="editDay">編輯</button>
+                    <button class="btn btn-ghost btn-sm" data-di="${di}" data-act="addAct">＋活動</button>
+                </div>
+            </div>
+            ${(day.activities||[]).length===0
+                ? `<p style="color:var(--text-secondary);font-size:0.82rem;padding:0.25rem 0;">尚無活動</p>`
+                : (day.activities||[]).map((a,ai)=>`
+                    <div class="act-item" data-di="${di}" data-ai="${ai}" data-act="editAct">
+                        <span class="act-time">${a.time||'--:--'}</span>
+                        <div class="act-body">
+                            <div class="act-loc">${esc(a.location)}</div>
+                            ${a.desc?`<div class="act-desc">${esc(a.desc)}</div>`:''}
+                        </div>
+                        <span style="color:var(--text-secondary);font-size:1rem;">›</span>
+                    </div>
+                `).join('')
+            }
+        </div>
+    `).join('');
+
+    el.querySelectorAll('[data-act]').forEach(btn => {
+        btn.onclick = (e) => {
+            const act  = btn.dataset.act;
+            const di   = +btn.dataset.di;
+            const ai   = btn.dataset.ai !== undefined ? +btn.dataset.ai : null;
+            if(act==='editDay') openDayModal(di);
+            if(act==='addAct')  openActModal(di, null);
+            if(act==='editAct') openActModal(di, ai);
+        };
+    });
+}
+
+// Day modal
+$('addDayBtn').onclick = () => openDayModal(null);
+
+function openDayModal(di){
+    editDayIdx = di;
+    if(di===null){
+        $('dayModalTitle').textContent = '新增天';
+        $('deleteDayBtn').style.display = 'none';
+        fset('f_dayDate',''); fset('f_dayLabel','');
+    } else {
+        $('dayModalTitle').textContent = '編輯天';
+        $('deleteDayBtn').style.display = 'block';
+        fset('f_dayDate',  trip.days[di].date  || '');
+        fset('f_dayLabel', trip.days[di].label || '');
+    }
+    openOverlay('dayModal');
+}
+$('closeDayModal').onclick = () => closeOverlay('dayModal');
+
+$('saveDayBtn').onclick = async () => {
+    const days = trip.days || [];
+    if(editDayIdx===null){
+        days.push({ date:fv('f_dayDate'), label:fv('f_dayLabel'), activities:[] });
+    } else {
+        days[editDayIdx].date  = fv('f_dayDate');
+        days[editDayIdx].label = fv('f_dayLabel');
+    }
+    trip.days = days;
+    await updateDoc(doc(db,'trips',trip.id), { days });
+    closeOverlay('dayModal');
+    renderItinerary();
+    toast(editDayIdx===null ? '已新增天' : '已更新');
+};
+
+$('deleteDayBtn').onclick = async () => {
+    if(!confirm('確定刪除這天？')) return;
+    trip.days.splice(editDayIdx, 1);
+    await updateDoc(doc(db,'trips',trip.id), { days:trip.days });
+    closeOverlay('dayModal');
+    renderItinerary();
+    toast('已刪除');
+};
+
+// Activity modal
+function openActModal(di, ai){
+    editDayIdx = di; editActIdx = ai;
+    if(ai===null){
+        $('actModalTitle').textContent = '新增活動';
+        $('deleteActBtn').style.display = 'none';
+        fset('f_actLoc',''); fset('f_actTime',''); fset('f_actDesc','');
+    } else {
+        const a = trip.days[di].activities[ai];
+        $('actModalTitle').textContent = '編輯活動';
+        $('deleteActBtn').style.display = 'block';
+        fset('f_actLoc',  a.location);
+        fset('f_actTime', a.time);
+        fset('f_actDesc', a.desc);
+    }
+    openOverlay('actModal');
+}
+$('closeActModal').onclick = () => closeOverlay('actModal');
+
+$('saveActBtn').onclick = async () => {
+    const loc = fv('f_actLoc');
+    if(!loc){ toast('請填入地點名稱'); return; }
+    const act = { location:loc, time:$('f_actTime').value, desc:fv('f_actDesc') };
+    const acts = trip.days[editDayIdx].activities || [];
+    if(editActIdx===null){ acts.push(act); } else { acts[editActIdx]=act; }
+    acts.sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+    trip.days[editDayIdx].activities = acts;
+    await updateDoc(doc(db,'trips',trip.id), { days:trip.days });
+    closeOverlay('actModal');
+    renderItinerary();
+    toast('活動已儲存');
+};
+
+$('deleteActBtn').onclick = async () => {
+    trip.days[editDayIdx].activities.splice(editActIdx,1);
+    await updateDoc(doc(db,'trips',trip.id), { days:trip.days });
+    closeOverlay('actModal');
+    renderItinerary();
+    toast('活動已刪除');
+};
+
+// ---------- Accommodation ----------
+function renderAccom(){
+    const accoms = trip.accommodation || [];
+    const el = $('accommodationBody');
+    if(!accoms.length){
+        el.innerHTML = `<div class="empty"><div class="empty-icon">🏨</div><p>點擊「新增」加入住宿資訊</p></div>`;
+        return;
+    }
+    el.innerHTML = accoms.map((a,i)=>`
+        <div class="accom-card" data-idx="${i}">
+            <div class="accom-name">🏨 ${esc(a.name)}</div>
+            ${a.address?`<div class="accom-addr">📍 ${esc(a.address)}</div>`:''}
+            <div class="accom-grid">
+                ${a.checkIn?`<div class="accom-kv"><div class="k">入住</div><div class="v">${a.checkIn}</div></div>`:''}
+                ${a.checkOut?`<div class="accom-kv"><div class="k">退房</div><div class="v">${a.checkOut}</div></div>`:''}
+                ${a.phone?`<div class="accom-kv"><div class="k">電話</div><div class="v">${esc(a.phone)}</div></div>`:''}
+                ${a.code?`<div class="accom-kv"><div class="k">確認碼</div><div class="v">${esc(a.code)}</div></div>`:''}
+            </div>
+        </div>
+    `).join('');
+    el.querySelectorAll('.accom-card').forEach(card => {
+        card.onclick = () => openAccomModal(+card.dataset.idx);
+    });
+}
+
+$('addAccomBtn').onclick = () => openAccomModal(null);
+
+function openAccomModal(idx){
+    editAccomIdx = idx;
+    if(idx===null){
+        $('accomModalTitle').textContent = '新增住宿';
+        $('deleteAccomBtn').style.display = 'none';
+        ['f_accomName','f_accomAddr','f_accomPhone','f_accomIn','f_accomOut','f_accomCode'].forEach(id=>fset(id,''));
+    } else {
+        const a = trip.accommodation[idx];
+        $('accomModalTitle').textContent = '編輯住宿';
+        $('deleteAccomBtn').style.display = 'block';
+        fset('f_accomName', a.name);   fset('f_accomAddr', a.address);
+        fset('f_accomPhone',a.phone);  fset('f_accomIn',   a.checkIn);
+        fset('f_accomOut',  a.checkOut);fset('f_accomCode', a.code);
+    }
+    openOverlay('accomModal');
+}
+$('closeAccomModal').onclick = () => closeOverlay('accomModal');
+
+$('saveAccomBtn').onclick = async () => {
+    const name = fv('f_accomName');
+    if(!name){ toast('請填入住宿名稱'); return; }
+    const accom = { name, address:fv('f_accomAddr'), phone:fv('f_accomPhone'),
+        checkIn:$('f_accomIn').value, checkOut:$('f_accomOut').value, code:fv('f_accomCode') };
+    const arr = trip.accommodation || [];
+    if(editAccomIdx===null){ arr.push(accom); } else { arr[editAccomIdx]=accom; }
+    trip.accommodation = arr;
+    await updateDoc(doc(db,'trips',trip.id), { accommodation:arr });
+    closeOverlay('accomModal');
+    renderAccom();
+    toast('住宿已儲存');
+};
+
+$('deleteAccomBtn').onclick = async () => {
+    trip.accommodation.splice(editAccomIdx,1);
+    await updateDoc(doc(db,'trips',trip.id), { accommodation:trip.accommodation });
+    closeOverlay('accomModal');
+    renderAccom();
+    toast('住宿已刪除');
+};
+
+// ---------- Budget ----------
+function renderBudget(){
+    const expenses = trip.expenses || [];
+    const budget   = Number(trip.budget) || 0;
+    const spent    = expenses.reduce((s,e)=>s+Number(e.amount||0), 0);
+    const remain   = budget - spent;
+    $('budgetBanner').innerHTML = `
+        <div class="budget-banner">
+            <div class="bb-label">總預算</div>
+            <div class="bb-amount">NT$ ${budget.toLocaleString()}</div>
+            <div class="bb-sub">
+                已花費 NT$ ${spent.toLocaleString()} ／
+                剩餘 <strong>NT$ ${remain.toLocaleString()}</strong>
+            </div>
+        </div>`;
+    const el = $('expenseBody');
+    if(!expenses.length){
+        el.innerHTML = `<div class="empty"><div class="empty-icon">💸</div><p>點擊「新增」記錄花費</p></div>`;
+        return;
+    }
+    el.innerHTML = expenses.map((e,i)=>`
+        <div class="exp-item" data-idx="${i}">
+            <div><div class="exp-name">${esc(e.name)}</div><div class="exp-cat">${e.category||''}</div></div>
+            <div class="exp-amt">NT$ ${Number(e.amount).toLocaleString()}</div>
+        </div>
+    `).join('');
+    el.querySelectorAll('.exp-item').forEach(item => {
+        item.onclick = () => openExpModal(+item.dataset.idx);
+    });
+}
+
+$('addExpenseBtn').onclick = () => openExpModal(null);
+
+function openExpModal(idx){
+    editExpIdx = idx;
+    if(idx===null){
+        $('expModalTitle').textContent = '新增花費';
+        $('deleteExpBtn').style.display = 'none';
+        fset('f_expName',''); fset('f_expAmt',''); $('f_expCat').value='餐飲';
+    } else {
+        const e = trip.expenses[idx];
+        $('expModalTitle').textContent = '編輯花費';
+        $('deleteExpBtn').style.display = 'block';
+        fset('f_expName', e.name); fset('f_expAmt', e.amount); $('f_expCat').value=e.category||'餐飲';
+    }
+    openOverlay('expModal');
+}
+$('closeExpModal').onclick = () => closeOverlay('expModal');
+
+$('saveExpBtn').onclick = async () => {
+    const name = fv('f_expName'), amt = $('f_expAmt').value;
+    if(!name||!amt){ toast('請填入名稱和金額'); return; }
+    const exp = { name, amount:Number(amt), category:$('f_expCat').value };
+    const arr = trip.expenses || [];
+    if(editExpIdx===null){ arr.push(exp); } else { arr[editExpIdx]=exp; }
+    trip.expenses = arr;
+    await updateDoc(doc(db,'trips',trip.id), { expenses:arr });
+    closeOverlay('expModal');
+    renderBudget();
+    toast('花費已儲存');
+};
+
+$('deleteExpBtn').onclick = async () => {
+    trip.expenses.splice(editExpIdx,1);
+    await updateDoc(doc(db,'trips',trip.id), { expenses:trip.expenses });
+    closeOverlay('expModal');
+    renderBudget();
+    toast('花費已刪除');
+};
+
+// ---------- Notes ----------
+function renderNotes(){ $('notesArea').value = trip.notes || ''; }
+$('saveNotesBtn').onclick = async () => {
+    trip.notes = $('notesArea').value;
+    await updateDoc(doc(db,'trips',trip.id), { notes:trip.notes });
+    toast('筆記已儲存');
+};
+
+// ---------- Close overlay on backdrop click ----------
+document.querySelectorAll('.overlay').forEach(ov => {
+    ov.onclick = e => { if(e.target===ov) ov.classList.remove('active'); };
+});
+
+// ---------- Escape helper ----------
+function esc(str){ return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+</script>
+</body>
+</html>
