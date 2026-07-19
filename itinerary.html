@@ -336,10 +336,12 @@
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             margin-bottom: 20px;
+            width: 100%;
         }
 
         #mapElement {
-            height: 600px;
+            height: 500px;
+            width: 100%;
         }
 
         .map-legend {
@@ -511,103 +513,104 @@
             }
 
             /* Timeline Mobile */
+            .timeline {
+                padding: 20px 0;
+            }
+
             .timeline::before {
-                left: 15px;
+                left: 12px;
+            }
+
+            .timeline-item {
+                margin-bottom: 30px;
             }
 
             .timeline-item:nth-child(odd) .timeline-content,
             .timeline-item:nth-child(even) .timeline-content {
-                width: 100%;
+                width: calc(100% - 50px);
                 text-align: left;
-                margin-left: 50px;
+                margin-left: 45px;
                 margin-right: 0;
-                padding: 15px;
-                padding-left: 15px;
+                padding: 12px;
+                padding-left: 12px;
+                font-size: 0.95em;
             }
 
             .timeline-dot {
-                left: 15px;
+                left: 5px;
+                width: 15px;
+                height: 15px;
+                border-width: 3px;
             }
 
             .timeline-date {
-                font-size: 1.1em;
+                font-size: 1em;
+                margin-bottom: 4px;
             }
 
             /* Cards Mobile */
             .cards-grid {
                 grid-template-columns: 1fr;
+                gap: 15px;
             }
 
             .card {
                 padding: 15px;
+                margin: 0;
             }
 
             .card-date {
-                font-size: 1em;
+                font-size: 0.9em;
             }
 
             .card-location {
-                font-size: 1.2em;
+                font-size: 1.1em;
             }
 
             .card-section {
-                font-size: 1em;
+                font-size: 0.9em;
+                margin: 8px 0;
             }
 
             /* Schedule Mobile */
             .schedule-row {
                 grid-template-columns: 1fr;
                 gap: 10px;
+                padding: 12px;
             }
 
             .time-slot {
-                font-size: 1rem;
+                font-size: 0.95rem;
                 margin-bottom: 5px;
             }
 
             .activity {
-                font-size: 1rem;
+                font-size: 0.95rem;
             }
 
             /* Flexible Cards Mobile */
             .flexible-card {
                 padding: 15px;
+                margin: 0;
             }
 
             .flexible-day {
-                font-size: 1.1rem;
-            }
-
-            .flexible-content {
                 font-size: 1rem;
             }
 
-            .timeline::before {
-                left: 20px;
+            .flexible-content {
+                font-size: 0.95rem;
             }
 
-            .timeline-item:nth-child(odd) .timeline-content,
-            .timeline-item:nth-child(even) .timeline-content {
-                width: 100%;
-                text-align: left;
-                margin-left: 60px;
-                padding-left: 20px;
-            }
-
-            .timeline-dot {
-                left: 20px;
-            }
-
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .schedule-row {
-                grid-template-columns: 1fr;
+            /* Map Mobile */
+            #mapContainer {
+                margin: 0 -15px;
+                border-radius: 0;
+                box-shadow: none;
             }
 
             #mapElement {
-                height: 400px;
+                height: 350px;
             }
         }
     </style>
@@ -879,10 +882,21 @@
 
         // 渲染地图 - 顯示行程軌跡
         function renderMap() {
+            const mapContainer = document.getElementById('mapContainer');
+            if (!mapContainer) return;
+
+            // 清理舊地圖
+            if (map) {
+                map.remove();
+                map = null;
+            }
+
+            mapContainer.innerHTML = '<div id="mapElement"></div>';
+
             // 城市座標
             const cityCoordinates = {
                 '台北': [25.0330, 121.5654],
-                '機上': [50, 10],  // 上空
+                '機上': [50, 10],
                 '阿姆斯特丹': [52.3676, 4.9041],
                 '鹿特丹': [51.9225, 4.4792],
                 '萊頓': [52.1601, 4.4941],
@@ -895,13 +909,16 @@
                 '法蘭克福': [50.1109, 8.6821],
                 '海德堡': [49.4134, 8.7100]
             };
-            const mapContainer = document.getElementById('mapContainer');
-            mapContainer.innerHTML = '<div id="mapElement"></div>';
 
-            map = L.map('mapElement').setView([51.5, 5], 6);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
+            try {
+                map = L.map('mapElement').setView([51.5, 5], 5);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap'
+                }).addTo(map);
+            } catch (error) {
+                console.error('地圖初始化錯誤:', error);
+                return;
+            }
 
             const itinerary = travelData.itinerary || [];
             const visitedCities = [];
