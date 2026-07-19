@@ -621,11 +621,15 @@
                     ).length;
                 }
 
+                // 提取路線：台北 ✈ 荷蘭 🚂 德國 ✈ 台北
+                const route = generateRoute(data);
+
                 itineraries = [{
                     id: '2026-08-holland-germany',
                     filename: '2026-08-holland-germany.json',
                     title: data.title,
-                    destination: data.itinerary?.[0]?.['地點 / 移動'] || '荷蘭 & 德國',
+                    destination: '荷蘭 & 德國',
+                    route: route,
                     startDate: data.startDate,
                     endDate: data.endDate,
                     days: days,
@@ -643,6 +647,34 @@
                 console.error('Error loading itineraries:', error);
                 renderItineraries();
             }
+        }
+
+        // 生成路線顯示
+        function generateRoute(data) {
+            const itinerary = data.itinerary || [];
+            const validDays = itinerary.filter(day => day && (day['時間'] || day['地點 / 移動']));
+
+            if (validDays.length === 0) return '台北 ✈ 荷蘭 🚂 德國 ✈ 台北';
+
+            // 檢查城市進度
+            let hasNetherlands = false, hasGermany = false;
+            validDays.forEach(day => {
+                const loc = day['地點 / 移動'] || '';
+                if (loc.includes('阿姆') || loc.includes('鹿特丹') || loc.includes('萊頓') ||
+                    loc.includes('海牙') || loc.includes('烏特勒支') || loc.includes('羊角村')) {
+                    hasNetherlands = true;
+                }
+                if (loc.includes('科隆') || loc.includes('法蘭克福') || loc.includes('海德堡')) {
+                    hasGermany = true;
+                }
+            });
+
+            if (hasNetherlands && hasGermany) {
+                return '台北 ✈ 荷蘭 🚂 德國 ✈ 台北';
+            } else if (hasNetherlands) {
+                return '台北 ✈ 荷蘭 ✈ 台北';
+            }
+            return '台北 ✈ 德國 ✈ 台北';
         }
 
         // 渲染行程列表
@@ -664,10 +696,6 @@
             container.innerHTML = `
                 <div class="itineraries-grid">
                     ${itineraries.map(it => {
-                        const startCity = it.destination.split(/[&、,]/)[0].trim();
-                        const endCity = it.destination.split(/[&、,]/).pop().trim();
-                        const startCode = getCountryCode(startCity);
-                        const endCode = getCountryCode(endCity);
                         const durationDays = it.days || 7;
 
                         return `
@@ -682,14 +710,8 @@
                                     </div>
 
                                     <div class="ticket-route">
-                                        <div class="ticket-city">
-                                            <div class="ticket-city-code">${startCode}</div>
-                                            <div class="ticket-city-name">${startCity}</div>
-                                        </div>
-                                        <div class="ticket-arrow">✈</div>
-                                        <div class="ticket-city">
-                                            <div class="ticket-city-code">${endCode}</div>
-                                            <div class="ticket-city-name">${endCity}</div>
+                                        <div style="flex: 1; text-align: center; font-size: 0.95rem; color: #8b5a3c; font-weight: 600; letter-spacing: 1px;">
+                                            ${it.route || '台北 ✈ 荷蘭 🚂 德國 ✈ 台北'}
                                         </div>
                                     </div>
 
