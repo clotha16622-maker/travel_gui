@@ -785,7 +785,48 @@
             event.target.classList.add('active');
 
             if (tabName === 'map' && map) {
-                setTimeout(() => map.invalidateSize(), 100);
+                setTimeout(() => {
+                    map.invalidateSize();
+                    // 重新調整地圖範圍以適應新的容器尺寸
+                    const itinerary = travelData.itinerary || [];
+                    const cityCoordinates = {
+                        '台北': [25.0330, 121.5654],
+                        '機上': [50, 10],
+                        '阿姆斯特丹': [52.3676, 4.9041],
+                        '鹿特丹': [51.9225, 4.4792],
+                        '萊頓': [52.1601, 4.4941],
+                        '海牙': [52.0705, 4.2566],
+                        '代爾夫特': [51.9903, 4.3598],
+                        '羊角村': [52.7153, 5.8697],
+                        '烏特勒支': [52.0907, 5.1214],
+                        '梵谷森林': [52.0500, 5.7667],
+                        '科隆': [50.9365, 6.9589],
+                        '法蘭克福': [50.1109, 8.6821],
+                        '海德堡': [49.4134, 8.7100]
+                    };
+
+                    const visitedCoords = [];
+                    itinerary.forEach(day => {
+                        if (!day || typeof day !== 'object') return;
+                        const location = day['地點 / 移動'] || '';
+                        if (!location) return;
+
+                        const cities = location.split(/[➔→-]/).map(s => s.trim()).filter(s => s);
+                        cities.forEach(cityName => {
+                            if (cityCoordinates[cityName] && !visitedCoords.some(c =>
+                                c[0] === cityCoordinates[cityName][0] &&
+                                c[1] === cityCoordinates[cityName][1]
+                            )) {
+                                visitedCoords.push(cityCoordinates[cityName]);
+                            }
+                        });
+                    });
+
+                    if (visitedCoords.length > 0) {
+                        const bounds = L.latLngBounds(visitedCoords);
+                        map.fitBounds(bounds, { padding: [100, 100], maxZoom: 5 });
+                    }
+                }, 150);
             }
         }
 
@@ -988,7 +1029,11 @@
             // 如果有標記，自動調整地圖範圍
             if (visitedCities.length > 0) {
                 const bounds = L.latLngBounds(visitedCities.map(c => c.coords));
-                map.fitBounds(bounds, { padding: [80, 80], maxZoom: 6 });
+                // 更激進的padding和更低的maxZoom，確保所有點都可見
+                map.fitBounds(bounds, {
+                    padding: [120, 120],
+                    maxZoom: 5
+                });
             }
         }
 
