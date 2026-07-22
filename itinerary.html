@@ -388,6 +388,146 @@
             font-size: 0.95rem;
         }
 
+        /* Attraction Cards */
+        .attraction-card {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .attraction-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateX(4px);
+        }
+
+        .attraction-card.expanded {
+            border-left-color: #d4a574;
+        }
+
+        .attraction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .attraction-toggle {
+            font-size: 1.2em;
+            transition: transform 0.3s;
+        }
+
+        .attraction-card.expanded .attraction-toggle {
+            transform: rotate(180deg);
+        }
+
+        .attraction-details {
+            display: none;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .attraction-card.expanded .attraction-details {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .detail-row {
+            margin-bottom: 8px;
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 10px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .detail-value {
+            color: #555;
+        }
+
+        /* Day Section Enhancement */
+        .day-section {
+            background: rgba(255, 251, 247, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 6px solid #d4a574;
+            box-shadow: 0 4px 12px rgba(139, 90, 60, 0.1);
+        }
+
+        .day-title {
+            font-size: 1.5em;
+            font-weight: 800;
+            color: #8b5a3c;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d4a574;
+        }
+
+        .day-info-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .day-info-item {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+        }
+
+        .day-info-label {
+            font-size: 0.8em;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .day-info-content {
+            font-size: 0.95em;
+            color: #333;
+            margin-top: 4px;
+        }
+
+        .day-timeline {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .timeline-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding: 8px;
+            border-left: 3px solid #f0f0f0;
+        }
+
+        .timeline-time {
+            font-weight: 600;
+            color: #667eea;
+            min-width: 80px;
+        }
+
+        .timeline-content {
+            margin-left: 12px;
+            color: #555;
+            flex: 1;
+        }
+
         /* Flexible Schedule */
         .flexible-container {
             display: grid;
@@ -638,14 +778,17 @@
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('timeline')">📍 時間線</button>
+            <button class="tab-btn active" onclick="switchTab('overview')">📋 每日概覽</button>
+            <button class="tab-btn" onclick="switchTab('timeline')">📍 時間線</button>
             <button class="tab-btn" onclick="switchTab('cards')">🎴 每日卡片</button>
             <button class="tab-btn" onclick="switchTab('map')">🗺️ 互動地圖</button>
             <button class="tab-btn" onclick="switchTab('schedule')">⏰ 時間表</button>
             <button class="tab-btn" onclick="switchTab('flexible')">🏛️ 彈性行程</button>
         </div>
 
-        <div id="timeline" class="tab-content active">
+        <div id="overview" class="tab-content active"></div>
+
+        <div id="timeline" class="tab-content">
             <div class="timeline" id="timelineContainer"></div>
         </div>
 
@@ -687,6 +830,7 @@
                 showError('找不到行程');
                 return;
             }
+            loadAttractionsData();
             loadItinerary(id);
         });
 
@@ -765,6 +909,7 @@
             document.getElementById('pageSubtitle').textContent =
                 `${travelData.startDate} ✈ ${travelData.endDate}`;
 
+            renderDayOverview();
             renderTimeline();
             renderCards();
             renderSchedule();
@@ -1093,6 +1238,150 @@
             });
 
             container.innerHTML = html || '<div style="padding: 20px; text-align: center; color: #666;">無行程數據</div>';
+        }
+
+        // 加載景點資料
+        let attractionsData = null;
+        async function loadAttractionsData() {
+            try {
+                const response = await fetch('attractions.json');
+                if (response.ok) {
+                    attractionsData = await response.json();
+                }
+            } catch (error) {
+                console.log('Attractions data not loaded');
+            }
+        }
+
+        // 解析景點名稱並返回完整訊息
+        function getAttractionInfo(attractionName) {
+            if (!attractionsData) return null;
+
+            for (const [key, data] of Object.entries(attractionsData.attractions || {})) {
+                if (attractionName.includes(key) || key.includes(attractionName.substring(0, 4))) {
+                    return { key, ...data };
+                }
+            }
+            return null;
+        }
+
+        // 渲染新的日視圖（一目了然）
+        function renderDayOverview() {
+            const tabContent = document.getElementById('overview');
+            if (!tabContent) return;
+
+            const itinerary = travelData.itinerary || [];
+            let html = '';
+
+            itinerary.forEach((day, index) => {
+                if (!day || typeof day !== 'object') return;
+
+                const date = day['時間'] || '';
+                const location = day['地點 / 移動'] || '';
+                const highlights = day['精選景點 (含黃金預約時間)'] || '';
+                const accommodation = day['每日基地 (住宿地區 / 飯店與訂單資訊)'] || '';
+                const schedule = day['行程細項'] || '';
+                const tips = day['備註 / 在地指南'] || '';
+                const flexible = day['💡 博物館卡 / 空檔備案推薦 (持卡免費或順遊)'] || '';
+
+                if (!date && !location) return;
+
+                // 解析時間表
+                const timeSteps = schedule.split('➔').map(s => s.trim()).filter(s => s);
+
+                // 解析景點
+                const attractionNames = highlights.split('、').map(s => s.trim()).filter(s => s);
+
+                html += `
+                    <div class="day-section">
+                        <div class="day-title">${date || '待定'}</div>
+
+                        <div class="day-info-row">
+                            ${location ? `
+                                <div class="day-info-item">
+                                    <div class="day-info-label">📍 地點</div>
+                                    <div class="day-info-content">${location}</div>
+                                </div>
+                            ` : ''}
+                            ${accommodation ? `
+                                <div class="day-info-item">
+                                    <div class="day-info-label">🏨 住宿</div>
+                                    <div class="day-info-content">${accommodation}</div>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        ${highlights ? `
+                            <div style="margin-bottom: 15px;">
+                                <div style="font-weight: 600; color: #8b5a3c; margin-bottom: 10px;">⭐ 精選景點</div>
+                                ${attractionNames.map(name => {
+                                    const info = getAttractionInfo(name);
+                                    return `
+                                        <div class="attraction-card" onclick="toggleAttraction(event)">
+                                            <div class="attraction-header">
+                                                <span>${name}${info ? ' 📌' : ''}</span>
+                                                <span class="attraction-toggle">▼</span>
+                                            </div>
+                                            ${info ? `
+                                                <div class="attraction-details">
+                                                    ${info.description ? `<div class="detail-row"><div class="detail-label">介紹</div><div class="detail-value">${info.description}</div></div>` : ''}
+                                                    ${info.openingHours ? `<div class="detail-row"><div class="detail-label">開放時間</div><div class="detail-value">${info.openingHours}</div></div>` : ''}
+                                                    ${info.ticket ? `<div class="detail-row"><div class="detail-label">門票</div><div class="detail-value">${info.ticket}</div></div>` : ''}
+                                                    ${info.duration ? `<div class="detail-row"><div class="detail-label">預計時間</div><div class="detail-value">${info.duration}</div></div>` : ''}
+                                                    ${info.tips ? `<div class="detail-row"><div class="detail-label">💡 提示</div><div class="detail-value">${info.tips}</div></div>` : ''}
+                                                    ${info.bookingTime ? `<div class="detail-row"><div class="detail-label">預約時間</div><div class="detail-value">${info.bookingTime}</div></div>` : ''}
+                                                </div>
+                                            ` : ''}
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        ` : ''}
+
+                        ${timeSteps.length > 0 ? `
+                            <div style="margin-bottom: 15px;">
+                                <div style="font-weight: 600; color: #8b5a3c; margin-bottom: 10px;">⏰ 行程時間表</div>
+                                <div class="day-timeline">
+                                    ${timeSteps.map(step => {
+                                        const parts = step.split(' ').slice(0, 1);
+                                        const time = parts[0] || '';
+                                        const activity = step.substring(step.indexOf(' ') + 1);
+                                        return `
+                                            <div class="timeline-step">
+                                                <div class="timeline-time">${time}</div>
+                                                <div class="timeline-content">${activity}</div>
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${tips ? `
+                            <div style="background: #fff8f0; border-left: 4px solid #d4a574; padding: 10px; border-radius: 4px; margin-bottom: 12px;">
+                                <div style="font-weight: 600; color: #8b5a3c; margin-bottom: 4px;">💡 在地指南</div>
+                                <div style="color: #555; font-size: 0.9em;">${tips}</div>
+                            </div>
+                        ` : ''}
+
+                        ${flexible && flexible !== '-' ? `
+                            <div style="background: #f0f0fa; border-left: 4px solid #667eea; padding: 10px; border-radius: 4px;">
+                                <div style="font-weight: 600; color: #667eea; margin-bottom: 4px;">🏛️ 博物館卡推薦</div>
+                                <div style="color: #555; font-size: 0.9em;">${flexible}</div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            tabContent.innerHTML = html || '<p style="color: white; text-align: center; padding: 40px;">無行程數據</p>';
+        }
+
+        // 切換景點卡片展開/折疊
+        function toggleAttraction(event) {
+            const card = event.currentTarget;
+            card.classList.toggle('expanded');
+            event.stopPropagation();
         }
 
         // 渲染彈性行程（博物館卡推薦）
