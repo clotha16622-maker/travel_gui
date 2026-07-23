@@ -1,0 +1,320 @@
+{
+  "transport_segments": [
+    {
+      "date": "7/31 (五)",
+      "day_number": 1,
+      "segments": [
+        {
+          "route": "台北 → 阿姆斯特丹",
+          "method": "✈️ 華航 CI73",
+          "details": "台北(TPE) → 阿姆斯特丹(AMS) | 23:10 起飛（長途直飛）",
+          "duration": "約12小時",
+          "booking": "【購票方式】華航官網或旅行社 | 建議72小時前線上Check-in"
+        },
+        {
+          "route": "阿姆斯特丹機場 → 鹿特丹（自駕或朋友接）",
+          "method": "🚗 租車 / 朋友接送",
+          "details": "Schiphol Airport (AMS) → 鹿特丹朋友家 | 建議提前預訂租車公司",
+          "duration": "約1小時車程",
+          "booking": "【租車建議】Hertz/Avis/Budget/Europcar (Schiphol有門市)，提前線上預訂更便宜"
+        },
+        {
+          "route": "鹿特丹 → 萊頓 → 回鹿特丹",
+          "method": "🚗 自駕",
+          "details": "朋友家 → 萊頓（人體博物館）→ 回朋友家（當日往返）",
+          "duration": "約30-35分鐘車程（單程）",
+          "note": "放行李後即出發前往萊頓參加人體博物館行程。無需購票。"
+        }
+      ]
+    },
+    {
+      "date": "8/1 (六)",
+      "day_number": 2,
+      "segments": [
+        {
+          "route": "鹿特丹 → 代爾夫特 → 海牙 → 席凡寧根 → 回鹿特丹",
+          "method": "🚗 自駕",
+          "details": "自駕遊覽代爾夫特古城、海牙、席凡寧根海灘（全程自駕）",
+          "duration": "全日遊覽",
+          "note": "無需購票。建議停靠Café du Midi早餐。停車可用欧元硬幣或停車卡。"
+        }
+      ]
+    },
+    {
+      "date": "8/2 (日)",
+      "day_number": 3,
+      "segments": [
+        {
+          "route": "鹿特丹 → 小孩堤防 → 多德雷赫特 → 回鹿特丹",
+          "method": "🚗 自駕",
+          "details": "鹿特丹朋友家 → 小孩堤防(Kinderdijk) | 停車€9.50/車（含接駁巴士） → 多德雷赫特古城 → 回鹿特丹",
+          "duration": "全日遠征",
+          "note": "小孩堤防風車每週六14:00-17:30轉動。停車費是該景點唯一收費。無需購火車票。"
+        }
+      ]
+    },
+    {
+      "date": "8/3 (一)",
+      "day_number": 4,
+      "segments": [
+        {
+          "route": "鹿特丹 → 阿姆斯特丹",
+          "method": "🚂 NS 火車",
+          "details": "鹿特丹Centraal → 阿姆斯特丹Sloterdijk | 路線代號：Sprinter IC | 每小時多班",
+          "duration": "約1小時10分鐘",
+          "booking": "【購票方式】NS官網(ns.nl) / OMIO app / 車站購票機 | €18.90起 | 可選購OV-chipkaart重複使用",
+          "note": "移動日。推薦搭乘上午火車，到達飯店後立即進安妮之家（13:30預約）。晚間20:30運河遊船賞黃昏。"
+        }
+      ]
+    },
+    {
+      "date": "8/4 (二)",
+      "day_number": 5,
+      "segments": [
+        {
+          "route": "Hotel2stay → Museumplein(梵谷&國家博物館)",
+          "method": "🚊 GVB 電車",
+          "details": "飯店 → Tram 7/10/13號 → Museumplein站 | 路線代號：GVB Amsterdam | 經常班次",
+          "duration": "約10-15分鐘",
+          "booking": "【購票方式】買GVB 24H票€8.50 或 48H票€13.50 | 或用OV-chipkaart儲值 | 飯店/車站售票機購買"
+        },
+        {
+          "route": "Museumplein館區漫遊 + Vondelpark",
+          "method": "🚶 步行 / 🚊 短程電車",
+          "details": "梵谷博物館 → 國家博物館 (步行5分鐘) → 馮德爾公園 (步行或電車)",
+          "duration": "無固定",
+          "note": "【大魔王一日雙館行程】11:00梵谷、13:00RIJKS餐廳午餐、14:00國家博物館、17:00馮德爾公園。用GVB票無限次搭乘。"
+        }
+      ]
+    },
+    {
+      "date": "8/5 (三)",
+      "day_number": 6,
+      "segments": [
+        {
+          "route": "阿姆斯特丹 → 烏特勒支 → 羊角村",
+          "method": "🚂 NS 火車",
+          "details": "阿姆斯特丹Sloterdijk → 烏特勒支Centraal (路線代號:Sprinter/IC) → Kampen轉車到羊角村(Giethoorn)",
+          "duration": "約1.5小時（含轉車）",
+          "booking": "【購票方式】NS官網/OMIO分段購票 | Amsterdam→Utrecht €7.50 + Utrecht→Kampen €7-10 | 或1日交通卡"
+        },
+        {
+          "route": "羊角村自駕電動平底船",
+          "method": "🛶 電動平底船 Zwaantje",
+          "details": "羊角村自駕電動船（無駕照也可開） | 線上預訂必填：zwaantje.nl | 費用：€50/艘",
+          "duration": "約2小時體驗",
+          "booking": "⚠️ 【務必提前線上預訂】盛夏(8月)是旺季，不預訂會沒位子！需信用卡+驗證碼",
+          "note": "天氣好時很熱，帶防曬霜。全程自駕穩定平順，無需駕照。原路火車回阿姆斯特丹。"
+        }
+      ]
+    },
+    {
+      "date": "8/6 (四)",
+      "day_number": 7,
+      "segments": [
+        {
+          "route": "阿姆斯特丹市區 - 市中心景點",
+          "method": "🚶 步行 / 🚊 GVB電車",
+          "details": "飯店 → 辛格花市 → 水壩廣場 → 林布蘭故居 → 德瓦倫紅燈區 | 路線代號：GVB Tram 1/2/5/9等 | 步行或短程電車",
+          "duration": "無固定",
+          "booking": "【購票方式】延用GVB 24H/48H票，或OV-chipkaart儲值 | 無須另購票",
+          "note": "【阿姆斯特丹市區漫遊】下午林布蘭故居享強勁冷氣。傍晚德瓦倫紅燈區晚餐。市中心景點距離近，步行最便利。"
+        }
+      ]
+    },
+    {
+      "date": "8/7 (五)",
+      "day_number": 8,
+      "segments": [
+        {
+          "route": "阿姆斯特丹 → 烏特勒支",
+          "method": "🚂 NS 火車",
+          "details": "阿姆斯特丹Sloterdijk → 烏特勒支Centraal | 路線代號：Sprinter/IC | 每30分鐘一班",
+          "duration": "約45分鐘",
+          "booking": "【購票方式】NS官網/OMIO / 車站購票機 | €8.50起 | 或延用前日OV-chipkaart",
+          "note": "NH Hotel位於中央車站旁，交通極便。到飯店後可即刻放行李開始市區探索。"
+        }
+      ]
+    },
+    {
+      "date": "8/8 (六)",
+      "day_number": 9,
+      "segments": [
+        {
+          "route": "烏特勒支 → 梵谷森林（庫勒-慕勒美術館）",
+          "method": "🚂 NS 火車 + 🚌 公車",
+          "details": "烏特勒支Centraal → Ede-Wageningen (路線代號:Sprinter IC, 30分) → 公車106/108 (Connexxion營運) → 庫勒-慕勒美術館入口 (30分)",
+          "duration": "約1小時轉運",
+          "booking": "【購票方式】NS火車+公車聯票 | Utrecht→Ede€5.50 + 公車€5 | 或在Ede車站買聯票€12.50 (優惠)"
+        },
+        {
+          "route": "館區內騎白單車漫遊",
+          "method": "🚲 免費白單車",
+          "details": "園區內免費租白單車（需租車證件），在森林與雕塑間穿梭 | 路線：高景國家公園(Hoge Veluwe National Park)",
+          "duration": "無固定（建議3-4小時）",
+          "booking": "【白單車】免費租賃（園區費用已含） | 需返還車輛方可出園",
+          "note": "原路同班次火車+公車回烏特勒支。白單車狀況佳，推薦帶防曬&水。"
+        }
+      ]
+    },
+    {
+      "date": "8/9 (日)",
+      "day_number": 10,
+      "segments": [
+        {
+          "route": "烏特勒支 → 德哈爾城堡",
+          "method": "🚂 NS 火車 + 🚌 公車",
+          "details": "烏特勒支Centraal → Vleuten (約15分) → 公車127號 → 德哈爾城堡(Kasteel de Haar) | 路線代號：Connexxion 127",
+          "duration": "約30-40分鐘（含轉運）",
+          "booking": "【購票方式】NS火車€3.50 + 公車€3 | 或Vleuten車站買聯票€7.50 | 城堡門票另計(約€15)"
+        },
+        {
+          "route": "回市區 → 米飛兔博物館",
+          "method": "🚂 NS 火車 / 🚶 步行",
+          "details": "公車127反向 → Vleuten → NS火車回烏特勒支Centraal | 米飛兔博物館在市中心Neude廣場步行距離",
+          "duration": "無固定",
+          "booking": "【購票方式】原路返回 | 城堡開放時間：通常10:00-17:00 (確認季節)",
+          "note": "⚠️ 德哈爾城堡需提前線上預約導覽時間。8月尚可，9月全月不開放（私人活動）。米飛兔博物館位於Centraal西側。"
+        }
+      ]
+    },
+    {
+      "date": "8/10 (一)",
+      "day_number": 11,
+      "segments": [
+        {
+          "route": "烏特勒支 → 德國科隆",
+          "method": "🚂 ICE 123 高速列車",
+          "details": "烏特勒支Centraal → 科隆Hauptbahnhof (Köln Hbf) | 11:02 出發 | 路線代號：ICE 123 | 跨國高速列車（最高300km/h）",
+          "duration": "約2小時",
+          "booking": "✅ 已購票 | 班次：ICE 123 | 機票類：Flexpreis（靈活票型）",
+          "note": "【盛大周年慶！】高速列車，下午14:00左右抵達。直奔大教堂(Kölner Dom)與霍亨索倫橋(Hohenzollernbrücke)。飯店Marriott位於Johannisstrasse (大教堂附近)。"
+        }
+      ]
+    },
+    {
+      "date": "8/11 (二)",
+      "day_number": 12,
+      "segments": [
+        {
+          "route": "科隆 → 法蘭克福",
+          "method": "🚂 ICE 高速列車",
+          "details": "科隆Hauptbahnhof → 法蘭克福Hauptbahnhof | 13:18 出發 | 路線代號：ICE (DB德鐵營運) | 高速列車",
+          "duration": "約1小時5分鐘",
+          "booking": "【購票方式】需購票 | 德鐵官網db.de或OMIO | Flexpreis€89-150 / Sparpreis€29起"
+        },
+        {
+          "route": "法蘭克福 → 飯店(Hauptwache)",
+          "method": "🚆 S-Bahn 7/8線",
+          "details": "法蘭克福Hauptbahnhof → Hauptwache (中央車站轉運中心) | 路線代號：S7 / S8 | 班次頻繁(每10分)",
+          "duration": "約5分鐘",
+          "booking": "【購票方式】Frankfurt Card (1日€12.50 / 2日€20) | 包含所有S-Bahn/U-Bahn + 美術館折扣",
+          "note": "Residence Inn Hauptwache飯店地址：Stiftstrasse 43 | 位於Hauptwache S-Bahn出口旁。下午直奔羅馬廣場(Römerberg)與美因鐵橋。"
+        }
+      ]
+    },
+    {
+      "date": "8/12 (三)",
+      "day_number": 13,
+      "segments": [
+        {
+          "route": "法蘭克福 → 海德堡",
+          "method": "🚂 S-Bahn 1線 / 🚂 RE區域列車",
+          "details": "法蘭克福Hauptbahnhof → 海德堡Hauptbahnhof | 07:45出發 | 路線代號：S1 Richtung Heidelberg / RE Mannheim",
+          "duration": "約1小時"
+        },
+        {
+          "route": "海德堡車站 → 纜車站(Bergbahn)",
+          "method": "🚌 公車33號",
+          "details": "海德堡Hbf → Rathaus/Bergbahn纜車站 | 路線代號：ÖPNV Heidelberg 33 | 班次頻繁",
+          "duration": "約10分鐘"
+        },
+        {
+          "route": "上山遊覽城堡與山頂景點",
+          "method": "🚡 纜車Bergbahn",
+          "details": "Bergbahn分上下兩段 | 下段→海德堡古堡(Heidelberg Castle)，上段→哲學家小徑(Philosophenweg) | 往返票€14.40",
+          "duration": "上下共約14分鐘",
+          "booking": "【購票方式】Heidelberg Card (1日€19.50) | 包含所有公車+纜車無限次 + 景點折扣"
+        },
+        {
+          "route": "回法蘭克福",
+          "method": "🚂 S-Bahn 1線",
+          "details": "海德堡Hbf → 法蘭克福Hauptbahnhof | 回程班次：17:30 / 18:30 | 原路同線返回",
+          "duration": "約1小時",
+          "note": "【海德堡深度一日遊行程】多石磚斜坡路，穿防滑球鞋。建議下午16:00前下山，趕17:30班車回法蘭克福。"
+        }
+      ]
+    },
+    {
+      "date": "8/13 (四)",
+      "day_number": 14,
+      "segments": [
+        {
+          "route": "飯店 → 采爾大道購物街(Zeil)",
+          "method": "🚶 步行",
+          "details": "Hauptwache飯店正對面就是采爾大道 | 全德最長購物街 | 步行路線：Hauptwache → Zeil → Konstablerwache",
+          "duration": "步行5分"
+        },
+        {
+          "route": "羅馬廣場(Römerberg) & 歌德大街(Goethestrasse)",
+          "method": "🚶 步行",
+          "details": "采爾大道南端 → 羅馬廣場(Frankfurt Altstadt) | 相鄰景點步行串連 | 法蘭克福老城中心",
+          "duration": "步行15分"
+        },
+        {
+          "route": "Main Tower 53樓晚宴",
+          "method": "🚆 S-Bahn / 🚶 步行",
+          "details": "Hauptwache → Main Tower (Main站附近) | 搭S-Bahn (往Main下車) 或步行可達 | 高空233米視野",
+          "duration": "無固定",
+          "booking": "【晚宴預約】需提前線上預約 | 18:30進場用餐 | 【重要】18:15前到達做安檢",
+          "note": "【終極精品採購日 → 高空晚宴】下午血拼(可退稅，德國滿€50即可退稅)。晚18:30 Main Tower 53樓餐廳用晚餐。務必帶護照做退稅申請！"
+        }
+      ]
+    },
+    {
+      "date": "8/14 (五)",
+      "day_number": 15,
+      "segments": [
+        {
+          "route": "飯店 → 法蘭克福機場",
+          "method": "🚆 S-Bahn 8/9",
+          "details": "Hauptwache → 法蘭克福機場一航 (Airport 1)",
+          "duration": "約11分鐘"
+        },
+        {
+          "route": "機場航廈間轉運",
+          "method": "🚝 Skyline",
+          "details": "機場一航 → 二航(D區華航)",
+          "duration": "無固定"
+        },
+        {
+          "route": "法蘭克福 → 台北（回程）",
+          "method": "✈️ 華航 CI62",
+          "details": "法蘭克福(FRA) → 台北(TPE) | 11:15 起飛 | 長途直飛返台",
+          "duration": "約12小時"
+        }
+      ],
+      "segments": [
+        {
+          "route": "飯店Hauptwache → 法蘭克福機場(Terminal 1)",
+          "method": "🚆 S-Bahn 8/9線",
+          "details": "Hauptwache → 法蘭克福機場一航 (Frankfurt am Main Flughafen Terminal 1) | 路線代號：S8/S9 方向Airport | 班次每15分鐘",
+          "duration": "約11分鐘直達"
+        },
+        {
+          "route": "Terminal 1 → Terminal 2 (華航位置)",
+          "method": "🚝 Skyline / 🚶 步行",
+          "details": "Frankfurt Airport Skyline天空步道或步行 | 華航位於T2 D區 | 相鄰航廈",
+          "duration": "約10分鐘"
+        },
+        {
+          "route": "法蘭克福 → 台北（回程）",
+          "method": "✈️ 華航 CI62",
+          "details": "法蘭克福(FRA) → 台北(TPE) | 11:15 起飛 | 路線：CI62 | 長途直飛返台",
+          "duration": "約12小時"
+        }
+      ],
+      "note": "【今日Check-out返台】早出07:30離飯店 → 07:55抵達二航T2準備開櫃。08:15華航check-in（退稅物品先跟櫃台說，他們會協助辦理） → 08:30海關退稅 → 09:30出境免稅店最後血拼 → 11:15起飛返台。需帶護照+機票+退稅單。"
+    }
+  ]
+}

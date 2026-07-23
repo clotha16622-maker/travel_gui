@@ -605,6 +605,540 @@
             margin: 4px 4px 4px 0;
         }
 
+        /* Museum Card Details */
+        .museum-card-detail {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(102, 126, 234, 0.15);
+        }
+
+        .museum-card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .museum-card-subtitle {
+            font-size: 0.85em;
+            color: #999;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .museum-card-section {
+            margin-bottom: 8px;
+            display: grid;
+            grid-template-columns: 90px 1fr;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .museum-card-label {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+
+        .museum-card-value {
+            color: #555;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        /* Museum Card Collapsible */
+        .museum-card-container {
+            background: #f0f0fa;
+            border-left: 4px solid #667eea;
+            padding: 0;
+            border-radius: 4px;
+            margin-top: 12px;
+        }
+
+        .museum-card-header {
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #667eea;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        .museum-card-header:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .museum-card-toggle {
+            display: inline-block;
+            transition: transform 0.3s;
+            font-size: 1.2em;
+        }
+
+        .museum-card-container.expanded .museum-card-toggle {
+            transform: rotate(180deg);
+        }
+
+        .museum-card-content {
+            display: none;
+            padding: 0 12px 12px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .museum-card-container.expanded .museum-card-content {
+            display: block;
+            max-height: 2000px;
+            transition: max-height 0.3s ease-in;
+        }
+
+        /* Hotel Card */
+        .hotel-card {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(212, 165, 116, 0.2);
+            border-left: 4px solid #d4a574;
+        }
+
+        .hotel-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .hotel-subtitle {
+            font-size: 0.85em;
+            color: #999;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .hotel-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .hotel-info-item {
+            background: #fffbf7;
+            padding: 8px;
+            border-radius: 4px;
+            border-left: 2px solid #d4a574;
+        }
+
+        .hotel-label {
+            font-weight: 600;
+            color: #d4a574;
+            font-size: 0.85em;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .hotel-value {
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        .hotel-section {
+            margin-top: 8px;
+            padding: 8px;
+            background: #fffbf7;
+            border-radius: 4px;
+            border-left: 2px solid #d4a574;
+        }
+
+        /* Transport */
+        .transport-container {
+            display: grid;
+            gap: 20px;
+        }
+
+        .transport-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .transport-day-header {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 12px;
+            align-items: start;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .transport-date {
+            font-size: 0.9em;
+            font-weight: 700;
+            color: #667eea;
+            background: #e8f0ff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .transport-route {
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        .transport-segment {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .transport-segment:last-child {
+            margin-bottom: 0;
+        }
+
+        .transport-method {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+
+        .transport-info {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .transport-duration {
+            display: inline-block;
+            background: #e8f0ff;
+            color: #667eea;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .transport-note {
+            background: #fff8e1;
+            padding: 10px;
+            border-left: 3px solid #ffc107;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: #856404;
+            margin-top: 8px;
+        }
+
+        /* Packing List */
+        .packing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .packing-header h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        .packing-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .export-btn, .clear-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+
+        .export-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .export-btn:hover {
+            background: #5568d3;
+        }
+
+        .clear-btn {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .clear-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .packing-stats {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .packing-container {
+            display: grid;
+            gap: 20px;
+        }
+
+        .packing-category {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .packing-category-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .packing-items {
+            display: grid;
+            gap: 8px;
+        }
+
+        .packing-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #f0f0f0;
+        }
+
+        .packing-item:hover {
+            background: #f0f1fa;
+            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.1);
+        }
+
+        .packing-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            margin-right: 12px;
+            accent-color: #667eea;
+        }
+
+        .packing-item-name {
+            flex: 1;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        .packing-item.checked .packing-item-name {
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .packing-priority {
+            font-size: 0.75em;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .priority-essential {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .priority-important {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .priority-useful {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        /* Flexible Location Groups */
+        .flexible-location-group {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .flexible-location-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .flexible-cards-group {
+            display: grid;
+            gap: 12px;
+        }
+
+        .flexible-card {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 12px;
+            border-left: 3px solid #667eea;
+        }
+
+        .flexible-day {
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 6px;
+        }
+
+        .flexible-highlights {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 8px;
+            padding: 6px 0;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .flexible-content {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+
+        /* City Recommendations */
+        .city-recommendations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .recommendation-section {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+        }
+
+        .recommendation-title {
+            font-size: 0.95em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .recommendation-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .recommendation-list li {
+            font-size: 0.85em;
+            color: #555;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .recommendation-list li:before {
+            content: "•";
+            position: absolute;
+            left: 8px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .recommendation-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Hotel Card Collapsible */
+        .hotel-card-container {
+            background: #fffbf7;
+            border-left: 4px solid #d4a574;
+            padding: 0;
+            border-radius: 4px;
+            margin-top: 12px;
+            cursor: pointer;
+        }
+
+        .hotel-card-header {
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #8b5a3c;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        .hotel-card-header:hover {
+            background: rgba(212, 165, 116, 0.1);
+        }
+
+        .hotel-card-toggle {
+            display: inline-block;
+            transition: transform 0.3s;
+            font-size: 1.2em;
+            color: #d4a574;
+        }
+
+        .hotel-card-container.expanded .hotel-card-toggle {
+            transform: rotate(180deg);
+        }
+
+        .hotel-card-content {
+            display: none;
+            padding: 0 12px 12px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .hotel-card-container.expanded .hotel-card-content {
+            display: block;
+            max-height: 2000px;
+            transition: max-height 0.3s ease-in;
+        }
+
         .empty-flexible {
             text-align: center;
             padding: 40px 20px;
@@ -783,21 +1317,16 @@
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('overview')">📋 每日概覽</button>
-            <button class="tab-btn" onclick="switchTab('timeline')">📍 時間線</button>
-            <button class="tab-btn" onclick="switchTab('cards')">🎴 每日卡片</button>
-            <button class="tab-btn" onclick="switchTab('map')">🗺️ 互動地圖</button>
+            <button class="tab-btn active" onclick="switchTab('cards')">🎴 簡要概覽</button>
+            <button class="tab-btn" onclick="switchTab('overview')">📅 每日詳情</button>
             <button class="tab-btn" onclick="switchTab('schedule')">⏰ 時間表</button>
-            <button class="tab-btn" onclick="switchTab('flexible')">🏛️ 彈性行程</button>
+            <button class="tab-btn" onclick="switchTab('map')">📍 行程軌跡</button>
+            <button class="tab-btn" onclick="switchTab('flexible')">🍽️ 吃喝玩樂手冊</button>
+            <button class="tab-btn" onclick="switchTab('transport')">🚌 大眾交通</button>
+            <button class="tab-btn" onclick="switchTab('packing')">🎒 打包清單</button>
         </div>
 
-        <div id="overview" class="tab-content active"></div>
-
-        <div id="timeline" class="tab-content">
-            <div class="timeline" id="timelineContainer"></div>
-        </div>
-
-        <div id="cards" class="tab-content">
+        <div id="cards" class="tab-content active">
             <div class="cards-grid" id="cardsContainer"></div>
         </div>
 
@@ -808,12 +1337,30 @@
             <div class="map-legend" id="mapLegend"></div>
         </div>
 
+        <div id="overview" class="tab-content"></div>
+
         <div id="schedule" class="tab-content">
             <div class="schedule" id="scheduleContainer"></div>
         </div>
 
         <div id="flexible" class="tab-content">
             <div class="flexible-container" id="flexibleContainer"></div>
+        </div>
+
+        <div id="transport" class="tab-content">
+            <div class="transport-container" id="transportContainer"></div>
+        </div>
+
+        <div id="packing" class="tab-content">
+            <div class="packing-header">
+                <h2>🎒 旅行打包清單</h2>
+                <div class="packing-buttons">
+                    <button onclick="exportPackingList()" class="export-btn">📥 導出清單</button>
+                    <button onclick="clearPackingChecks()" class="clear-btn">🔄 重置勾選</button>
+                </div>
+            </div>
+            <div class="packing-stats" id="packingStats"></div>
+            <div class="packing-container" id="packingContainer"></div>
         </div>
     </div>
 
@@ -836,6 +1383,11 @@
                 return;
             }
             loadAttractionsData();
+            loadMuseumCardData();
+            loadHotelsData();
+            loadTransportationData();
+            loadPackingListData();
+            loadRecommendationsData();
             loadItinerary(id);
         });
 
@@ -915,10 +1467,12 @@
                 `${travelData.startDate} ✈ ${travelData.endDate}`;
 
             renderDayOverview();
-            renderTimeline();
+            // renderTimeline(); // 已用地圖替代
             renderCards();
             renderSchedule();
             renderFlexible();
+            renderTransport();
+            renderPackingList();
             setTimeout(renderMap, 300);
         }
 
@@ -934,7 +1488,7 @@
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
 
-            if (tabName === 'map' && map) {
+            if (tabName === 'map') {
                 setTimeout(() => {
                     map.invalidateSize();
                     // 重新調整地圖範圍以適應新的容器尺寸
@@ -1029,7 +1583,6 @@
 
                 html += `
                     <div class="card">
-                        <div class="card-date">${date || '待定'}</div>
                         <div class="card-location">${location || '行程'}</div>
 
                         ${accommodation ? `
@@ -1245,8 +1798,13 @@
             container.innerHTML = html || '<div style="padding: 20px; text-align: center; color: #666;">無行程數據</div>';
         }
 
-        // 加載景點資料
+        // 加載景點、博物館卡、飯店、交通、打包清單、推薦資料
         let attractionsData = null;
+        let museumCardData = null;
+        let hotelsData = null;
+        let transportationData = null;
+        let packingListData = null;
+        let recommendationsData = null;
         async function loadAttractionsData() {
             try {
                 const response = await fetch('attractions.json');
@@ -1255,6 +1813,61 @@
                 }
             } catch (error) {
                 console.log('Attractions data not loaded');
+            }
+        }
+
+        async function loadMuseumCardData() {
+            try {
+                const response = await fetch('data/museum_card_details.json');
+                if (response.ok) {
+                    museumCardData = await response.json();
+                }
+            } catch (error) {
+                console.log('Museum card data not loaded');
+            }
+        }
+
+        async function loadHotelsData() {
+            try {
+                const response = await fetch('data/hotels.json');
+                if (response.ok) {
+                    hotelsData = await response.json();
+                }
+            } catch (error) {
+                console.log('Hotels data not loaded');
+            }
+        }
+
+        async function loadTransportationData() {
+            try {
+                const response = await fetch('data/transportation.json');
+                if (response.ok) {
+                    transportationData = await response.json();
+                }
+            } catch (error) {
+                console.log('Transportation data not loaded');
+            }
+        }
+
+        async function loadPackingListData() {
+            try {
+                const response = await fetch('data/packing-list.json');
+                if (response.ok) {
+                    packingListData = await response.json();
+                }
+            } catch (error) {
+                console.log('Packing list data not loaded');
+            }
+        }
+
+        async function loadRecommendationsData() {
+            try {
+                const response = await fetch('data/recommendations.json');
+                if (response.ok) {
+                    recommendationsData = await response.json();
+                }
+            } catch (error) {
+                console.log('Recommendations data not loaded');
             }
         }
 
@@ -1274,6 +1887,86 @@
                 }
             }
             return null;
+        }
+
+        // 獲取博物館卡景點詳細信息
+        function getMuseumCardAttractionInfo(attractionName) {
+            if (!museumCardData) return null;
+
+            // 清理名稱
+            let cleanName = attractionName.trim();
+            cleanName = cleanName.replace(/^🏛️\s*/, '').replace(/：.*$/, '').trim();
+
+            // 搜索匹配
+            for (const [key, data] of Object.entries(museumCardData.museumCardRecommendations || {})) {
+                if (cleanName === key || cleanName.includes(key) || key.includes(cleanName) ||
+                    (data.englishName && cleanName.includes(data.englishName))) {
+                    return { key, ...data };
+                }
+            }
+            return null;
+        }
+
+        // 渲染博物館卡景點詳情卡片
+        function renderMuseumCardAttraction(info) {
+            if (!info) return '';
+
+            return `
+                <div class="museum-card-detail">
+                    <div class="museum-card-title">🏛️ ${info.name}</div>
+                    <div class="museum-card-subtitle">${info.englishName || ''}</div>
+
+                    <div class="museum-card-section">
+                        <div class="museum-card-label">🌍 地點</div>
+                        <div class="museum-card-value">${info.city}</div>
+                    </div>
+
+                    <div class="museum-card-section">
+                        <div class="museum-card-label">📖 簡介</div>
+                        <div class="museum-card-value">${info.description || '--'}</div>
+                    </div>
+
+                    <div class="museum-card-section">
+                        <div class="museum-card-label">⏰ 營業時間</div>
+                        <div class="museum-card-value" style="white-space: pre-line;">${info.openingHours || '--'}</div>
+                    </div>
+
+                    ${info.ticket ? `
+                        <div class="museum-card-section">
+                            <div class="museum-card-label">🎫 票價</div>
+                            <div class="museum-card-value">${info.ticket}</div>
+                        </div>
+                    ` : ''}
+
+                    ${info.duration ? `
+                        <div class="museum-card-section">
+                            <div class="museum-card-label">⏱️ 建議停留時間</div>
+                            <div class="museum-card-value">${info.duration}</div>
+                        </div>
+                    ` : ''}
+
+                    ${info.address ? `
+                        <div class="museum-card-section">
+                            <div class="museum-card-label">📍 地址</div>
+                            <div class="museum-card-value" style="font-size: 0.9em;">${info.address}</div>
+                        </div>
+                    ` : ''}
+
+                    ${info.tips ? `
+                        <div class="museum-card-section">
+                            <div class="museum-card-label">💡 提示</div>
+                            <div class="museum-card-value">${info.tips}</div>
+                        </div>
+                    ` : ''}
+
+                    ${info.website ? `
+                        <div class="museum-card-section">
+                            <div class="museum-card-label">🌐 官網</div>
+                            <div class="museum-card-value"><a href="https://${info.website}" target="_blank" style="color: #667eea; text-decoration: none;">${info.website}</a></div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
         }
 
         // 渲染新的日視圖（一目了然）
@@ -1314,13 +2007,29 @@
                                     <div class="day-info-content">${location}</div>
                                 </div>
                             ` : ''}
-                            ${accommodation ? `
-                                <div class="day-info-item">
+                        </div>
+
+                        ${(() => {
+                            if (!accommodation || accommodation === '-') return '';
+                            const hotelMatch = accommodation.match(/【[^】]+】\s*([^（]+)/);
+                            const hotelName = hotelMatch ? hotelMatch[1].trim() : null;
+                            const hotelInfo = hotelName ? getHotelInfo(hotelName) : null;
+                            if (!hotelInfo) {
+                                return `<div class="day-info-item" style="margin-top: 12px;">
                                     <div class="day-info-label">🏨 住宿</div>
                                     <div class="day-info-content">${accommodation}</div>
+                                </div>`;
+                            }
+                            return `<div class="hotel-card-container" onclick="toggleHotelCard(event)">
+                                <div class="hotel-card-header">
+                                    <span>🏨 ${accommodation}</span>
+                                    <span class="hotel-card-toggle">▼</span>
                                 </div>
-                            ` : ''}
-                        </div>
+                                <div class="hotel-card-content">
+                                    ${renderHotelCard(hotelInfo)}
+                                </div>
+                            </div>`;
+                        })()}
 
                         ${highlights ? `
                             <div style="margin-bottom: 15px;">
@@ -1378,9 +2087,42 @@
                         ` : ''}
 
                         ${flexible && flexible !== '-' ? `
-                            <div style="background: #f0f0fa; border-left: 4px solid #667eea; padding: 10px; border-radius: 4px;">
-                                <div style="font-weight: 600; color: #667eea; margin-bottom: 4px;">🏛️ 博物館卡推薦</div>
-                                <div style="color: #555; font-size: 0.9em;">${flexible}</div>
+                            <div class="museum-card-container" onclick="toggleMuseumCard(event)">
+                                <div class="museum-card-header">
+                                    <span>${getFlexibleTitle(date)}</span>
+                                    <span class="museum-card-toggle">▼</span>
+                                </div>
+                                <div class="museum-card-content">
+                                    <div style="color: #555; font-size: 0.9em; margin-bottom: 12px; padding-top: 8px;">${flexible}</div>
+
+                                    ${(() => {
+                                        // 提取推薦景點名稱（去掉圖標和冒號之後的部分）
+                                        const attractionMatches = flexible.match(/[🏛️☕🛍️🌲🎓]+\s*[^：\n]+/g) || [];
+
+                                        // 計算該日期有多少個景點有博物館卡支援
+                                        let cardCount = 0;
+                                        const withCardInfo = attractionMatches.map(match => {
+                                            const cleanName = match.replace(/^[🏛️☕🛍️🌲🎓]+\s*/, '');
+                                            const hasCard = checkMuseumCardSupport(cleanName);
+                                            if (hasCard) cardCount++;
+                                            return { cleanName, hasCard, match };
+                                        });
+
+                                        return withCardInfo.map((item, idx) => {
+                                            const info = getMuseumCardAttractionInfo(item.match);
+                                            let headerHtml = `<div style="color: #666; font-size: 0.9em;">
+                                                ${item.cleanName}
+                                                ${item.hasCard ? '<span style="background: #fff3cd; color: #856404; padding: 2px 6px; border-radius: 3px; font-size: 0.75em; margin-left: 6px; font-weight: 600;">🎫 博物館卡免費</span>' : ''}
+                                            </div>`;
+
+                                            return `
+                                                <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(102, 126, 234, 0.2);">
+                                                    ${info ? renderMuseumCardAttraction(info) : headerHtml}
+                                                </div>
+                                            `;
+                                        }).join('');
+                                    })()}
+                                </div>
                             </div>
                         ` : ''}
                     </div>
@@ -1397,12 +2139,145 @@
             event.stopPropagation();
         }
 
-        // 渲染彈性行程（博物館卡推薦）
+        // 返回統一的推薦行程標題
+        function getFlexibleTitle(dateStr) {
+            return '🎯 其他推薦行程';
+        }
+
+        // 檢查景點是否有博物館卡支援
+        function checkMuseumCardSupport(attractionName) {
+            if (!museumCardData) return null;
+
+            // 遍歷所有博物館卡景點
+            for (const [key, museum] of Object.entries(museumCardData.museumCardRecommendations || {})) {
+                if (museum.name.includes(attractionName) || attractionName.includes(museum.name)) {
+                    return museum;
+                }
+            }
+            return null;
+        }
+
+        // 為景點添加博物館卡標注
+        function getAttractionWithCardMark(attractionName) {
+            const museum = checkMuseumCardSupport(attractionName);
+            if (museum) {
+                return `${attractionName} <span style="background: #fff3cd; color: #856404; padding: 2px 6px; border-radius: 3px; font-size: 0.75em; margin-left: 4px; font-weight: 600;">🎫 博物館卡免費</span>`;
+            }
+            return attractionName;
+        }
+
+        // 切換博物館卡容器展開/折疊
+        function toggleMuseumCard(event) {
+            const container = event.currentTarget;
+            container.classList.toggle('expanded');
+            event.stopPropagation();
+        }
+
+        // 切換飯店卡容器展開/折疊
+        function toggleHotelCard(event) {
+            const container = event.currentTarget;
+            container.classList.toggle('expanded');
+            event.stopPropagation();
+        }
+
+        // 獲取飯店信息
+        function getHotelInfo(hotelName) {
+            if (!hotelsData) return null;
+
+            // 清理名稱
+            let cleanName = hotelName.trim().replace(/（.*）/, '').trim();
+
+            // 搜索匹配
+            for (const [key, data] of Object.entries(hotelsData.hotels || {})) {
+                if (cleanName === data.name || cleanName.includes(data.name) || data.name.includes(cleanName) ||
+                    (data.englishName && cleanName.includes(data.englishName))) {
+                    return { key, ...data };
+                }
+            }
+            return null;
+        }
+
+        // 渲染飯店卡片
+        function renderHotelCard(info) {
+            if (!info) return '';
+
+            return `
+                <div class="hotel-card">
+                    <div class="hotel-title">🏨 ${info.name}</div>
+                    ${info.englishName ? `<div class="hotel-subtitle">${info.englishName}</div>` : ''}
+
+                    <div class="hotel-info-grid">
+                        <div class="hotel-info-item">
+                            <div class="hotel-label">🌍 城市</div>
+                            <div class="hotel-value">${info.city}</div>
+                        </div>
+                        <div class="hotel-info-item">
+                            <div class="hotel-label">🌙 晚數</div>
+                            <div class="hotel-value">${info.nights}晚</div>
+                        </div>
+                    </div>
+
+                    ${info.highlights ? `
+                        <div class="hotel-section">
+                            <div class="hotel-label">✨ 特色</div>
+                            <div class="hotel-value">${info.highlights}</div>
+                        </div>
+                    ` : ''}
+
+                    ${info.notes ? `
+                        <div class="hotel-section">
+                            <div class="hotel-label">📝 備註</div>
+                            <div class="hotel-value">${info.notes}</div>
+                        </div>
+                    ` : ''}
+
+                    ${info.address && info.address !== '待補充' ? `
+                        <div class="hotel-section">
+                            <div class="hotel-label">📍 地址</div>
+                            <div class="hotel-value" style="font-size: 0.9em;">${info.address}</div>
+                        </div>
+                    ` : ''}
+
+                    ${info.phone && info.phone !== '待補充' ? `
+                        <div class="hotel-section">
+                            <div class="hotel-label">☎️ 電話</div>
+                            <div class="hotel-value">${info.phone}</div>
+                        </div>
+                    ` : ''}
+
+                    ${info.email ? `
+                        <div class="hotel-section">
+                            <div class="hotel-label">✉️ 郵箱</div>
+                            <div class="hotel-value"><a href="mailto:${info.email}" style="color: #667eea; text-decoration: none;">${info.email}</a></div>
+                        </div>
+                    ` : ''}
+
+                    ${info.website ? `
+                        <div class="hotel-section">
+                            <div class="hotel-label">🌐 官網</div>
+                            <div class="hotel-value"><a href="https://${info.website}" target="_blank" style="color: #667eea; text-decoration: none;">${info.website}</a></div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        // 提取地點（城市名稱）
+        function extractCity(locationStr) {
+            if (!locationStr) return '其他';
+            // 提取第一個地點作為主城市
+            const cities = locationStr.split('➔').map(s => s.trim());
+            return cities[0] || '其他';
+        }
+
+        // 渲染彈性行程（按地點分類的博物館卡推薦）
         function renderFlexible() {
             const container = document.getElementById('flexibleContainer');
             const itinerary = travelData.itinerary || [];
 
-            let html = '';
+            // 按地點分組
+            const locationGroups = {};
+
             itinerary.forEach((day, index) => {
                 if (!day || typeof day !== 'object') return;
 
@@ -1414,27 +2289,299 @@
                 // 只顯示有博物館卡推薦且不是"-"的行程
                 if (!flexible || flexible === '-' || !date) return;
 
-                html += `
-                    <div class="flexible-card">
-                        <div class="flexible-day">${date}</div>
-                        ${location ? `<div class="flexible-location">${location}</div>` : ''}
-                        ${highlights ? `<div class="flexible-highlights"><strong>景點：</strong> ${highlights}</div>` : ''}
-                        <div class="flexible-content">
-                            ${flexible}
-                        </div>
-                    </div>
-                `;
+                const city = extractCity(location);
+
+                if (!locationGroups[city]) {
+                    locationGroups[city] = [];
+                }
+
+                locationGroups[city].push({
+                    date,
+                    location,
+                    highlights,
+                    flexible
+                });
             });
 
-            if (html) {
-                container.innerHTML = html;
-            } else {
+            let html = '';
+            // 按照行程順序排列城市
+            const cityOrder = [
+                '鹿特丹', '代爾夫特', '海牙', '阿姆斯特丹', '羊角村',
+                '烏特勒支', '梵谷森林', '科隆', '法蘭克福', '海德堡'
+            ];
+            const cities = cityOrder.filter(city => locationGroups[city]);
+
+            if (cities.length === 0) {
                 container.innerHTML = `
                     <div class="empty-flexible" style="grid-column: 1 / -1;">
                         <div class="empty-flexible-icon">🏛️</div>
                         <p>暫無博物館卡推薦</p>
                     </div>
                 `;
+                return;
+            }
+
+            cities.forEach(city => {
+                const recs = recommendationsData?.city_recommendations?.[city] || {};
+
+                html += `
+                    <div class="flexible-location-group">
+                        <div class="flexible-location-title">📍 ${city}</div>
+
+                        <div class="flexible-cards-group">
+                `;
+
+                locationGroups[city].forEach(item => {
+                    html += `
+                        <div class="flexible-card">
+                            ${item.highlights ? `<div class="flexible-highlights"><strong>景點：</strong> ${item.highlights}</div>` : ''}
+                            <div class="flexible-content">
+                                ${item.flexible}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `
+                        </div>
+
+                        <div class="city-recommendations">
+                `;
+
+                // 推薦小吃
+                if (recs.snacks && recs.snacks.length > 0) {
+                    html += `
+                        <div class="recommendation-section">
+                            <div class="recommendation-title">🍽️ 必吃小吃</div>
+                            <ul class="recommendation-list">
+                    `;
+                    recs.snacks.forEach(snack => {
+                        html += `<li>${snack}</li>`;
+                    });
+                    html += `
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                // 推薦餐廳
+                if (recs.restaurants && recs.restaurants.length > 0) {
+                    html += `
+                        <div class="recommendation-section">
+                            <div class="recommendation-title">🍴 推薦餐廳</div>
+                            <ul class="recommendation-list">
+                    `;
+                    recs.restaurants.forEach(restaurant => {
+                        html += `<li>${restaurant}</li>`;
+                    });
+                    html += `
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                // 推薦紀念品
+                if (recs.souvenirs && recs.souvenirs.length > 0) {
+                    html += `
+                        <div class="recommendation-section">
+                            <div class="recommendation-title">🎁 紀念品推薦</div>
+                            <ul class="recommendation-list">
+                    `;
+                    recs.souvenirs.forEach(souvenir => {
+                        html += `<li>${souvenir}</li>`;
+                    });
+                    html += `
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // 渲染大眾交通
+        function renderTransport() {
+            const container = document.getElementById('transportContainer');
+
+            if (!transportationData || !transportationData.transport_segments) {
+                container.innerHTML = '<div style="padding: 20px; text-align: center; color: #999;">無交通數據</div>';
+                return;
+            }
+
+            let html = '';
+            transportationData.transport_segments.forEach(day => {
+                html += `
+                    <div class="transport-card">
+                        <div class="transport-day-header">
+                            <div class="transport-date">${day.date}</div>
+                            <div class="transport-route">${day.segments.map(s => s.route).join(' → ')}</div>
+                        </div>
+                `;
+
+                day.segments.forEach(segment => {
+                    html += `
+                        <div class="transport-segment">
+                            <div class="transport-method">${segment.method}</div>
+                            <div class="transport-info">
+                                ${segment.details}
+                                ${segment.duration ? `<div class="transport-duration">⏱️ ${segment.duration}</div>` : ''}
+                            </div>
+                            ${segment.booking ? `<div class="transport-note" style="background: #e3f2fd; border-left-color: #2196f3; color: #1565c0;">🎫 ${segment.booking}</div>` : ''}
+                            ${segment.note ? `<div class="transport-note">💡 ${segment.note}</div>` : ''}
+                        </div>
+                    `;
+                });
+
+                if (day.note) {
+                    html += `<div class="transport-note">💡 ${day.note}</div>`;
+                }
+
+                html += `</div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // 打包清單相關函數
+        function getPackingState() {
+            const saved = localStorage.getItem('packingListState');
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function savePackingState(state) {
+            localStorage.setItem('packingListState', JSON.stringify(state));
+        }
+
+        function togglePackingItem(itemId) {
+            const state = getPackingState();
+            state[itemId] = !state[itemId];
+            savePackingState(state);
+            updatePackingStats();
+
+            const checkbox = document.querySelector(`input[data-item-id="${itemId}"]`);
+            if (checkbox) {
+                const itemDiv = checkbox.closest('.packing-item');
+                itemDiv.classList.toggle('checked', checkbox.checked);
+            }
+        }
+
+        function updatePackingStats() {
+            const state = getPackingState();
+            if (!packingListData) return;
+
+            let totalItems = 0;
+            let checkedItems = 0;
+
+            packingListData.packing_categories.forEach(category => {
+                category.items.forEach(item => {
+                    // 只計算 essential 和 important 的物品
+                    if (item.priority === 'essential' || item.priority === 'important') {
+                        totalItems++;
+                        if (state[item.id]) checkedItems++;
+                    }
+                });
+            });
+
+            const percentage = totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0;
+            const statsDiv = document.getElementById('packingStats');
+            statsDiv.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong>📌 必備物品進度：${checkedItems} / ${totalItems} 項</strong>
+                        <div style="margin-top: 8px; height: 6px; background: rgba(255,255,255,0.3); border-radius: 3px; overflow: hidden;">
+                            <div style="height: 100%; width: ${percentage}%; background: #4caf50; transition: width 0.3s;"></div>
+                        </div>
+                    </div>
+                    <div style="font-size: 1.5em; font-weight: 800;">${percentage}%</div>
+                </div>
+            `;
+        }
+
+        function renderPackingList() {
+            const container = document.getElementById('packingContainer');
+
+            if (!packingListData || !packingListData.packing_categories) {
+                container.innerHTML = '<div style="padding: 20px; text-align: center; color: #999;">無打包清單數據</div>';
+                return;
+            }
+
+            const state = getPackingState();
+            let html = '';
+
+            packingListData.packing_categories.forEach(category => {
+                html += `
+                    <div class="packing-category">
+                        <div class="packing-category-title">${category.icon} ${category.category}</div>
+                        <div class="packing-items">
+                `;
+
+                category.items.forEach(item => {
+                    const isChecked = state[item.id] || false;
+                    const priorityClass = `priority-${item.priority}`;
+                    const itemCheckedClass = isChecked ? 'checked' : '';
+
+                    html += `
+                        <label class="packing-item ${itemCheckedClass}">
+                            <input
+                                type="checkbox"
+                                data-item-id="${item.id}"
+                                ${isChecked ? 'checked' : ''}
+                                onchange="togglePackingItem('${item.id}')"
+                            >
+                            <span class="packing-item-name">${item.name}</span>
+                            <span class="packing-priority ${priorityClass}">${item.priority}</span>
+                        </label>
+                    `;
+                });
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            updatePackingStats();
+        }
+
+        function exportPackingList() {
+            if (!packingListData) return;
+
+            const state = getPackingState();
+            let csvContent = '分類,物品,優先度,已勾選\\n';
+
+            packingListData.packing_categories.forEach(category => {
+                category.items.forEach(item => {
+                    const isChecked = state[item.id] ? '✓' : '';
+                    csvContent += `"${category.category}","${item.name}","${item.priority}","${isChecked}"\\n`;
+                });
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute('href', url);
+            link.setAttribute('download', `荷蘭德國打包清單_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            alert('✅ 清單已導出！');
+        }
+
+        function clearPackingChecks() {
+            if (confirm('確定要重置所有勾選嗎？') === true) {
+                localStorage.removeItem('packingListState');
+                renderPackingList();
+                alert('✅ 已重置清單');
             }
         }
     </script>
