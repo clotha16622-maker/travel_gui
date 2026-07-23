@@ -1332,7 +1332,7 @@
                                     return `
                                         <div class="attraction-card ${info ? '' : 'no-info'}" ${info ? 'onclick="toggleAttraction(event)"' : ''}>
                                             <div class="attraction-header">
-                                                <span>${displayName}${info ? ' 📌' : ' ❓'}</span>
+                                                <span>${displayName}${info ? ' 📌' : ''}</span>
                                                 ${info ? '<span class="attraction-toggle">▼</span>' : ''}
                                             </div>
                                             ${info ? `
