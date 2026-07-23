@@ -425,6 +425,11 @@
             transform: rotate(180deg);
         }
 
+        .attraction-card.no-info {
+            opacity: 0.7;
+            cursor: default;
+        }
+
         .attraction-details {
             display: none;
             margin-top: 12px;
@@ -1257,8 +1262,14 @@
         function getAttractionInfo(attractionName) {
             if (!attractionsData) return null;
 
+            // 移除時間前綴 (例如 "13:30 景點名")
+            let cleanName = attractionName.replace(/^\d{1,2}:\d{2}\s+/, '').trim();
+            // 移除英文括號部分 (例如 "景點 (English Name)")
+            cleanName = cleanName.replace(/\s*\([^)]*\)/, '').trim();
+
+            // 精確匹配
             for (const [key, data] of Object.entries(attractionsData.attractions || {})) {
-                if (attractionName.includes(key) || key.includes(attractionName.substring(0, 4))) {
+                if (cleanName === key || cleanName.includes(key) || key.includes(cleanName)) {
                     return { key, ...data };
                 }
             }
@@ -1316,11 +1327,13 @@
                                 <div style="font-weight: 600; color: #8b5a3c; margin-bottom: 10px;">⭐ 精選景點</div>
                                 ${attractionNames.map(name => {
                                     const info = getAttractionInfo(name);
+                                    // 清理顯示名稱（移除時間和括號）
+                                    const displayName = name.replace(/^\d{1,2}:\d{2}\s+/, '').replace(/\s*\([^)]*\)/, '').trim();
                                     return `
-                                        <div class="attraction-card" onclick="toggleAttraction(event)">
+                                        <div class="attraction-card ${info ? '' : 'no-info'}" ${info ? 'onclick="toggleAttraction(event)"' : ''}>
                                             <div class="attraction-header">
-                                                <span>${name}${info ? ' 📌' : ''}</span>
-                                                <span class="attraction-toggle">▼</span>
+                                                <span>${displayName}${info ? ' 📌' : ' ❓'}</span>
+                                                ${info ? '<span class="attraction-toggle">▼</span>' : ''}
                                             </div>
                                             ${info ? `
                                                 <div class="attraction-details">
@@ -1331,7 +1344,7 @@
                                                     ${info.tips ? `<div class="detail-row"><div class="detail-label">💡 提示</div><div class="detail-value">${info.tips}</div></div>` : ''}
                                                     ${info.bookingTime ? `<div class="detail-row"><div class="detail-label">預約時間</div><div class="detail-value">${info.bookingTime}</div></div>` : ''}
                                                 </div>
-                                            ` : ''}
+                                            ` : '<div style="padding: 10px; color: #999; font-size: 0.9em;">暫無景點資訊</div>'}
                                         </div>
                                     `;
                                 }).join('')}
