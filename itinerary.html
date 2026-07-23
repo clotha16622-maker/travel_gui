@@ -1376,8 +1376,19 @@
         }
 
         // 初始化
-        window.addEventListener('load', () => {
-            const id = getUrlParam('id');
+        window.addEventListener('load', async () => {
+            let id = getUrlParam('id');
+            if (!id) {
+                try {
+                    const manifest = await fetch('data/manifest.json').then(r => r.json());
+                    if (manifest.itineraries && manifest.itineraries.length > 0) {
+                        id = manifest.itineraries[0].filename.replace('.json', '');
+                    }
+                } catch (e) {
+                    showError('找不到行程');
+                    return;
+                }
+            }
             if (!id) {
                 showError('找不到行程');
                 return;
