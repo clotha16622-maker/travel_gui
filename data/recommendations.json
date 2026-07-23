@@ -1,0 +1,202 @@
+{
+  "city_recommendations": {
+    "鹿特丹": {
+      "dates": "7/31-8/2",
+      "snacks": [
+        "Didi's Stroopwafels - ☀️ 【當地名店】Didi親手製作的焦糖煎餅，溫暖親切氛圍",
+        "Markthal市場焦糖煎餅 - ☀️-🌤️ 歐洲最大室內市場，可選巧克力/焦糖焦油/迪斯可浸漬",
+        "Markthal炸薯條 - 🌤️ 12:00-15:00 現點現炸，搭配起司醬避暑",
+        "Kroket Loket - 🌤️ 【當地推薦】炸可樂餅專門店",
+        "Madame Cocos - 🌤️ 椰子馬卡龍甜點",
+        "街邊Friture小攤 - 各處炸物攤販，煙燻香腸HEMA招牌"
+      ],
+      "restaurants": [
+        "Tensai Ramen - 🌤️ 午餐 當地人愛用日式拉麵館",
+        "Hinoki Noodle Soup - 🌤️ 12:00-15:00 日式清湯麵，清爽解暑",
+        "What's up India - 🌤️ 印度咖哩料理",
+        "Yasmin (South Square) - 🌙 18:00 黎巴嫩料理高級選擇",
+        "Markthal 拱廊市場 - 🌤️ 12:00-15:00 海鮮現做/冰淇淋避暑",
+        "Korean BBQ - 🌙 2小時不限量日式燒肉體驗"
+      ],
+      "souvenirs": [
+        "高達起司 (Gouda Cheese) - 真空包裝易攜帶",
+        "艾登球型起司 (Edam) - 方便禮盒",
+        "荷蘭手繪藍瓷 - 開瓶器、胡椒罐最實用"
+      ]
+    },
+    "代爾夫特": {
+      "dates": "8/1",
+      "snacks": [
+        "焦糖煎餅 - 代爾夫特發源地最正宗 ☀️ 上午必吃",
+        "荷蘭鬆餅 (Poffertjes) - 🌤️ 熱白糖粉版本"
+      ],
+      "restaurants": [
+        "Hummus Delft - ☀️ 09:30 4種自製鷹嘴豆泥+自烤皮塔麵包",
+        "Tonkotsu Ramen NIKKOU - 🌤️ 日式豚骨拉麵，手藝精湛",
+        "Il Tartufo - 🌙 義大利熟食/起司專賣",
+        "Roast Chicken Bar Delft - 🌤️-🌙 烤雞專門店",
+        "De Beierd - 🌙 17:30 迷人小酒館氛圍"
+      ],
+      "souvenirs": [
+        "代爾夫特藍陶 (Delft Blue Pottery) - 瓷器名鎮必買",
+        "手工陶瓷小物 - 獨家設計"
+      ]
+    },
+    "海牙": {
+      "dates": "8/1",
+      "snacks": [
+        "席凡寧根現炸魚 - 🌅 海灘邊新鮮小攤",
+        "生鯡魚 (Kibbeling) - 荷蘭傳統小食"
+      ],
+      "restaurants": [
+        "The Penthouse/Haagse Toren - 🌙 18:30 42樓海景餐廳，虎蝦特餐",
+        "Catch by Simonis - 🌙 世紀老海鮮館，海灘附近",
+        "Loetje Den Haag Centrum - 🌤️ 食品美食廣場(中華/美式/越南/荷蘭)",
+        "莫瑞泰斯皇家美術館餐廳 - 🌤️ 12:00-14:00 館內避暑用餐",
+        "Lapsang 茶館 - 🌤️ 14:30 優雅下午茶體驗"
+      ],
+      "souvenirs": [
+        "海邊紀念品小物"
+      ]
+    },
+    "阿姆斯特丹": {
+      "dates": "8/3-8/7",
+      "snacks": [
+        "Albert Cuyp Market - BENNY'S CHICKEN - ☀️ 【當地排隊名店】烤全雞/雞翅/沙嗲，現烤香噴噴",
+        "Vlaams Friteshuis Vleminckx - 🌤️ 【薯條名店】位於市中心，精選新鮮馬鈴薯現炸(Voetboogstraat 33)",
+        "Winkel 43 - 🌤️ 【蘋果派名店】Noordermarkt 43，從早7點營業到凌晨1-3點",
+        "Albert Cuyp Market傳統小吃 - ☀️-🌤️ 焦糖煎餅/起司脆餅/炸肉丸",
+        "街邊焦糖煎餅攤 - 隨處可得的國民小吃，蜂蜜配巧克力"
+      ],
+      "restaurants": [
+        "The Pantry - 🌙 傳統荷蘭餐廳，復古裝潢",
+        "Manneken Pis Damrak - 🌅 20+種醬汁薯條專賣",
+        "Moederstop - 🌙 傳統comfort dishes，牆上滿是母親照片",
+        "ARCA - 🌙 葡萄牙/亞洲融合料理",
+        "Restaurant Watergang - 🌙 17:00 浪漫運河屋，5道固定菜單",
+        "Restaurant Roef - 🌙 2025年1月開幕，多元用餐形式",
+        "Kim's So Korean Food - 🌙 2024年開幕，韓式炸雞專門",
+        "RIJKS餐廳 (國家博物館內) - 🌤️ 13:00 高級避暑用餐",
+        "Restobar Massalia - 🌙 2024年8月開幕，馬賽/希臘混搭"
+      ],
+      "souvenirs": [
+        "焦糖煎餅禮盒 - 超市最便宜",
+        "各式起司組合 - 禮盒包裝精美",
+        "荷蘭木鞋 - 小號最好攜帶",
+        "手繪藍瓷裝飾品",
+        "Rituals香氛系列 - 超市有售"
+      ]
+    },
+    "羊角村": {
+      "dates": "8/5",
+      "snacks": [
+        "咖啡館點心 - ☀️-🌤️ 水邊悠閒品嚐"
+      ],
+      "restaurants": [
+        "Grachthof Giethoorn - 🌙 17:00-00:00 【推薦】村內評價最佳餐廳",
+        "Mezze Giethoorn - 🌙 中東料理 海鮮燒烤",
+        "Smit Giethoorn - 🌙 烤豬肋骨，戶外用餐區",
+        "Ristorante Fratelli - 🌙 運河步道義大利餐廳",
+        "Grand Café Fanfare - 🌙 運河邊熱門咖啡館"
+      ],
+      "souvenirs": [
+        "明信片 - 童話水鄉紀念",
+        "運河村莊小手工藝品"
+      ]
+    },
+    "烏特勒支": {
+      "dates": "8/7-8/9",
+      "snacks": [
+        "米飛兔周邊小吃 - 🌤️ 博物館紀念品店",
+        "FEBO速食 - ☀️ 可樂餅自動販賣機便宜美食"
+      ],
+      "restaurants": [
+        "Blackbird coffee & vintage - ☀️-🌤️ 聖馬丁主教座堂南邊5分鐘咖啡館",
+        "運河邊階梯餐廳/酒吧 - 🌙 17:30 【獨特體驗】浪漫晚宴，邊吃邊賞河景"
+      ],
+      "souvenirs": [
+        "米飛兔相關商品 - 🌤️ 13:30 官方旗艦店最齊全 【8/9】",
+        "荷蘭起司禮盒"
+      ]
+    },
+    "梵谷森林": {
+      "dates": "8/8",
+      "snacks": [
+        "美術館內輕食/咖啡 - 🌤️ 12:00-14:00"
+      ],
+      "restaurants": [
+        "Monsieur Jacques - 🌤️ 12:30-14:00 【推薦】美術館旁精緻法餐"
+      ],
+      "souvenirs": [
+        "梵谷相關紀念品 - 美術館禮品店",
+        "明信片 - 森林景觀"
+      ]
+    },
+    "科隆": {
+      "dates": "8/10",
+      "snacks": [
+        "科隆淡啤酒 (Kölsch) - ☀️-🌙 【必喝】0.2L小杯傳統杯，啤酒館文化象徵",
+        "街邊咖哩香腸攤 - 🌅 【德國國民小食】切塊香腸+咖哩番茄醬+咖哩粉，每年消耗8億根",
+        "德國香腸 - 各種香腸搭配黃芥末醬，從街頭小攤到餐館",
+        "烤肉攤 (Grill) - 🌅 各種烤肉/扭結麵包/香腸組合"
+      ],
+      "restaurants": [
+        "Brauhaus FRÜH am Dom - 🌙 17:00-00:00 【推薦】百年啤酒館，大教堂旁",
+        "Brauhaus Sion - 🌙 12:00-23:00 老城區啤酒廠/餐廳",
+        "Gaffel am Dom - 🌙 中央火車站對面，傳統啤酒館",
+        "Peter's Brauhaus - 🌙 彼得家著名啤酒酒館，大聖馬丁教堂附近",
+        "Sünner im Walfisch - 🌙 百年烤豬手專門店"
+      ],
+      "souvenirs": [
+        "科隆古龍水 (Eau de Cologne) - 4711最知名",
+        "德國啤酒杯 - 科隆特色紀念品",
+        "科隆大教堂小模型"
+      ]
+    },
+    "法蘭克福": {
+      "dates": "8/11-8/13",
+      "snacks": [
+        "街邊蘋果酒小攤 - ☀️-🌙 【必喝】0.25L傳統Bembel陶罐倒入Geripptes玻璃杯，不到€2",
+        "咖哩香腸攤 - 🌅 【德國經典】法蘭克福香腸版本，配黃芥末醬",
+        "Adolf Wagner蘋果酒館附設小吃 - 🌅-🌙 德式配菜搭配蘋果酒",
+        "綠醬雞蛋攤 (Grüne Soße mit Ei) - 歌德最愛的傳統小吃",
+        "酸菜燒排骨街頭小攤 (Rippchen mit Kraut) - 黑森州風味"
+      ],
+      "restaurants": [
+        "Adolf Wagner - 🌅-🌙 蘋果酒教父餐廳(Schweizer Platz地鐵站，1931年營業)",
+        "Apfelwein Wagner - 🌙 薩克森豪森區傳統蘋果酒文化",
+        "Ebbelwoi Unser - 🌙 傳統蘋果酒、香腸、餃子，活潑氛圍",
+        "Zum Gemalten Haus - 🌙 90年老店，三代家族經營，混合拼盤經典",
+        "Wirtshaus im Ostend - 🌙 美茵河畔傳統餐酒館",
+        "Café Hauptwache - 🌤️ 中央廣場古蹟咖啡廳，蘋果酒放鬆",
+        "Main Tower Restaurant 53樓 - 🌙 18:30 【米芝蓮一星】高空晚宴"
+      ],
+      "souvenirs": [
+        "Ritter Sport方形巧克力 - 德國國民品牌，口味眾多",
+        "Prodomo或Ethiopia高級咖啡 - Käfer美食百貨精選",
+        "德國小熊軟糖 - 口味多樣",
+        "胡桃夾子娃娃 - 德國工藝代表",
+        "DM、Rossmann藥妝 - 保養品面膜發泡錠必買"
+      ]
+    },
+    "海德堡": {
+      "dates": "8/12",
+      "snacks": [
+        "Café KNOSEL - 學生之吻巧克力 - 🌤️ 【19世紀發源地】海德堡最老咖啡館，浪漫傳說甜點",
+        "街邊雪球 (Schneeballen) - 手工製作酥脆香甜甜點，傳統德式甜點",
+        "街邊咖哩香腸攤 - ☀️ 【便宜美食】熱狗堡版本或純切塊香腸"
+      ],
+      "restaurants": [
+        "Café KNOSEL - 🌤️ 海德堡最老咖啡館，學生之吻巧克力發源地(19世紀)",
+        "Zeughaus - 🌤️ 河畔馬廄改造大學食堂，大學氛圍",
+        "Brauhaus Vetter - 🌙 豬腳德式餐點",
+        "MyCurrywurst - ☀️ 平價咖哩香腸熱狗堡",
+        "主街周圍餐廳 - 🌙 Hauptstraße步行街(1.6km)兩側咖啡館/小巷"
+      ],
+      "souvenirs": [
+        "學生之吻巧克力禮盒 - 海德堡限定紀念品",
+        "德國啤酒杯"
+      ]
+    }
+  }
+}

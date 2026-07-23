@@ -1,0 +1,156 @@
+{
+  "packing_categories": [
+    {
+      "category": "🛂 證件/金錢",
+      "icon": "🛂",
+      "items": [
+        { "id": "doc_1", "name": "護照", "priority": "essential" },
+        { "id": "doc_2", "name": "護照影本/備份", "priority": "essential" },
+        { "id": "doc_3", "name": "台灣身分證", "priority": "important" },
+        { "id": "doc_4", "name": "駕照/國際駕照", "priority": "important" },
+        { "id": "doc_5", "name": "信用卡（Visa/Mastercard）", "priority": "essential" },
+        { "id": "doc_6", "name": "現金（歐元）", "priority": "essential" },
+        { "id": "doc_7", "name": "旅遊保險文件", "priority": "important" },
+        { "id": "doc_8", "name": "機票/訂位確認單", "priority": "essential" },
+        { "id": "doc_9", "name": "飯店/租車確認單", "priority": "important" },
+        { "id": "doc_10", "name": "歐盟退稅表格（Tax Free）", "priority": "useful" }
+      ]
+    },
+    {
+      "category": "🔌 電子產品",
+      "icon": "🔌",
+      "items": [
+        { "id": "elec_1", "name": "手機 + 充電線", "priority": "essential" },
+        { "id": "elec_2", "name": "歐規轉接頭（220V）", "priority": "essential" },
+        { "id": "elec_3", "name": "行動電源（20000mAh+）", "priority": "important" },
+        { "id": "elec_4", "name": "相機 + 記憶卡", "priority": "useful" },
+        { "id": "elec_5", "name": "相機充電器", "priority": "useful" },
+        { "id": "elec_6", "name": "筆電/平板", "priority": "useful" },
+        { "id": "elec_7", "name": "筆電充電器", "priority": "useful" },
+        { "id": "elec_8", "name": "耳機/AirPods", "priority": "useful" },
+        { "id": "elec_9", "name": "防水袋（手機用）", "priority": "useful" },
+        { "id": "elec_10", "name": "USB/Type-C連接線", "priority": "useful" }
+      ]
+    },
+    {
+      "category": "👕 衣物（夏季高溫）",
+      "icon": "👕",
+      "items": [
+        { "id": "cloth_1", "name": "T恤/短袖（5-7件）", "priority": "essential" },
+        { "id": "cloth_2", "name": "輕便長袖（防曬用，2件）", "priority": "important" },
+        { "id": "cloth_3", "name": "短褲/七分褲（3-4件）", "priority": "essential" },
+        { "id": "cloth_4", "name": "長褲/牛仔褲（2件）", "priority": "important" },
+        { "id": "cloth_5", "name": "連衣裙/禮服（1-2件）", "priority": "useful" },
+        { "id": "cloth_6", "name": "輕薄外套/風衣（防寒+防曬）", "priority": "essential" },
+        { "id": "cloth_7", "name": "內褲/襪子（7-8套）", "priority": "essential" },
+        { "id": "cloth_8", "name": "睡衣/家居服", "priority": "useful" },
+        { "id": "cloth_9", "name": "泳衣（如有海灘行程）", "priority": "useful" },
+        { "id": "cloth_10", "name": "內衣/貼身衣物（5-6件）", "priority": "essential" },
+        { "id": "cloth_11", "name": "亞麻褲（透氣，推薦）", "priority": "useful" }
+      ]
+    },
+    {
+      "category": "👟 鞋類",
+      "icon": "👟",
+      "items": [
+        { "id": "shoe_1", "name": "運動鞋/舒適步行鞋", "priority": "essential" },
+        { "id": "shoe_2", "name": "涼鞋/夾腳拖（防曬+透氣）", "priority": "essential" },
+        { "id": "shoe_3", "name": "休閒帆布鞋", "priority": "important" },
+        { "id": "shoe_4", "name": "登山鞋（如有山景行程）", "priority": "useful" },
+        { "id": "shoe_5", "name": "室內拖鞋", "priority": "useful" },
+        { "id": "shoe_6", "name": "防滑球鞋（石磚路用，推薦）", "priority": "important" }
+      ]
+    },
+    {
+      "category": "☀️ 防曬/防暑用品（重點）",
+      "icon": "☀️",
+      "items": [
+        { "id": "sun_1", "name": "防曬霜 SPF50+ (50ml+)", "priority": "essential" },
+        { "id": "sun_2", "name": "防曬膏/唇膏（SPF30+）", "priority": "important" },
+        { "id": "sun_3", "name": "太陽眼鏡（UV400保護）", "priority": "essential" },
+        { "id": "sun_4", "name": "遮陽帽/太陽帽", "priority": "essential" },
+        { "id": "sun_5", "name": "輕便遮陽傘", "priority": "useful" },
+        { "id": "sun_6", "name": "防曬袖套（手臂用）", "priority": "useful" },
+        { "id": "sun_7", "name": "曬後修復霜/蘆薈膠", "priority": "useful" },
+        { "id": "sun_8", "name": "冷感毛巾（降溫用）", "priority": "useful" },
+        { "id": "sun_9", "name": "涼感衣/排汗衣", "priority": "useful" },
+        { "id": "sun_10", "name": "保溫瓶（飲水補水）", "priority": "essential" }
+      ]
+    },
+    {
+      "category": "🧴 盥洗用品",
+      "icon": "🧴",
+      "items": [
+        { "id": "toilet_1", "name": "洗面乳", "priority": "essential" },
+        { "id": "toilet_2", "name": "沐浴乳", "priority": "essential" },
+        { "id": "toilet_3", "name": "洗髮精", "priority": "essential" },
+        { "id": "toilet_4", "name": "護髮素", "priority": "useful" },
+        { "id": "toilet_5", "name": "牙刷/牙膏", "priority": "essential" },
+        { "id": "toilet_6", "name": "潤唇膏（防曬+保濕）", "priority": "useful" },
+        { "id": "toilet_7", "name": "保濕霜/乳液", "priority": "useful" },
+        { "id": "toilet_8", "name": "眼霜", "priority": "useful" },
+        { "id": "toilet_9", "name": "面膜（補水用）", "priority": "useful" },
+        { "id": "toilet_10", "name": "卸妝水/卸妝油", "priority": "useful" },
+        { "id": "toilet_11", "name": "濕紙巾（降溫+清潔）", "priority": "useful" },
+        { "id": "toilet_12", "name": "梳子/髮夾", "priority": "useful" },
+        { "id": "toilet_13", "name": "刮鬍刀（男性）", "priority": "useful" },
+        { "id": "toilet_14", "name": "衛生棉/衛生巾", "priority": "useful" }
+      ]
+    },
+    {
+      "category": "💊 藥品/急救",
+      "icon": "💊",
+      "items": [
+        { "id": "med_1", "name": "感冒藥/退燒藥", "priority": "important" },
+        { "id": "med_2", "name": "腸胃藥（止瀉/消脹）", "priority": "important" },
+        { "id": "med_3", "name": "止痛藥（頭痛/肌肉酸痛）", "priority": "important" },
+        { "id": "med_4", "name": "防曬/曬傷膏", "priority": "essential" },
+        { "id": "med_5", "name": "蚊蟲叮咬藥（爐甘石/弱激素乳膏）", "priority": "important" },
+        { "id": "med_6", "name": "驅蚊液（避蚊胺/派卡瑞丁）", "priority": "important" },
+        { "id": "med_7", "name": "防蚊香片/蚊香", "priority": "useful" },
+        { "id": "med_8", "name": "貼布/膏藥（肌肉酸痛）", "priority": "useful" },
+        { "id": "med_9", "name": "防暈船藥", "priority": "useful" },
+        { "id": "med_10", "name": "抗過敏藥（如有過敏症狀）", "priority": "useful" },
+        { "id": "med_11", "name": "OK繃/傷口貼", "priority": "useful" },
+        { "id": "med_12", "name": "碘伏消毒液", "priority": "useful" },
+        { "id": "med_13", "name": "綿棒/紗布", "priority": "useful" },
+        { "id": "med_14", "name": "常用處方藥（自備）", "priority": "essential" }
+      ]
+    },
+    {
+      "category": "🎒 日用配件",
+      "icon": "🎒",
+      "items": [
+        { "id": "acc_1", "name": "後背包/旅行背包", "priority": "essential" },
+        { "id": "acc_2", "name": "隨身包/斜背包", "priority": "essential" },
+        { "id": "acc_3", "name": "行李吊牌", "priority": "useful" },
+        { "id": "acc_4", "name": "行李箱密碼鎖", "priority": "useful" },
+        { "id": "acc_5", "name": "手帕/毛巾（吸汗+擦汗）", "priority": "useful" },
+        { "id": "acc_6", "name": "圍巾/披肩（防曬+保暖層次）", "priority": "useful" },
+        { "id": "acc_7", "name": "腰包/護照包", "priority": "useful" },
+        { "id": "acc_8", "name": "髮帶/髮夾", "priority": "useful" },
+        { "id": "acc_9", "name": "運動腰帶", "priority": "useful" },
+        { "id": "acc_10", "name": "手錶", "priority": "useful" }
+      ]
+    },
+    {
+      "category": "🎁 其他雜項",
+      "icon": "🎁",
+      "items": [
+        { "id": "misc_1", "name": "行程打印版本（備用）", "priority": "useful" },
+        { "id": "misc_2", "name": "地圖/指南書", "priority": "useful" },
+        { "id": "misc_3", "name": "地區SIM卡/eSIM", "priority": "important" },
+        { "id": "misc_4", "name": "翻譯筆/翻譯app", "priority": "useful" },
+        { "id": "misc_5", "name": "筆記本/筆", "priority": "useful" },
+        { "id": "misc_6", "name": "購物袋（環保/折疊）", "priority": "useful" },
+        { "id": "misc_7", "name": "垃圾袋", "priority": "useful" },
+        { "id": "misc_8", "name": "膠帶/夾子", "priority": "useful" },
+        { "id": "misc_9", "name": "洗衣袋/防水袋", "priority": "useful" },
+        { "id": "misc_10", "name": "吹風機/多功能轉接器", "priority": "useful" },
+        { "id": "misc_11", "name": "迷你針線包", "priority": "useful" },
+        { "id": "misc_12", "name": "友人囑託", "priority": "essential" },
+        { "id": "misc_13", "name": "小禮物（送當地友人）", "priority": "useful" }
+      ]
+    }
+  ]
+}

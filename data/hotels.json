@@ -1,0 +1,71 @@
+{
+  "hotels": {
+    "鹿特丹朋友家": {
+      "name": "朋友家",
+      "city": "鹿特丹",
+      "type": "private",
+      "nights": 3,
+      "startDate": "2026-07-31",
+      "endDate": "2026-08-02",
+      "notes": "朋友家，與朋友相聚"
+    },
+    "Hotel2stay": {
+      "name": "Hotel2stay",
+      "englishName": "Hotel2stay Amsterdam",
+      "city": "阿姆斯特丹",
+      "type": "hotel",
+      "nights": 4,
+      "startDate": "2026-08-03",
+      "endDate": "2026-08-06",
+      "address": "Tempelhofstraat 2, 1043 EC Amsterdam, Netherlands",
+      "phone": "+31 20-2296345",
+      "email": "info@hotel2stay.nl",
+      "website": "hotel2stay.nl",
+      "notes": "近 Sloterdijk 車站，交通便利，24小時前台",
+      "highlights": "經濟型連鎖飯店、中心位置、便利交通"
+    },
+    "Hotel NH Utrecht": {
+      "name": "Hotel NH Utrecht",
+      "englishName": "NH Hotel Group Utrecht",
+      "city": "烏特勒支",
+      "type": "hotel",
+      "nights": 3,
+      "startDate": "2026-08-07",
+      "endDate": "2026-08-09",
+      "address": "Jaarbeursplein 24, 3521 AR Utrecht, Netherlands",
+      "phone": "+31 30-297-7977",
+      "website": "nh-hotels.com",
+      "notes": "位於中央車站旁，交通極便。現代塔樓式飯店",
+      "highlights": "中央火車站正旁、國際連鎖飯店、交通樞紐"
+    },
+    "Cologne Marriott Hotel": {
+      "name": "Cologne Marriott Hotel",
+      "englishName": "Cologne Marriott Hotel",
+      "city": "科隆",
+      "type": "hotel",
+      "nights": 1,
+      "startDate": "2026-08-10",
+      "endDate": "2026-08-10",
+      "address": "Johannisstrasse 76-80, 50668 Cologne, Germany",
+      "phone": "+49 221-942220",
+      "website": "marriott.com/cgnmc",
+      "notes": "周年慶住宿，高級飯店體驗。靠近科隆大教堂",
+      "highlights": "五星奢華飯店、萬豪集團、大教堂附近"
+    },
+    "Residence Inn by Marriott Frankfurt": {
+      "name": "Residence Inn by Marriott",
+      "englishName": "Residence Inn by Marriott Frankfurt City Center",
+      "city": "法蘭克福",
+      "type": "hotel",
+      "nights": 3,
+      "startDate": "2026-08-11",
+      "endDate": "2026-08-13",
+      "address": "Stiftstrasse 43, 60313 Frankfurt, Germany",
+      "phone": "+49 69-8700-61100",
+      "email": "frontoffice@frari.net",
+      "website": "marriott.com/frari",
+      "notes": "最後三天的法蘭克福駐紮點。套房式住宿，帶廚房",
+      "highlights": "萬豪集團、套房式住宿、長住優惠、城市中心"
+    }
+  }
+}
