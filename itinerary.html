@@ -2321,6 +2321,20 @@
             return cities[0] || '其他';
         }
 
+        // 城市景點圖片映射 (Unsplash免費圖片)
+        const cityImages = {
+            '鹿特丹': 'https://images.unsplash.com/photo-1505228395891-9a51e7e86e81?w=1200&h=600&fit=crop',
+            '代爾夫特': 'https://images.unsplash.com/photo-1520763185298-1b434c919abe?w=1200&h=600&fit=crop',
+            '海牙': 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&h=600&fit=crop',
+            '阿姆斯特丹': 'https://images.unsplash.com/photo-1555991386-e8a78e22face?w=1200&h=600&fit=crop',
+            '羊角村': 'https://images.unsplash.com/photo-1520763185298-1b434c919abe?w=1200&h=600&fit=crop',
+            '烏特勒支': 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&h=600&fit=crop',
+            '梵谷森林': 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=1200&h=600&fit=crop',
+            '科隆': 'https://images.unsplash.com/photo-1577720643272-265e434f0f2c?w=1200&h=600&fit=crop',
+            '法蘭克福': 'https://images.unsplash.com/photo-1524634126442-357a0eaf3341?w=1200&h=600&fit=crop',
+            '海德堡': 'https://images.unsplash.com/photo-1488622191842-f71d3f1a7a49?w=1200&h=600&fit=crop'
+        };
+
         // 渲染彈性行程（按地點分類的博物館卡推薦）
         function renderFlexible() {
             const container = document.getElementById('flexibleContainer');
@@ -2378,6 +2392,13 @@
                 html += `
                     <div class="flexible-location-group">
                         <div class="flexible-location-title">📍 ${city}</div>
+
+                        ${cityImages[city] ? `
+                            <div class="polaroid-frame" style="max-width: 100%; height: 300px;">
+                                <img src="${cityImages[city]}" alt="${city}" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="polaroid-caption">${city} 景點風景</div>
+                        ` : ''}
 
                         <div class="flexible-cards-group">
                 `;
