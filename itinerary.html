@@ -12,11 +12,11 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'PingFang TC', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e8eef7 50%, #dfe7f0 100%);
+            background: linear-gradient(135deg, #E8DCC8 0%, #F3E5D8 50%, #E8DCC8 100%);
             background-attachment: fixed;
             min-height: 100vh;
             padding: 20px;
-            color: #2c3e50;
+            color: #6B4423;
         }
 
         .container {
@@ -48,7 +48,7 @@
             font-size: 1rem;
             margin-bottom: 25px;
             padding: 10px 20px;
-            background: linear-gradient(135deg, #FF7A45, #FF6B35);
+            background: linear-gradient(135deg, #8B6F47, #D4A574);
             border-radius: 8px;
             transition: all 0.3s ease;
             font-weight: 700;
@@ -62,14 +62,16 @@
 
         /* Ticket Cover */
         .ticket-cover {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fb 100%);
-            border-radius: 16px;
-            padding: 40px;
+            background: linear-gradient(135deg, #F5E6D3 0%, #EBD8C3 100%);
+            border-radius: 0;
+            padding: 50px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            box-shadow:
+                8px 8px 16px rgba(0,0,0,0.15),
+                inset 0 0 0 1px rgba(139, 111, 71, 0.3);
             position: relative;
             overflow: hidden;
-            border: 1px solid #e8f0ff;
+            border: none;
         }
 
         .ticket-cover::before {
@@ -79,7 +81,7 @@
             left: 0;
             right: 0;
             height: 8px;
-            background: linear-gradient(90deg, #FF7A45 0%, #3DD9D6 50%, #2C5AA0 100%);
+            background: linear-gradient(90deg, #8B6F47 0%, #D4A574 50%, #8B6F47 100%);
         }
 
         .ticket-header-banner {
@@ -95,21 +97,21 @@
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 3px;
-            color: #FF7A45;
+            color: #8B6F47;
             font-weight: 800;
         }
 
         .ticket-flight-number {
             font-size: 1.2rem;
             font-weight: 700;
-            color: #FF7A45;
+            color: #8B6F47;
             font-family: 'Courier New', monospace;
         }
 
         .ticket-main-title {
             font-size: 2.2rem;
             font-weight: 900;
-            color: #2C5AA0;
+            color: #8B6F47;
             margin-bottom: 25px;
             text-align: center;
             letter-spacing: 0.5px;
@@ -142,7 +144,7 @@
         .ticket-value {
             font-size: 1.4rem;
             font-weight: 800;
-            color: #FF7A45;
+            color: #8B6F47;
             font-family: 'Courier New', monospace;
         }
 
@@ -187,9 +189,9 @@
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, #FF7A45, #FF6B35);
+            background: linear-gradient(135deg, #8B6F47, #D4A574);
             color: white;
-            border-color: #FF6B35;
+            border-color: #D4A574;
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
         }
@@ -197,7 +199,7 @@
         .tab-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-            border-color: #FF7A45;
+            border-color: #8B6F47;
         }
 
         .tab-content {
@@ -290,30 +292,30 @@
         }
 
         .card {
-            background: white;
-            border-radius: 12px;
+            background: #F9F3EB;
+            border-radius: 0;
             padding: 22px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            border: 1px solid #e8f0ff;
-            border-left: 5px solid #FF7A45;
+            border: none;
+            border-left: 5px solid #8B6F47;
         }
 
         .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 25px rgba(255, 122, 69, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 6px 6px 18px rgba(139, 111, 71, 0.15);
         }
 
         .card-date {
             font-size: 0.9em;
-            color: #FF7A45;
+            color: #8B6F47;
             font-weight: 700;
         }
 
         .card-location {
             font-size: 1.35em;
             font-weight: 800;
-            color: #2C5AA0;
+            color: #8B6F47;
             margin-bottom: 12px;
         }
 
@@ -366,7 +368,7 @@
         }
 
         .day-header {
-            background: linear-gradient(135deg, #2C5AA0 0%, #3DD9D6 100%);
+            background: linear-gradient(135deg, #8B6F47 0%, #D4A574 100%);
             color: white;
             padding: 18px 20px;
             font-weight: 700;
@@ -397,7 +399,7 @@
             border-radius: 10px;
             padding: 14px;
             margin-bottom: 12px;
-            border-left: 4px solid #3DD9D6;
+            border-left: 4px solid #D4A574;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -408,7 +410,7 @@
         }
 
         .attraction-card.expanded {
-            border-left-color: #FF7A45;
+            border-left-color: #8B6F47;
             box-shadow: 0 6px 16px rgba(255, 122, 69, 0.2);
         }
 
@@ -457,7 +459,7 @@
 
         .detail-label {
             font-weight: 700;
-            color: #2C5AA0;
+            color: #8B6F47;
         }
 
         .detail-value {
@@ -470,17 +472,17 @@
             border-radius: 12px;
             padding: 25px;
             margin-bottom: 30px;
-            border-left: 5px solid #FF7A45;
+            border-left: 5px solid #8B6F47;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
 
         .day-title {
             font-size: 1.6em;
             font-weight: 800;
-            color: #2C5AA0;
+            color: #8B6F47;
             margin-bottom: 18px;
             padding-bottom: 12px;
-            border-bottom: 2px solid #FF7A45;
+            border-bottom: 2px solid #8B6F47;
         }
 
         .day-info-row {
@@ -494,7 +496,7 @@
             background: linear-gradient(135deg, #f0f7ff 0%, #f5faff 100%);
             padding: 12px;
             border-radius: 8px;
-            border-left: 3px solid #2C5AA0;
+            border-left: 3px solid #8B6F47;
         }
 
         .day-info-label {
@@ -529,7 +531,7 @@
 
         .timeline-time {
             font-weight: 700;
-            color: #FF7A45;
+            color: #8B6F47;
             min-width: 80px;
         }
 
@@ -643,7 +645,7 @@
 
         .museum-card-label {
             font-weight: 700;
-            color: #2C5AA0;
+            color: #8B6F47;
             font-size: 0.9em;
             white-space: nowrap;
         }
@@ -657,7 +659,7 @@
         /* Museum Card Collapsible */
         .museum-card-container {
             background: #f0f7ff;
-            border-left: 4px solid #2C5AA0;
+            border-left: 4px solid #8B6F47;
             padding: 0;
             border-radius: 10px;
             margin-top: 12px;
@@ -672,7 +674,7 @@
             justify-content: space-between;
             align-items: center;
             font-weight: 700;
-            color: #2C5AA0;
+            color: #8B6F47;
             user-select: none;
             transition: background 0.2s;
         }
@@ -744,7 +746,7 @@
 
         .hotel-label {
             font-weight: 700;
-            color: #FF7A45;
+            color: #8B6F47;
             font-size: 0.85em;
             display: block;
             margin-bottom: 4px;
@@ -773,7 +775,7 @@
             background: white;
             border-radius: 12px;
             padding: 18px;
-            border-left: 5px solid #3DD9D6;
+            border-left: 5px solid #D4A574;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
@@ -790,7 +792,7 @@
         .transport-date {
             font-size: 0.9em;
             font-weight: 700;
-            color: #3DD9D6;
+            color: #D4A574;
             background: #e8f7f6;
             padding: 6px 12px;
             border-radius: 6px;
@@ -858,7 +860,7 @@
         }
 
         .packing-header h2 {
-            color: #2C5AA0;
+            color: #8B6F47;
             font-size: 1.9em;
             margin: 0;
             font-weight: 900;
@@ -880,12 +882,12 @@
         }
 
         .export-btn {
-            background: linear-gradient(135deg, #FF7A45, #FF6B35);
+            background: linear-gradient(135deg, #8B6F47, #D4A574);
             color: white;
         }
 
         .export-btn:hover {
-            background: linear-gradient(135deg, #FF6B35, #E85A1F);
+            background: linear-gradient(135deg, #D4A574, #E85A1F);
             transform: translateY(-1px);
         }
 
@@ -899,7 +901,7 @@
         }
 
         .packing-stats {
-            background: linear-gradient(135deg, #FF7A45 0%, #FF6B35 100%);
+            background: linear-gradient(135deg, #8B6F47 0%, #D4A574 100%);
             color: white;
             padding: 18px 24px;
             border-radius: 10px;
@@ -917,17 +919,17 @@
             background: white;
             border-radius: 12px;
             padding: 18px;
-            border-left: 5px solid #3DD9D6;
+            border-left: 5px solid #D4A574;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .packing-category-title {
             font-size: 1.15em;
             font-weight: 800;
-            color: #2C5AA0;
+            color: #8B6F47;
             margin-bottom: 15px;
             padding-bottom: 12px;
-            border-bottom: 2px solid #FF7A45;
+            border-bottom: 2px solid #8B6F47;
         }
 
         .packing-items {
@@ -956,7 +958,7 @@
             height: 18px;
             cursor: pointer;
             margin-right: 12px;
-            accent-color: #FF7A45;
+            accent-color: #8B6F47;
         }
 
         .packing-item-name {
@@ -999,17 +1001,17 @@
             border-radius: 14px;
             padding: 24px;
             margin-bottom: 25px;
-            border-left: 5px solid #FF7A45;
+            border-left: 5px solid #8B6F47;
             box-shadow: 0 4px 16px rgba(0,0,0,0.08);
         }
 
         .flexible-location-title {
             font-size: 1.4em;
             font-weight: 800;
-            color: #2C5AA0;
+            color: #8B6F47;
             margin-bottom: 18px;
             padding-bottom: 14px;
-            border-bottom: 3px solid #FF7A45;
+            border-bottom: 3px solid #8B6F47;
         }
 
         .flexible-cards-group {
@@ -1046,6 +1048,29 @@
             margin-top: 8px;
         }
 
+        /* Polaroid Image Frame */
+        .polaroid-frame {
+            background: white;
+            padding: 12px;
+            margin-bottom: 20px;
+            box-shadow: 3px 3px 12px rgba(0,0,0,0.2);
+            transform: rotate(-1deg);
+        }
+
+        .polaroid-frame img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .polaroid-caption {
+            font-size: 0.9em;
+            color: #8B6F47;
+            margin-top: 8px;
+            font-style: italic;
+            text-align: center;
+        }
+
         /* City Recommendations */
         .city-recommendations {
             display: grid;
@@ -1060,14 +1085,14 @@
             background: #fff9f5;
             padding: 15px;
             border-radius: 8px;
-            border-left: 4px solid #FF7A45;
+            border-left: 4px solid #8B6F47;
             box-shadow: 0 2px 8px rgba(255, 122, 69, 0.08);
         }
 
         .recommendation-title {
             font-size: 0.98em;
             font-weight: 700;
-            color: #FF7A45;
+            color: #8B6F47;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -1093,7 +1118,7 @@
             content: "•";
             position: absolute;
             left: 8px;
-            color: #FF7A45;
+            color: #8B6F47;
             font-weight: bold;
             font-size: 1.2em;
         }
@@ -1105,7 +1130,7 @@
         /* Hotel Card Collapsible */
         .hotel-card-container {
             background: #fff5f0;
-            border-left: 4px solid #FF7A45;
+            border-left: 4px solid #8B6F47;
             padding: 0;
             border-radius: 10px;
             margin-top: 12px;
@@ -1120,7 +1145,7 @@
             justify-content: space-between;
             align-items: center;
             font-weight: 700;
-            color: #FF7A45;
+            color: #8B6F47;
             user-select: none;
             transition: background 0.2s;
         }
