@@ -203,11 +203,9 @@
         .tab-content {
             display: none;
             animation: fadeIn 0.3s ease-in;
-            background: rgba(255, 251, 247, 0.8);
-            border: 2px solid #d4a574;
+            background: transparent;
             border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 6px 20px rgba(139, 90, 60, 0.1);
+            padding: 25px 0;
         }
 
         .tab-content.active {
@@ -410,7 +408,8 @@
         }
 
         .attraction-card.expanded {
-            border-left-color: #d4a574;
+            border-left-color: #FF7A45;
+            box-shadow: 0 6px 16px rgba(255, 122, 69, 0.2);
         }
 
         .attraction-header {
@@ -457,8 +456,8 @@
         }
 
         .detail-label {
-            font-weight: 600;
-            color: #667eea;
+            font-weight: 700;
+            color: #2C5AA0;
         }
 
         .detail-value {
@@ -529,8 +528,8 @@
         }
 
         .timeline-time {
-            font-weight: 600;
-            color: #667eea;
+            font-weight: 700;
+            color: #FF7A45;
             min-width: 80px;
         }
 
@@ -643,8 +642,8 @@
         }
 
         .museum-card-label {
-            font-weight: 600;
-            color: #667eea;
+            font-weight: 700;
+            color: #2C5AA0;
             font-size: 0.9em;
             white-space: nowrap;
         }
@@ -657,27 +656,29 @@
 
         /* Museum Card Collapsible */
         .museum-card-container {
-            background: #f0f0fa;
-            border-left: 4px solid #667eea;
+            background: #f0f7ff;
+            border-left: 4px solid #2C5AA0;
             padding: 0;
-            border-radius: 4px;
+            border-radius: 10px;
             margin-top: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(44, 90, 160, 0.1);
         }
 
         .museum-card-header {
-            padding: 12px;
+            padding: 14px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 600;
-            color: #667eea;
+            font-weight: 700;
+            color: #2C5AA0;
             user-select: none;
             transition: background 0.2s;
         }
 
         .museum-card-header:hover {
-            background: rgba(102, 126, 234, 0.1);
+            background: rgba(44, 90, 160, 0.08);
         }
 
         .museum-card-toggle {
@@ -742,8 +743,8 @@
         }
 
         .hotel-label {
-            font-weight: 600;
-            color: #d4a574;
+            font-weight: 700;
+            color: #FF7A45;
             font-size: 0.85em;
             display: block;
             margin-bottom: 4px;
@@ -879,12 +880,13 @@
         }
 
         .export-btn {
-            background: #667eea;
+            background: linear-gradient(135deg, #FF7A45, #FF6B35);
             color: white;
         }
 
         .export-btn:hover {
-            background: #5568d3;
+            background: linear-gradient(135deg, #FF6B35, #E85A1F);
+            transform: translateY(-1px);
         }
 
         .clear-btn {
@@ -954,7 +956,7 @@
             height: 18px;
             cursor: pointer;
             margin-right: 12px;
-            accent-color: #667eea;
+            accent-color: #FF7A45;
         }
 
         .packing-item-name {
@@ -1102,27 +1104,29 @@
 
         /* Hotel Card Collapsible */
         .hotel-card-container {
-            background: #fffbf7;
-            border-left: 4px solid #d4a574;
+            background: #fff5f0;
+            border-left: 4px solid #FF7A45;
             padding: 0;
-            border-radius: 4px;
+            border-radius: 10px;
             margin-top: 12px;
             cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(255, 122, 69, 0.1);
         }
 
         .hotel-card-header {
-            padding: 12px;
+            padding: 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 600;
-            color: #8b5a3c;
+            font-weight: 700;
+            color: #FF7A45;
             user-select: none;
             transition: background 0.2s;
         }
 
         .hotel-card-header:hover {
-            background: rgba(212, 165, 116, 0.1);
+            background: rgba(255, 122, 69, 0.08);
         }
 
         .hotel-card-toggle {
