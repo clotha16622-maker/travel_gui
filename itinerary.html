@@ -1430,6 +1430,7 @@
                     <button onclick="clearPackingChecks()" class="clear-btn">🔄 重置勾選</button>
                 </div>
             </div>
+            <div class="weather-outlook-container" id="weatherOutlookContainer"></div>
             <div class="packing-stats" id="packingStats"></div>
             <div class="packing-container" id="packingContainer"></div>
         </div>
@@ -1573,6 +1574,7 @@
             renderSchedule();
             renderFlexible();
             renderTransport();
+            renderWeatherOutlook();
             renderPackingList();
             setTimeout(renderMap, 300);
         }
@@ -2015,16 +2017,40 @@
 
             // 清理名稱
             let cleanName = attractionName.trim();
-            cleanName = cleanName.replace(/^🏛️\s*/, '').replace(/：.*$/, '').trim();
+            cleanName = cleanName.replace(/^[🏛️☕🛍️🌲🎓]+\s*/, '').replace(/：.*$/, '').trim();
+            // 去掉結尾的括號註記（例如「雕塑公園 (Sculpture Garden)」→「雕塑公園」），方便比對核心名稱
+            const coreName = cleanName.replace(/\s*\([^)]*\)\s*$/, '').trim();
 
             // 搜索匹配
             for (const [key, data] of Object.entries(museumCardData.museumCardRecommendations || {})) {
                 if (cleanName === key || cleanName.includes(key) || key.includes(cleanName) ||
-                    (data.englishName && cleanName.includes(data.englishName))) {
+                    (data.name && (cleanName.includes(data.name) || data.name.includes(cleanName))) ||
+                    (data.englishName && cleanName.includes(data.englishName)) ||
+                    (coreName && (key.includes(coreName) || coreName.includes(key)))) {
                     return { key, ...data };
                 }
             }
             return null;
+        }
+
+        // 從「博物館卡/空檔備案推薦」原始文字中解析出每個景點，並附上詳情資料（若有）
+        function getAttractionInfosFromFlexible(flexibleText) {
+            const attractionMatches = flexibleText.match(/[🏛️☕🛍️🌲🎓]+\s*[^：\n]+/g) || [];
+
+            // 同一個emoji段落內若用「或」列出多個備案景點，拆開讓每個都能各自查到資訊
+            const expandedMatches = [];
+            attractionMatches.forEach(match => {
+                const emojiPrefix = (match.match(/^[🏛️☕🛍️🌲🎓]+\s*/) || [''])[0];
+                const rest = match.slice(emojiPrefix.length);
+                rest.split(/\s*或\s*/).forEach(part => {
+                    if (part) expandedMatches.push(emojiPrefix + part);
+                });
+            });
+
+            return expandedMatches.map(match => {
+                const cleanName = match.replace(/^[🏛️☕🛍️🌲🎓]+\s*/, '');
+                return { match, cleanName, info: getMuseumCardAttractionInfo(match) };
+            });
         }
 
         // 渲染博物館卡景點詳情卡片
@@ -2224,38 +2250,16 @@
                                     <div style="color: #555; font-size: 0.9em; margin-bottom: 12px; padding-top: 8px;">${flexible}</div>
 
                                     ${(() => {
-                                        // 提取推薦景點名稱（去掉圖標和冒號之後的部分）
-                                        const attractionMatches = flexible.match(/[🏛️☕🛍️🌲🎓]+\s*[^：\n]+/g) || [];
-
-                                        // 同一個emoji段落內若用「或」列出多個備案景點，拆開讓每個都能各自查到資訊
-                                        const expandedMatches = [];
-                                        attractionMatches.forEach(match => {
-                                            const emojiPrefix = (match.match(/^[🏛️☕🛍️🌲🎓]+\s*/) || [''])[0];
-                                            const rest = match.slice(emojiPrefix.length);
-                                            rest.split(/\s*或\s*/).forEach(part => {
-                                                if (part) expandedMatches.push(emojiPrefix + part);
-                                            });
-                                        });
-
-                                        // 計算該日期有多少個景點有博物館卡支援
-                                        let cardCount = 0;
-                                        const withCardInfo = expandedMatches.map(match => {
-                                            const cleanName = match.replace(/^[🏛️☕🛍️🌲🎓]+\s*/, '');
-                                            const hasCard = checkMuseumCardSupport(cleanName);
-                                            if (hasCard) cardCount++;
-                                            return { cleanName, hasCard, match };
-                                        });
-
-                                        return withCardInfo.map((item, idx) => {
-                                            const info = getMuseumCardAttractionInfo(item.match);
+                                        return getAttractionInfosFromFlexible(flexible).map(item => {
+                                            const hasCard = checkMuseumCardSupport(item.cleanName);
                                             let headerHtml = `<div style="color: #666; font-size: 0.9em;">
                                                 ${item.cleanName}
-                                                ${item.hasCard ? '<span style="background: #fff3cd; color: #856404; padding: 2px 6px; border-radius: 3px; font-size: 0.75em; margin-left: 6px; font-weight: 600;">🎫 博物館卡免費</span>' : ''}
+                                                ${hasCard ? '<span style="background: #fff3cd; color: #856404; padding: 2px 6px; border-radius: 3px; font-size: 0.75em; margin-left: 6px; font-weight: 600;">🎫 博物館卡免費</span>' : ''}
                                             </div>`;
 
                                             return `
                                                 <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(102, 126, 234, 0.2);">
-                                                    ${info ? renderMuseumCardAttraction(info) : headerHtml}
+                                                    ${item.info ? renderMuseumCardAttraction(item.info) : headerHtml}
                                                 </div>
                                             `;
                                         }).join('');
@@ -2401,19 +2405,32 @@
         }
 
         // 提取地點（城市名稱）
-        function extractCity(locationStr) {
-            if (!locationStr) return '其他';
-            // 提取第一個地點作為主城市
-            const cities = locationStr.split('➔').map(s => s.trim());
-            return cities[0] || '其他';
-        }
+        // 每日「博物館卡備案」實際對應的城市（移動日備案通常是抵達地或途經地，
+        // 不一定是「地點 / 移動」欄位的第一個地名，故用明確對照表取代字串猜測）
+        const flexibleCityByDate = {
+            '7/31 (五)': '鹿特丹',
+            '8/1 (六)': '台夫特',
+            '8/2 (日)': '多德雷赫特',
+            '8/3 (一)': '阿姆斯特丹',
+            '8/4 (二)': '阿姆斯特丹',
+            '8/5 (三)': '羊角村',
+            '8/6 (四)': '阿姆斯特丹',
+            '8/7 (五)': '烏特勒支',
+            '8/8 (六)': '梵谷森林',
+            '8/9 (日)': '烏特勒支',
+            '8/10 (一)': '科隆',
+            '8/11 (二)': '法蘭克福',
+            '8/12 (三)': '海德堡',
+            '8/13 (四)': '法蘭克福',
+            '8/14 (五)': '法蘭克福機場'
+        };
 
-        // 渲染彈性行程（按地點分類的博物館卡推薦）
+        // 渲染彈性行程（按城市分類的博物館卡推薦 + 吃喝玩樂推薦）
         function renderFlexible() {
             const container = document.getElementById('flexibleContainer');
             const itinerary = travelData.itinerary || [];
 
-            // 按地點分組
+            // 按城市分組（僅限有博物館卡備案的天數）
             const locationGroups = {};
 
             itinerary.forEach((day, index) => {
@@ -2421,13 +2438,11 @@
 
                 const date = day['時間'] || '';
                 const flexible = day['💡 博物館卡 / 空檔備案推薦 (持卡免費或順遊)'] || '';
-                const location = day['地點 / 移動'] || '';
-                const highlights = day['精選景點 (含黃金預約時間)'] || '';
 
                 // 只顯示有博物館卡推薦且不是"-"的行程
                 if (!flexible || flexible === '-' || !date) return;
 
-                const city = extractCity(location);
+                const city = flexibleCityByDate[date] || '其他';
 
                 if (!locationGroups[city]) {
                     locationGroups[city] = [];
@@ -2435,8 +2450,6 @@
 
                 locationGroups[city].push({
                     date,
-                    location,
-                    highlights,
                     flexible
                 });
             });
@@ -2444,10 +2457,13 @@
             let html = '';
             // 按照行程順序排列城市
             const cityOrder = [
-                '鹿特丹', '代爾夫特', '海牙', '阿姆斯特丹', '羊角村',
-                '烏特勒支', '梵谷森林', '科隆', '法蘭克福', '海德堡'
+                '鹿特丹', '萊頓', '台夫特', '海牙', '多德雷赫特', '阿姆斯特丹', '羊角村',
+                '烏特勒支', '梵谷森林', '科隆', '法蘭克福', '海德堡', '法蘭克福機場'
             ];
-            const cities = cityOrder.filter(city => locationGroups[city]);
+            // 只要有博物館卡備案「或」吃喝玩樂推薦其中一種內容，該城市就顯示卡片
+            const cities = cityOrder.filter(city =>
+                locationGroups[city] || recommendationsData?.city_recommendations?.[city]
+            );
 
             if (cities.length === 0) {
                 container.innerHTML = `
@@ -2464,38 +2480,57 @@
 
                 const cityPhotos = {
                     '鹿特丹': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/A_view_of_Rotterdam%2C_taken_from_the_roof_of_the_Maassilo%2C_Rotterdam%2C_The_Netherlands.jpg/500px-A_view_of_Rotterdam%2C_taken_from_the_roof_of_the_Maassilo%2C_Rotterdam%2C_The_Netherlands.jpg',
-                    '代爾夫特': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Delft_Blick_von_der_Nieuwe_Kerk_auf_die_Oude_Kerk_1.jpg/500px-Delft_Blick_von_der_Nieuwe_Kerk_auf_die_Oude_Kerk_1.jpg',
+                    '萊頓': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Rapenburg_Leiden_Centrum.jpg/500px-Rapenburg_Leiden_Centrum.jpg',
+                    '台夫特': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Delft_Blick_von_der_Nieuwe_Kerk_auf_die_Oude_Kerk_1.jpg/500px-Delft_Blick_von_der_Nieuwe_Kerk_auf_die_Oude_Kerk_1.jpg',
                     '海牙': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Den_Haag_Skyline_1.jpg/500px-Den_Haag_Skyline_1.jpg',
+                    '多德雷赫特': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Augustijnenkamp%2C_3311_Dordrecht%2C_Netherlands_-_panoramio_%282%29.jpg/500px-Augustijnenkamp%2C_3311_Dordrecht%2C_Netherlands_-_panoramio_%282%29.jpg',
                     '阿姆斯特丹': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Imagen_de_los_canales_conc%C3%A9ntricos_en_%C3%81msterdam.png/500px-Imagen_de_los_canales_conc%C3%A9ntricos_en_%C3%81msterdam.png',
                     '羊角村': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Giethoorn_Netherlands_flckr05.jpg/500px-Giethoorn_Netherlands_flckr05.jpg',
                     '烏特勒支': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Utrecht_%2816295236803%29.jpg/500px-Utrecht_%2816295236803%29.jpg',
                     '梵谷森林': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Sand_Area_Hoge_Veluwe.jpg/500px-Sand_Area_Hoge_Veluwe.jpg',
                     '科隆': 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Kranh%C3%A4user_Cologne%2C_April_2018_-01.jpg/500px-Kranh%C3%A4user_Cologne%2C_April_2018_-01.jpg',
                     '法蘭克福': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Frankfurt_Main_August_2020_1.jpg/500px-Frankfurt_Main_August_2020_1.jpg',
-                    '海德堡': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/K%C3%B6nigstuhl%2C_Heidelberg%2C_U-17.jpg/500px-K%C3%B6nigstuhl%2C_Heidelberg%2C_U-17.jpg'
+                    '海德堡': 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/K%C3%B6nigstuhl%2C_Heidelberg%2C_U-17.jpg/500px-K%C3%B6nigstuhl%2C_Heidelberg%2C_U-17.jpg',
+                    '法蘭克福機場': 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Frankfurt_Flughafen%2C_Terminal_2.jpg/500px-Frankfurt_Flughafen%2C_Terminal_2.jpg'
                 };
 
                 html += `
                     <div class="flexible-location-group">
                         <div class="flexible-location-title" style="background: linear-gradient(rgba(45, 33, 22, 0.35), rgba(45, 33, 22, 0.55)), url('${cityPhotos[city] || ''}') center/cover no-repeat; color: white; padding: 60px 24px; text-align: left; font-size: 2em; font-weight: 800; margin: 0 0 30px 0; border-radius: 4px; text-shadow: 0 2px 6px rgba(0,0,0,0.6); min-height: 160px; display: flex; align-items: flex-end; box-shadow: inset 0 0 0 1px rgba(139, 111, 71, 0.3);">${city}</div>
-
-                        <div class="flexible-cards-group">
                 `;
 
-                locationGroups[city].forEach(item => {
-                    html += `
-                        <div class="flexible-card">
-                            ${item.highlights ? `<div class="flexible-highlights"><strong>景點：</strong> ${item.highlights}</div>` : ''}
-                            <div class="flexible-content">
-                                ${item.flexible}
+                if (locationGroups[city] && locationGroups[city].length > 0) {
+                    html += `<div class="flexible-cards-group">`;
+
+                    locationGroups[city].forEach(item => {
+                        const attractions = getAttractionInfosFromFlexible(item.flexible);
+                        const cardsHtml = attractions.length > 0
+                            ? attractions.map(a => {
+                                const title = a.info ? `🏛️ ${a.info.name}` : a.cleanName;
+                                const body = a.info ? renderMuseumCardAttraction(a.info) : `<div class="flexible-content">${a.cleanName}</div>`;
+                                return `
+                                    <div class="museum-card-container" onclick="toggleMuseumCard(event)">
+                                        <div class="museum-card-header">
+                                            <span>${title}</span>
+                                            <span class="museum-card-toggle">▼</span>
+                                        </div>
+                                        <div class="museum-card-content">${body}</div>
+                                    </div>
+                                `;
+                            }).join('')
+                            : `<div class="flexible-content">${item.flexible}</div>`;
+
+                        html += `
+                            <div class="flexible-card">
+                                ${cardsHtml}
                             </div>
-                        </div>
-                    `;
-                });
+                        `;
+                    });
+
+                    html += `</div>`;
+                }
 
                 html += `
-                        </div>
-
                         <div class="city-recommendations">
                 `;
 
@@ -2650,6 +2685,37 @@
                         </div>
                     </div>
                     <div style="font-size: 1.5em; font-weight: 800;">${percentage}%</div>
+                </div>
+            `;
+        }
+
+        function renderWeatherOutlook() {
+            const container = document.getElementById('weatherOutlookContainer');
+            if (!container) return;
+
+            const outlook = packingListData && packingListData.weather_outlook;
+            if (!outlook) {
+                container.innerHTML = '';
+                return;
+            }
+
+            const legsHtml = (outlook.legs || []).map(leg => `
+                <div style="background: #fff; border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; border-left: 4px solid #D4A574;">
+                    <div style="font-weight: 700; color: #8B6F47; margin-bottom: 4px;">${leg.region} — ${leg.summary}</div>
+                    <div style="font-size: 0.9em; color: #5C4A36; line-height: 1.6; margin-bottom: 6px;">${leg.detail}</div>
+                    ${leg.watchDays ? `<div style="font-size: 0.85em; color: #B08454;">🔍 ${leg.watchDays}</div>` : ''}
+                </div>
+            `).join('');
+
+            const sourcesHtml = (outlook.sources || []).map(s => s.label).join('、');
+
+            container.innerHTML = `
+                <div style="background: #FBF3E7; border-radius: 10px; padding: 18px 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(139, 111, 71, 0.12);">
+                    <div style="font-weight: 800; color: #8B6F47; font-size: 1.1em; margin-bottom: 6px;">☀️ 出發前天氣展望（查詢於 ${outlook.checkedDate}）</div>
+                    <div style="font-size: 0.85em; color: #999; margin-bottom: 14px;">⚠️ ${outlook.disclaimer}</div>
+                    ${legsHtml}
+                    ${outlook.verdict ? `<div style="font-size: 0.9em; color: #6B5335; margin-top: 8px; padding-top: 10px; border-top: 1px dashed #E0CBA8;"><strong>💡 打包建議：</strong>${outlook.verdict}</div>` : ''}
+                    ${sourcesHtml ? `<div style="font-size: 0.75em; color: #B0A08C; margin-top: 10px;">資料來源：${sourcesHtml}</div>` : ''}
                 </div>
             `;
         }

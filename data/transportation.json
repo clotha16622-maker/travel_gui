@@ -32,9 +32,9 @@
       "day_number": 2,
       "segments": [
         {
-          "route": "鹿特丹 → 代爾夫特 → 海牙 → 席凡寧根 → 回鹿特丹",
+          "route": "鹿特丹 → 台夫特 → 海牙 → 席凡寧根 → 回鹿特丹",
           "method": "🚗 自駕",
-          "details": "自駕遊覽代爾夫特古城、海牙、席凡寧根海灘（全程自駕）",
+          "details": "自駕遊覽台夫特古城、海牙、席凡寧根海灘（全程自駕）",
           "duration": "全日遊覽",
           "note": "無需購票。建議停靠Café du Midi早餐。停車可用歐元硬幣或停車卡。"
         }
@@ -62,7 +62,7 @@
           "method": "🚂 NS 火車",
           "details": "鹿特丹Centraal → 阿姆斯特丹Sloterdijk | 路線代號：Intercity Direct | 每小時多班",
           "duration": "約40-45分鐘",
-          "booking": "【購票方式】NS官網(ns.nl) / OMIO app / 車站購票機 | €18.90起 | 可選購OV-chipkaart重複使用",
+          "booking": "【購票方式】NS官網(ns.nl) / OMIO app / 車站購票機 | €18.90起 | ⚠️2026/7/1起荷蘭全面停售可加值的匿名OV-chipkaart，現在主要用感應信用卡/手機直接嗶卡（OVpay）搭車進出站即可，不必再另外辦卡",
           "note": "移動日。推薦搭乘上午火車，到達飯店後立即進安妮之家（13:30預約）。晚間20:30運河遊船賞黃昏。"
         }
       ]
@@ -76,7 +76,7 @@
           "method": "🚊 GVB 電車",
           "details": "飯店 → Tram 7/10/13號 → Museumplein站 | 路線代號：GVB Amsterdam | 經常班次",
           "duration": "約10-15分鐘",
-          "booking": "【購票方式】買GVB 24H票€8.50 或 48H票€13.50 | 或用OV-chipkaart儲值 | 飯店/車站售票機購買"
+          "booking": "【購票方式】買GVB 24H票€8.50 或 48H票€13.50 | 或直接用感應信用卡/手機嗶卡搭乘（OVpay，按次扣款）| 飯店/車站售票機購買"
         },
         {
           "route": "Museumplein館區漫遊 + Vondelpark",
@@ -117,7 +117,7 @@
           "method": "🚶 步行 / 🚊 GVB電車",
           "details": "飯店 → 辛格花市 → 水壩廣場 → 林布蘭故居 → 德瓦倫紅燈區 | 路線代號：GVB Tram 1/2/5/9等 | 步行或短程電車",
           "duration": "無固定",
-          "booking": "【購票方式】延用GVB 24H/48H票，或OV-chipkaart儲值 | 無須另購票",
+          "booking": "【購票方式】延用GVB 24H/48H票，或感應信用卡/手機嗶卡（OVpay）| 無須另購票",
           "note": "【阿姆斯特丹市區漫遊】下午林布蘭故居享強勁冷氣。傍晚德瓦倫紅燈區晚餐。市中心景點距離近，步行最便利。"
         }
       ]
@@ -131,7 +131,7 @@
           "method": "🚂 NS 火車",
           "details": "阿姆斯特丹Sloterdijk → 烏特勒支Centraal | 路線代號：Sprinter/IC | 每30分鐘一班",
           "duration": "約45分鐘",
-          "booking": "【購票方式】NS官網/OMIO / 車站購票機 | €8.50起 | 或延用前日OV-chipkaart",
+          "booking": "【購票方式】NS官網/OMIO / 車站購票機 | €8.50起 | 或延用前日感應信用卡/手機嗶卡（OVpay）",
           "note": "NH Hotel位於中央車站旁，交通極便。到飯店後可即刻放行李開始市區探索。"
         }
       ]
@@ -199,9 +199,10 @@
         {
           "route": "科隆 → 法蘭克福",
           "method": "🚂 ICE 高速列車",
-          "details": "科隆Hauptbahnhof → 法蘭克福Hauptbahnhof | 13:18 出發 | 路線代號：ICE (DB德鐵營運) | 高速列車",
-          "duration": "約1小時5分鐘",
-          "booking": "【購票方式】需購票 | 德鐵官網db.de或OMIO | Flexpreis約€65-150（視預訂時間） / Sparpreis最低約€15-18起（越早訂越便宜）"
+          "details": "科隆Hauptbahnhof → 法蘭克福Hauptbahnhof | 13:18 出發（實際班次請出發前務必重查） | 路線代號：ICE (DB德鐵營運) | 高速列車",
+          "duration": "正常約1小時5分鐘；⚠️施工繞道期間最多可能拉長到約2小時45分（德鐵官方公告：Dortmund/Essen-科隆-法蘭克福-慕尼黑這條線改道後車程最多增加100分鐘）",
+          "booking": "【購票方式】需購票 | 德鐵官網db.de或OMIO | Flexpreis約€65-150（視預訂時間） / Sparpreis最低約€15-18起（越早訂越便宜）",
+          "note": "⚠️【重要】科隆-法蘭克福高速新線因軌道更新工程，自2026/7/16起封閉施工至2026/8/12，直接涵蓋本次搭車日期！長途列車施工期間會改走較慢的萊茵河谷線（Rheintalbahn，繞經Koblenz沿線）。德鐵官方新聞稿列出兩種改道情況：Dortmund/Essen-科隆-法蘭克福-慕尼黑這條線（本次車次應屬此類）車程最多增加約100分鐘；Hamburg-科隆-南德（經萊茵河谷到Mannheim）這條線車程增加約40分鐘。改道期間Siegburg/Bonn、Montabaur、Limburg Süd等中途小站會被跳過改接駁巴士，但科隆總站/法蘭克福總站是兩端大站，正常應該仍照停。出發前務必上db.de重新確認實際班次與時刻，行程可能需要預留更多轉乘緩衝。資料來源：德鐵官方新聞稿(deutschebahn.com)。"
         },
         {
           "route": "法蘭克福 → 飯店(Hauptwache)",
@@ -267,7 +268,7 @@
           "details": "Hauptwache → Main Tower (Main站附近) | 搭S-Bahn (往Main下車) 或步行可達 | 高空233米視野",
           "duration": "無固定",
           "booking": "【晚宴預約】需提前線上預約 | 18:30進場用餐 | 【重要】18:15前到達做安檢",
-          "note": "【終極精品採購日 → 高空晚宴】下午血拼(可退稅，德國滿€50即可退稅)。晚18:30 Main Tower 53樓餐廳用晚餐。務必帶護照做退稅申請！"
+          "note": "【終極精品採購日 → 高空晚宴】下午血拼(可退稅，德國滿€50即可退稅)。晚18:30 Main Tower 53樓餐廳用晚餐。務必帶護照做退稅申請！⚠️餐廳每年7/20-8/9有夏季公休，8/11才恢復營業，本次訂位(8/13)剛好卡在復業後第3天，建議出發前2-3天再打電話或email跟餐廳確認訂位仍然有效，避免復業初期排班/供應調整影響。"
         }
       ]
     },

@@ -1,4 +1,28 @@
 {
+  "weather_outlook": {
+    "checkedDate": "2026-07-26",
+    "disclaimer": "以下為出發前查詢的天氣展望，越晚的日期預報越不準，建議出發前2-3天再上氣象網站重查一次。",
+    "legs": [
+      {
+        "region": "🇳🇱 荷蘭段（7/31-8/9）",
+        "summary": "偏乾偏熱，晴朗為主",
+        "detail": "2026年是異常炎熱的一年，荷蘭已經歷3波熱浪，7月底可能有第4波。KNMI對8月上半的展望是乾燥、晴朗、氣溫偏高，南風時可能衝到30°C以上，目前沒有降雨或劇烈天氣警報。",
+        "watchDays": "8/2 小孩堤防+多德雷赫特、8/5 羊角村船遊 目前預報都是晴天，但都還在7-10天預報範圍外，準確度有限"
+      },
+      {
+        "region": "🇩🇪 德國段（8/10-8/14）",
+        "summary": "新一波熱浪醞釀中，可能比氣候平均值熱",
+        "detail": "德國氣象單位已標示8月有新一波熱浪正在醞釀，剛好蓋住整個德國段。氣候平均值科隆約23°C/13°C、法蘭克福約25°C/14°C，若熱浪成形實際氣溫可能落在28-35°C，風險是「更熱」而不是下雨。",
+        "watchDays": "8/12 海德堡古堡+哲學家小徑戶外健走風險最高，建議早點出發、多帶水"
+      }
+    ],
+    "verdict": "打包清單原本「夏季高溫」的設定方向是對的，防曬/降溫/補水類用品應該加強準備，不用特別加雨具當主力（輕便防水外套帶一件當保險就好）。",
+    "sources": [
+      { "label": "NL Times - Fourth heat wave possible", "url": "nltimes.nl" },
+      { "label": "Weeronline 月展望", "url": "weeronline.nl" },
+      { "label": "Wetterprognose 8月德國展望", "url": "wetterprognose-wettervorhersage.de" }
+    ]
+  },
   "packing_categories": [
     {
       "category": "🛂 證件/金錢",
