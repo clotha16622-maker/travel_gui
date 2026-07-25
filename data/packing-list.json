@@ -137,7 +137,7 @@
       "category": "🎁 其他雜項",
       "icon": "🎁",
       "items": [
-        { "id": "misc_1", "name": "行程打印版本（備用）", "priority": "useful" },
+        { "id": "misc_1", "name": "行程列印版本（備用）", "priority": "useful" },
         { "id": "misc_2", "name": "地圖/指南書", "priority": "useful" },
         { "id": "misc_3", "name": "地區SIM卡/eSIM", "priority": "important" },
         { "id": "misc_4", "name": "翻譯筆/翻譯app", "priority": "useful" },

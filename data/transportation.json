@@ -36,7 +36,7 @@
           "method": "🚗 自駕",
           "details": "自駕遊覽代爾夫特古城、海牙、席凡寧根海灘（全程自駕）",
           "duration": "全日遊覽",
-          "note": "無需購票。建議停靠Café du Midi早餐。停車可用欧元硬幣或停車卡。"
+          "note": "無需購票。建議停靠Café du Midi早餐。停車可用歐元硬幣或停車卡。"
         }
       ]
     },
@@ -47,9 +47,9 @@
         {
           "route": "鹿特丹 → 小孩堤防 → 多德雷赫特 → 回鹿特丹",
           "method": "🚗 自駕",
-          "details": "鹿特丹朋友家 → 小孩堤防(Kinderdijk) | 停車€9.50/車（含接駁巴士） → 多德雷赫特古城 → 回鹿特丹",
+          "details": "鹿特丹朋友家 → 小孩堤防(Kinderdijk) | 停車€9.75/車（含接駁巴士） → 多德雷赫特古城 → 回鹿特丹",
           "duration": "全日遠征",
-          "note": "小孩堤防風車每週六14:00-17:30轉動。停車費是該景點唯一收費。無需購火車票。"
+          "note": "⚠️ 風車轉動表演「Windmill Day」是每月第一個週六13:00-17:30，2026年8月對應8/1（六）而非本日8/2（日），造訪當天風車不會轉動。停車費是該景點唯一收費。無需購火車票。"
         }
       ]
     },
@@ -60,8 +60,8 @@
         {
           "route": "鹿特丹 → 阿姆斯特丹",
           "method": "🚂 NS 火車",
-          "details": "鹿特丹Centraal → 阿姆斯特丹Sloterdijk | 路線代號：Sprinter IC | 每小時多班",
-          "duration": "約1小時10分鐘",
+          "details": "鹿特丹Centraal → 阿姆斯特丹Sloterdijk | 路線代號：Intercity Direct | 每小時多班",
+          "duration": "約40-45分鐘",
           "booking": "【購票方式】NS官網(ns.nl) / OMIO app / 車站購票機 | €18.90起 | 可選購OV-chipkaart重複使用",
           "note": "移動日。推薦搭乘上午火車，到達飯店後立即進安妮之家（13:30預約）。晚間20:30運河遊船賞黃昏。"
         }
@@ -96,15 +96,15 @@
           "method": "🚂 NS 火車",
           "details": "阿姆斯特丹Sloterdijk → 烏特勒支Centraal (路線代號:Sprinter/IC) → Kampen轉車到羊角村(Giethoorn)",
           "duration": "約1.5小時（含轉車）",
-          "booking": "【購票方式】NS官網/OMIO分段購票 | Amsterdam→Utrecht €7.50 + Utrecht→Kampen €7-10 | 或1日交通卡"
+          "booking": "【購票方式】NS官網/OMIO分段購票 | Amsterdam→Utrecht €8.50-10 + Utrecht→Kampen €7-10 | 或1日交通卡"
         },
         {
-          "route": "羊角村自駕電動平底船",
-          "method": "🛶 電動平底船 Zwaantje",
-          "details": "羊角村自駕電動船（無駕照也可開） | 線上預訂必填：zwaantje.nl | 費用：€50/艘",
-          "duration": "約2小時體驗",
-          "booking": "⚠️ 【務必提前線上預訂】盛夏(8月)是旺季，不預訂會沒位子！需信用卡+驗證碼",
-          "note": "天氣好時很熱，帶防曬霜。全程自駕穩定平順，無需駕照。原路火車回阿姆斯特丹。"
+          "route": "羊角村一日遊行程",
+          "method": "🛶 當地一日遊/包船導覽",
+          "details": "報名當地一日遊行程，含船遊導覽，不需自行預約電動船，行程與集合方式依所報名的行程而定",
+          "duration": "約半天-1天（視行程而定）",
+          "booking": "【購票方式】依所報名的一日遊行程網站或旅行社預訂",
+          "note": "天氣好時很熱，帶防曬霜。原路火車回阿姆斯特丹。"
         }
       ]
     },
@@ -145,7 +145,7 @@
           "method": "🚂 NS 火車 + 🚌 公車",
           "details": "烏特勒支Centraal → Ede-Wageningen (路線代號:Sprinter IC, 30分) → 公車106/108 (Connexxion營運) → 庫勒-慕勒美術館入口 (30分)",
           "duration": "約1小時轉運",
-          "booking": "【購票方式】NS火車+公車聯票 | Utrecht→Ede€5.50 + 公車€5 | 或在Ede車站買聯票€12.50 (優惠)"
+          "booking": "【購票方式】NS火車+公車聯票 | Utrecht→Ede€9.80-10.50 + 公車€5 | 或在Ede車站買聯票詢問優惠"
         },
         {
           "route": "館區內騎白單車漫遊",
@@ -164,17 +164,17 @@
         {
           "route": "烏特勒支 → 德哈爾城堡",
           "method": "🚂 NS 火車 + 🚌 公車",
-          "details": "烏特勒支Centraal → Vleuten (約15分) → 公車127號 → 德哈爾城堡(Kasteel de Haar) | 路線代號：Connexxion 127",
+          "details": "烏特勒支Centraal → Vleuten (約15分) → 公車111號 → 德哈爾城堡(Kasteel de Haar) | 路線代號：U-OV 111，站牌就在城堡接待處旁",
           "duration": "約30-40分鐘（含轉運）",
           "booking": "【購票方式】NS火車€3.50 + 公車€3 | 或Vleuten車站買聯票€7.50 | 城堡門票另計(約€15)"
         },
         {
           "route": "回市區 → 米飛兔博物館",
           "method": "🚂 NS 火車 / 🚶 步行",
-          "details": "公車127反向 → Vleuten → NS火車回烏特勒支Centraal | 米飛兔博物館在市中心Neude廣場步行距離",
+          "details": "公車111反向 → Vleuten → NS火車回烏特勒支Centraal | 米飛兔博物館在市中心Neude廣場步行距離",
           "duration": "無固定",
-          "booking": "【購票方式】原路返回 | 城堡開放時間：通常10:00-17:00 (確認季節)",
-          "note": "⚠️ 德哈爾城堡需提前線上預約導覽時間。8月尚可，9月全月不開放（私人活動）。米飛兔博物館位於Centraal西側。"
+          "booking": "【購票方式】原路返回 | 城堡開放時間：每天11:00-17:00（暑假10:00開放）",
+          "note": "⚠️ 德哈爾城堡需提前線上預約時段。米飛兔博物館位於Centraal西側，現場無售票須先線上購票。"
         }
       ]
     },
@@ -186,8 +186,8 @@
           "route": "烏特勒支 → 德國科隆",
           "method": "🚂 ICE 123 高速列車",
           "details": "烏特勒支Centraal → 科隆Hauptbahnhof (Köln Hbf) | 11:02 出發 | 路線代號：ICE 123 | 跨國高速列車（最高300km/h）",
-          "duration": "約2小時",
-          "booking": "✅ 已購票 | 班次：ICE 123 | 機票類：Flexpreis（靈活票型）",
+          "duration": "約2小時10-20分鐘",
+          "booking": "✅ 已購票 | 班次：ICE 123 | 票種：Flexpreis（靈活票型）",
           "note": "【盛大周年慶！】高速列車，下午14:00左右抵達。直奔大教堂(Kölner Dom)與霍亨索倫橋(Hohenzollernbrücke)。飯店Marriott位於Johannisstrasse (大教堂附近)。"
         }
       ]
@@ -201,7 +201,7 @@
           "method": "🚂 ICE 高速列車",
           "details": "科隆Hauptbahnhof → 法蘭克福Hauptbahnhof | 13:18 出發 | 路線代號：ICE (DB德鐵營運) | 高速列車",
           "duration": "約1小時5分鐘",
-          "booking": "【購票方式】需購票 | 德鐵官網db.de或OMIO | Flexpreis€89-150 / Sparpreis€29起"
+          "booking": "【購票方式】需購票 | 德鐵官網db.de或OMIO | Flexpreis約€65-150（視預訂時間） / Sparpreis最低約€15-18起（越早訂越便宜）"
         },
         {
           "route": "法蘭克福 → 飯店(Hauptwache)",
@@ -219,9 +219,9 @@
       "segments": [
         {
           "route": "法蘭克福 → 海德堡",
-          "method": "🚂 S-Bahn 1線 / 🚂 RE區域列車",
-          "details": "法蘭克福Hauptbahnhof → 海德堡Hauptbahnhof | 07:45出發 | 路線代號：S1 Richtung Heidelberg / RE Mannheim",
-          "duration": "約1小時"
+          "method": "🚂 RE 區域快車",
+          "details": "法蘭克福Hauptbahnhof → 海德堡Hauptbahnhof | 07:45出發 | 路線代號：RE（Main-Neckar-Bahn線，經Darmstadt/Bensheim/Weinheim）| 無S-Bahn S1直達此路線，勿混淆",
+          "duration": "約50分鐘-1小時20分（依班次而定）"
         },
         {
           "route": "海德堡車站 → 纜車站(Bergbahn)",
@@ -232,13 +232,13 @@
         {
           "route": "上山遊覽城堡與山頂景點",
           "method": "🚡 纜車Bergbahn",
-          "details": "Bergbahn分上下兩段 | 下段→海德堡古堡(Heidelberg Castle)，上段→哲學家小徑(Philosophenweg) | 往返票€14.40",
+          "details": "Bergbahn分上下兩段 | 下段→海德堡古堡(Heidelberg Castle)，上段→哲學家小徑(Philosophenweg) | 城堡與纜車不分開賣，只有Schlossticket套票€11（成人）",
           "duration": "上下共約14分鐘",
           "booking": "【購票方式】Heidelberg Card (1日€19.50) | 包含所有公車+纜車無限次 + 景點折扣"
         },
         {
           "route": "回法蘭克福",
-          "method": "🚂 S-Bahn 1線",
+          "method": "🚂 RE 區域快車",
           "details": "海德堡Hbf → 法蘭克福Hauptbahnhof | 回程班次：17:30 / 18:30 | 原路同線返回",
           "duration": "約1小時",
           "note": "【海德堡深度一日遊行程】多石磚斜坡路，穿防滑球鞋。建議下午16:00前下山，趕17:30班車回法蘭克福。"
@@ -274,26 +274,6 @@
     {
       "date": "8/14 (五)",
       "day_number": 15,
-      "segments": [
-        {
-          "route": "飯店 → 法蘭克福機場",
-          "method": "🚆 S-Bahn 8/9",
-          "details": "Hauptwache → 法蘭克福機場一航 (Airport 1)",
-          "duration": "約11分鐘"
-        },
-        {
-          "route": "機場航廈間轉運",
-          "method": "🚝 Skyline",
-          "details": "機場一航 → 二航(D區華航)",
-          "duration": "無固定"
-        },
-        {
-          "route": "法蘭克福 → 台北（回程）",
-          "method": "✈️ 華航 CI62",
-          "details": "法蘭克福(FRA) → 台北(TPE) | 11:15 起飛 | 長途直飛返台",
-          "duration": "約12小時"
-        }
-      ],
       "segments": [
         {
           "route": "飯店Hauptwache → 法蘭克福機場(Terminal 1)",
