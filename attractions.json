@@ -145,6 +145,19 @@
       "visitorInsight": "約旦區藏了近20個「hofjes」隱藏中庭，門面看起來就跟普通住家一樣，不刻意找根本發現不了；離主運河街道一條巷子就整個安靜下來。剛好排到週一的話，諾德市場(Noordermarkt)跳蚤市集跟農夫市集會同時擺攤，是最熱鬧的一天。",
       "type": "neighborhood"
     },
+    "黃昏起司美酒運河遊船": {
+      "name": "黃昏起司美酒運河遊船 (Cheese & Wine Canal Cruise)",
+      "englishName": "Amsterdam Cheese & Wine Cruise",
+      "city": "阿姆斯特丹",
+      "description": "傍晚出發的運河遊船，一邊喝酒配起司一邊欣賞點燈後的運河屋、安妮之家與西教堂等地標，是體驗阿姆斯特丹夜景的熱門方式。以Stromma等業者的行程最知名，約75分鐘，含多款荷蘭起司配Groninger芥末醬與無限暢飲的紅白酒/啤酒/軟性飲料。",
+      "openingHours": "多數業者晚間20:00左右發船，依所訂行程而定",
+      "ticket": "約€34.50-39.50（依業者與行程而定）",
+      "duration": "約75分鐘",
+      "highlights": "點燈運河屋夜景 | 安妮之家與西教堂沿岸而過 | 荷蘭起司配美酒暢飲",
+      "tips": "建議提前線上預訂鎖定發船時段，Damrak碼頭一帶是常見上船點，出發前務必確認自己訂的行程集合地點",
+      "type": "activity",
+      "booking": "可透過Stromma、Viator、GetYourGuide等平台預訂，依所選行程預訂管道而定"
+    },
     "梵谷博物館": {
       "name": "梵谷博物館 (Van Gogh Museum)",
       "city": "阿姆斯特丹",
@@ -202,6 +215,53 @@
       "photo": "運河邊茅草屋、拱橋、倒影、夜景點燈",
       "type": "village",
       "photo_tip": "光線最美：傍晚17:00-19:00，天氣晴朗時"
+    },
+    "梵谷森林國家公園": {
+      "name": "梵谷森林國家公園 (De Hoge Veluwe National Park)",
+      "englishName": "De Hoge Veluwe National Park",
+      "city": "梵谷森林",
+      "description": "荷蘭最大的國家公園之一，佔地5,400公頃，涵蓋沙丘、森林、荒原地形，園內免費提供約1800台白色單車供遊客騎乘穿梭，運氣好還能看到野生鹿群。因庫勒-慕勒美術館收藏大量梵谷真跡，此區被暱稱為「梵谷森林」。",
+      "address": "Houtkampweg 9, 6731 AW Otterlo（Otterlo入口）",
+      "openingHours": "8月：08:00-21:00（最晚可於閉園前1小時入園）",
+      "ticket": "日票約€13.40（成人）／€6.70（兒童）；⚠️持荷蘭博物館卡Museumkaart僅園內庫勒-慕勒美術館免費，國家公園本身入園票需另外購買",
+      "duration": "建議至少半天，搭配美術館可安排一整天",
+      "highlights": "5,400公頃荷蘭最大國家公園之一 | 約1800台免費白色單車 | 野生鹿群 | 沙丘與森林地形",
+      "tips": "園區入口只能刷卡付費，不收現金；建議搭配庫勒-慕勒美術館與聖胡伯狩獵住宅安排一日雙館行程",
+      "visitorInsight": "白單車煞車是「倒踩式」（往後踩才煞車），不熟悉的人常常會不習慣，上路前先練習一下比較安全；園區腹地很大，光是騎車移動就要花不少時間，行程別排得太緊。",
+      "photo_tip": "沙丘區（Zandverstuiving）日落前拍照最壯觀，跟森林景觀形成強烈對比",
+      "type": "nature_park",
+      "website": "hogeveluwe.nl"
+    },
+    "庫勒-慕勒美術館": {
+      "name": "庫勒-慕勒美術館 (Kröller-Müller Museum)",
+      "englishName": "Kröller-Müller Museum",
+      "city": "梵谷森林",
+      "description": "擁有全球第二大梵谷收藏（僅次於阿姆斯特丹梵谷博物館），超過200件梵谷真跡，建築融於森林自然環境中，戶外還有歐洲最大戶外雕塑公園，可免費借白色單車在園區穿梭。",
+      "address": "Houtkampweg 6, 6731 AW Otterlo",
+      "openingHours": "週二至週日 10:00-17:00，週一公休",
+      "ticket": "€19（成人，不含國家公園入園費，需另外購買）；持博物館卡免費；園區內免費借白單車",
+      "duration": "3-4小時",
+      "highlights": "全球第二大梵谷收藏 | 歐洲最大戶外雕塑公園 | 免費白色單車 | 森林中的美術館建築",
+      "tips": "必須搭公車+接駁車到達，森林山區環境涼爽，建議抓一整個上午的時間",
+      "visitorInsight": "很多去過阿姆斯特丹梵谷博物館的人都會特別提到這裡人少很多，可以真的站在畫前面慢慢看；但花費容易被低估——除了美術館門票，還要另外付國家公園門票，兩人份加起來可能逼近€60，記得抓寬鬆一點的預算。",
+      "photo_tip": "戶外雕塑公園騎白單車拍照最有氛圍",
+      "type": "art_museum",
+      "website": "kmm.nl"
+    },
+    "聖胡伯狩獵住宅": {
+      "name": "聖胡伯狩獵住宅 (Sint Hubertus Jachtslot)",
+      "englishName": "Sint Hubertus Jachtslot",
+      "city": "梵谷森林",
+      "description": "20世紀初新藝術（Art Nouveau）建築傑作，由建築師Berlage設計，融合狩獵傳說主題，目前作為美術館與活動場所開放參觀。",
+      "address": "Sint Hubertuslaan 1, 6731 VD Otterlo",
+      "openingHours": "週二至週日 11:00-17:00，週一公休",
+      "ticket": "€7.50（成人）；持博物館卡免費",
+      "duration": "1-1.5小時（含導覽約75分鐘）",
+      "highlights": "新藝術建築傑作 | 只開放5個房間需跟導覽 | 語音導覽有中文選項",
+      "tips": "與庫勒-慕勒美術館同區，可結合一日雙館之旅",
+      "visitorInsight": "整棟住宅只開放35個房間中的5間，而且只能跟導覽走，有些人覺得導覽員講解拖得有點久(不含導覽其實20分鐘就走得完)，心理預期抓75分鐘會比較準；語音導覽罕見地有中文跟日文選項，不是只有英法德。",
+      "type": "historic_house",
+      "website": "kmm.nl"
     },
     "辛格花市": {
       "name": "辛格花市 (Singel Flower Market)",
@@ -450,6 +510,44 @@
       "dining": "Main Tower Restaurant & Lounge - 高空用餐體驗",
       "type": "viewpoint",
       "photo_tip": "傍晚18:00-19:30天際線最美，城市燈火點亮"
+    },
+    "Kleinmarkthalle": {
+      "name": "Kleinmarkthalle 室內市場",
+      "englishName": "Kleinmarkthalle",
+      "city": "法蘭克福",
+      "description": "19世紀創立、1954年重建的室內市場，位於老城中心，距離羅馬廣場與采爾大道都是步行距離。超過60個攤位，賣新鮮蔬果、肉品香腸、起司、烘焙、咖啡、花卉到各國香料熟食應有盡有，是感受法蘭克福日常生活感的好地方。",
+      "address": "Hasengasse 5-7, 60311 Frankfurt am Main",
+      "openingHours": "週一至週五 08:00-18:00；週六 08:00-16:00；週日公休",
+      "ticket": "免費入場逛街，消費另計",
+      "duration": "1小時",
+      "highlights": "60多個攤位 | 熟食小吃現場吃 | 起司/香腸/花卉樣樣有 | 老城中心步行可達",
+      "tips": "週日公休，8/13(四)造訪不受影響；建議中午時段來，攤位上的熟食小吃最新鮮，也可以當作簡單午餐",
+      "type": "market"
+    },
+    "歌德大街": {
+      "name": "歌德大街 (Goethestraße)",
+      "englishName": "Goethestraße",
+      "city": "法蘭克福",
+      "description": "1892年開闢至今的法蘭克福頂級精品街，被稱為「Luxusgasse」（奢華巷），常被拿來跟巴黎蒙田大道、倫敦龐德街相提並論。兩側林立Gucci、Prada、LV、Chanel、Dior、Cartier、Hermès、Bulgari、Tiffany等國際精品旗艦店。",
+      "openingHours": "商店一般週一至週六10:00-19:00或20:00；週日多數店休息",
+      "ticket": "免費逛街；購物另計（德國滿€50可辦理退稅）",
+      "duration": "1-2小時",
+      "highlights": "國際精品旗艦店齊聚 | 媲美巴黎/倫敦精品街 | 林蔭大道露天咖啡座",
+      "tips": "8/13是週四，商店正常營業；退稅記得隨身攜帶護照正本",
+      "type": "shopping"
+    },
+    "Main Tower 奢華高空晚宴": {
+      "name": "Main Tower Restaurant & Lounge 高空晚宴",
+      "englishName": "Main Tower Restaurant & Lounge",
+      "city": "法蘭克福",
+      "description": "位於Main Tower 53樓的米其林一星餐廳，233公尺高空景觀座位，可俯瞰法蘭克福天際線與美茵河夜景，是這趟旅程周年慶的重頭戲晚宴。跟Main Tower觀景台（55-56樓，€9門票）是不同的體驗，用餐無需另購觀景台門票。",
+      "address": "Neue Mainzer Str. 52-58, 60311 Frankfurt am Main（Main Tower大樓53樓）",
+      "openingHours": "週二、四 18:00-00:00；週五、六 18:00-01:00（實際營業時間請以官網公告為準）",
+      "ticket": "無入場費，用餐需提前線上預約；米其林一星價位（依菜單而定，建議提前查詢當期價格）",
+      "duration": "2-3小時",
+      "highlights": "米其林一星料理 | 233公尺高空夜景 | 法蘭克福天際線全景",
+      "tips": "務必提前線上預約訂位；18:15前抵達一樓排隊安檢，18:30開始用餐；建議著較正式服裝",
+      "type": "restaurant"
     },
     "法蘭克福": {
       "name": "法蘭克福 (Frankfurt) 金融城",
