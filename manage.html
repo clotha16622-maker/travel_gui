@@ -16,7 +16,12 @@
 
         body {
             font-family: 'Segoe UI', -apple-system, 'PingFang TC', BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 50%, #dfc49e 100%);
+            background:
+                radial-gradient(ellipse at center, transparent 45%, rgba(107, 68, 35, 0.12) 100%),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"),
+                linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 50%, #dfc49e 100%);
+            background-repeat: no-repeat, repeat, no-repeat;
+            background-attachment: fixed, fixed, fixed;
             color: #4a4a4a;
             min-height: 100vh;
         }
@@ -209,7 +214,17 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div id="lockOverlay" style="position: fixed; inset: 0; background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 50%, #dfc49e 100%); display: flex; align-items: center; justify-content: center; z-index: 9999;">
+        <div style="background: white; border-radius: 12px; padding: 32px 28px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); text-align: center; width: 90%; max-width: 320px;">
+            <div style="font-size: 2em; margin-bottom: 8px;">🔒</div>
+            <div style="font-weight: 700; color: #4a4a4a; margin-bottom: 16px;">請輸入密碼</div>
+            <input id="lockPasswordInput" type="password" inputmode="numeric" style="width: 100%; padding: 10px 12px; border: 1px solid #dfc49e; border-radius: 8px; font-size: 1.1em; text-align: center; margin-bottom: 8px;" placeholder="••••">
+            <div id="lockError" style="color: #c0392b; font-size: 0.85em; min-height: 1.2em; margin-bottom: 8px;"></div>
+            <button onclick="checkLockPassword()" style="width: 100%; padding: 10px; background: #d4a574; color: white; border: none; border-radius: 8px; font-size: 1em; cursor: pointer;">確認</button>
+        </div>
+    </div>
+
+    <div class="container" id="pageContainer" style="display: none;">
         <a href="index.html" class="back-btn">← 返回首頁</a>
 
         <div class="header">
@@ -231,8 +246,36 @@
     <script>
         let itineraries = [];
 
-        window.addEventListener('load', () => {
+        const MANAGE_PASSWORD = '0325';
+
+        function unlockPage() {
+            document.getElementById('lockOverlay').style.display = 'none';
+            document.getElementById('pageContainer').style.display = 'block';
             loadItineraries();
+        }
+
+        function checkLockPassword() {
+            const input = document.getElementById('lockPasswordInput');
+            const errorEl = document.getElementById('lockError');
+            if (input.value === MANAGE_PASSWORD) {
+                sessionStorage.setItem('manageUnlocked', 'true');
+                unlockPage();
+            } else {
+                errorEl.textContent = '密碼錯誤';
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        window.addEventListener('load', () => {
+            document.getElementById('lockPasswordInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') checkLockPassword();
+            });
+            if (sessionStorage.getItem('manageUnlocked') === 'true') {
+                unlockPage();
+            } else {
+                document.getElementById('lockPasswordInput').focus();
+            }
         });
 
         function loadItineraries() {
