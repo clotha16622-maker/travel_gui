@@ -23,6 +23,21 @@
       { "label": "Wetterprognose 8月德國展望", "url": "wetterprognose-wettervorhersage.de" }
     ]
   },
+  "laundry_cooking_notes": {
+    "title": "🧺 洗衣/開伙機會點",
+    "summary": "16天的行程裡有兩間住宿其實不只是普通飯店房間，剛好可以拿來洗衣服跟簡單開伙：",
+    "opportunities": [
+      {
+        "when": "8/3-8/6（4晚）Hotel2stay 阿姆斯特丹",
+        "detail": "每間房自帶小廚房（induction電磁爐＋微波爐＋洗碗機），飯店內另有投幣式自助洗衣房，代幣在櫃檯購買。行程中間點，適合安排一次大洗+簡單煮一餐。"
+      },
+      {
+        "when": "8/11-8/13（3晚）Residence Inn 法蘭克福",
+        "detail": "套房本身就是帶廚房設計（訂房備註已寫明），飯店也有自助洗衣房＋熨斗。行程尾聲，適合再洗一次、順便消耗一下之前買的食材。"
+      }
+    ],
+    "verdict": "中間鹿特丹朋友家、烏特勒支NH、科隆萬豪這幾晚沒有確認的洗衣/開伙設備，建議把「大洗」「開伙」都排在上面這兩個時間點，其餘天數靠快乾材質衣物撐過去就好。"
+  },
   "packing_categories": [
     {
       "category": "🛂 證件/金錢",
@@ -155,6 +170,21 @@
         { "id": "acc_8", "name": "髮帶/髮夾", "priority": "useful" },
         { "id": "acc_9", "name": "運動腰帶", "priority": "useful" },
         { "id": "acc_10", "name": "手錶", "priority": "useful" }
+      ]
+    },
+    {
+      "category": "🧺 洗衣/簡易開伙",
+      "icon": "🧺",
+      "items": [
+        { "id": "laundry_1", "name": "旅行分裝洗衣膠囊/洗衣精油珠（3-4顆）", "priority": "important" },
+        { "id": "laundry_2", "name": "歐元零錢（€1/€2，投幣式洗衣機常用）", "priority": "important" },
+        { "id": "laundry_3", "name": "摺疊曬衣繩+吸盤掛勾（沒洗衣房的日子應急晾內衣褲用）", "priority": "useful" },
+        { "id": "laundry_4", "name": "洗衣袋（分裝待洗衣物，避免弄髒行李箱）", "priority": "useful" },
+        { "id": "cook_1", "name": "即食調理包/泡麵/沖泡湯品（善用飯店電磁爐/微波爐）", "priority": "useful" },
+        { "id": "cook_2", "name": "隨身醬料包/調味包（不用買整罐調味料）", "priority": "useful" },
+        { "id": "cook_3", "name": "環保購物袋（超市採買食材用）", "priority": "useful" },
+        { "id": "cook_4", "name": "密封袋/保鮮盒（裝剩食或分裝食材）", "priority": "useful" },
+        { "id": "cook_5", "name": "免洗餐具/環保筷（如不想用當地餐具）", "priority": "useful" }
       ]
     },
     {

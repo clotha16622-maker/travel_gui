@@ -1435,6 +1435,7 @@
                 </div>
             </div>
             <div class="weather-outlook-container" id="weatherOutlookContainer"></div>
+            <div class="laundry-cooking-container" id="laundryCookingContainer"></div>
             <div class="packing-stats" id="packingStats"></div>
             <div class="packing-container" id="packingContainer"></div>
         </div>
@@ -1579,6 +1580,7 @@
             renderFlexible();
             renderTransport();
             renderWeatherOutlook();
+            renderLaundryCookingNotes();
             renderPackingList();
             setTimeout(renderMap, 300);
         }
@@ -2720,6 +2722,33 @@
                     ${legsHtml}
                     ${outlook.verdict ? `<div style="font-size: 0.9em; color: #6B5335; margin-top: 8px; padding-top: 10px; border-top: 1px dashed #E0CBA8;"><strong>💡 打包建議：</strong>${outlook.verdict}</div>` : ''}
                     ${sourcesHtml ? `<div style="font-size: 0.75em; color: #B0A08C; margin-top: 10px;">資料來源：${sourcesHtml}</div>` : ''}
+                </div>
+            `;
+        }
+
+        function renderLaundryCookingNotes() {
+            const container = document.getElementById('laundryCookingContainer');
+            if (!container) return;
+
+            const notes = packingListData && packingListData.laundry_cooking_notes;
+            if (!notes) {
+                container.innerHTML = '';
+                return;
+            }
+
+            const oppsHtml = (notes.opportunities || []).map(opp => `
+                <div style="background: #fff; border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; border-left: 4px solid #D4A574;">
+                    <div style="font-weight: 700; color: #8B6F47; margin-bottom: 4px;">${opp.when}</div>
+                    <div style="font-size: 0.9em; color: #5C4A36; line-height: 1.6;">${opp.detail}</div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div style="background: #FBF3E7; border-radius: 10px; padding: 18px 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(139, 111, 71, 0.12);">
+                    <div style="font-weight: 800; color: #8B6F47; font-size: 1.1em; margin-bottom: 6px;">${notes.title}</div>
+                    <div style="font-size: 0.9em; color: #5C4A36; margin-bottom: 14px;">${notes.summary}</div>
+                    ${oppsHtml}
+                    ${notes.verdict ? `<div style="font-size: 0.9em; color: #6B5335; margin-top: 8px; padding-top: 10px; border-top: 1px dashed #E0CBA8;"><strong>💡 建議：</strong>${notes.verdict}</div>` : ''}
                 </div>
             `;
         }
