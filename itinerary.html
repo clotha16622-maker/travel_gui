@@ -2705,22 +2705,35 @@
                 return;
             }
 
-            const legsHtml = (outlook.legs || []).map(leg => `
-                <div style="background: #fff; border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; border-left: 4px solid #D4A574;">
-                    <div style="font-weight: 700; color: #8B6F47; margin-bottom: 4px;">${leg.region} — ${leg.summary}</div>
-                    <div style="font-size: 0.9em; color: #5C4A36; line-height: 1.6; margin-bottom: 6px;">${leg.detail}</div>
-                    ${leg.watchDays ? `<div style="font-size: 0.85em; color: #B08454;">🔍 ${leg.watchDays}</div>` : ''}
+            const confidenceColor = { high: '#8B6F47', medium: '#D4A574', low: '#C9BBA8' };
+            const confidenceLabel = { high: '', medium: '中信心', low: '⚠️低信心' };
+
+            const dailyHtml = (outlook.dailyForecast || []).map(day => `
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; background: #fff; border-radius: 6px; padding: 10px 12px; margin-bottom: 6px; border-left: 3px solid ${confidenceColor[day.confidence] || '#D4A574'};">
+                    <div style="min-width: 0;">
+                        <div style="font-weight: 700; color: #8B6F47; font-size: 0.92em;">${day.date} ${day.location}</div>
+                        ${day.flag ? `<div style="font-size: 0.8em; color: #B0522D; margin-top: 2px;">${day.flag}</div>` : ''}
+                    </div>
+                    <div style="text-align: right; white-space: nowrap; flex-shrink: 0;">
+                        <div style="font-weight: 700; color: #5C4A36;">${day.high}° / ${day.low}°C</div>
+                        <div style="font-size: 0.78em; color: #999;">${day.condition} · 🌧️${day.rainChance}%${confidenceLabel[day.confidence] ? ' · ' + confidenceLabel[day.confidence] : ''}</div>
+                    </div>
                 </div>
+            `).join('');
+
+            const warningsHtml = (outlook.warnings || []).map(w => `
+                <div style="font-size: 0.85em; color: #6B5335; margin-bottom: 4px;">${w}</div>
             `).join('');
 
             const sourcesHtml = (outlook.sources || []).map(s => s.label).join('、');
 
             container.innerHTML = `
                 <div style="background: #FBF3E7; border-radius: 10px; padding: 18px 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(139, 111, 71, 0.12);">
-                    <div style="font-weight: 800; color: #8B6F47; font-size: 1.1em; margin-bottom: 6px;">☀️ 出發前天氣展望（查詢於 ${outlook.checkedDate}）</div>
+                    <div style="font-weight: 800; color: #8B6F47; font-size: 1.1em; margin-bottom: 6px;">☀️ 逐日天氣預報（查詢於 ${outlook.checkedDate}）</div>
                     <div style="font-size: 0.85em; color: #999; margin-bottom: 14px;">⚠️ ${outlook.disclaimer}</div>
-                    ${legsHtml}
-                    ${outlook.verdict ? `<div style="font-size: 0.9em; color: #6B5335; margin-top: 8px; padding-top: 10px; border-top: 1px dashed #E0CBA8;"><strong>💡 打包建議：</strong>${outlook.verdict}</div>` : ''}
+                    ${dailyHtml}
+                    ${warningsHtml ? `<div style="margin-top: 12px; padding-top: 10px; border-top: 1px dashed #E0CBA8;">${warningsHtml}</div>` : ''}
+                    ${outlook.verdict ? `<div style="font-size: 0.9em; color: #6B5335; margin-top: 8px; padding-top: 10px; border-top: 1px dashed #E0CBA8;"><strong>💡 建議：</strong>${outlook.verdict}</div>` : ''}
                     ${sourcesHtml ? `<div style="font-size: 0.75em; color: #B0A08C; margin-top: 10px;">資料來源：${sourcesHtml}</div>` : ''}
                 </div>
             `;

@@ -1,26 +1,36 @@
 {
   "weather_outlook": {
-    "checkedDate": "2026-07-26",
-    "disclaimer": "以下為出發前查詢的天氣展望，越晚的日期預報越不準，建議出發前2-3天再上氣象網站重查一次。",
-    "legs": [
-      {
-        "region": "🇳🇱 荷蘭段（7/31-8/9）",
-        "summary": "偏乾偏熱，晴朗為主",
-        "detail": "2026年是異常炎熱的一年，荷蘭已經歷3波熱浪，7月底可能有第4波。KNMI對8月上半的展望是乾燥、晴朗、氣溫偏高，南風時可能衝到30°C以上，目前沒有降雨或劇烈天氣警報。",
-        "watchDays": "8/2 小孩堤防+多德雷赫特、8/5 羊角村船遊 目前預報都是晴天，但都還在7-10天預報範圍外，準確度有限"
-      },
-      {
-        "region": "🇩🇪 德國段（8/10-8/14）",
-        "summary": "新一波熱浪醞釀中，可能比氣候平均值熱",
-        "detail": "德國氣象單位已標示8月有新一波熱浪正在醞釀，剛好蓋住整個德國段。氣候平均值科隆約23°C/13°C、法蘭克福約25°C/14°C，若熱浪成形實際氣溫可能落在28-35°C，風險是「更熱」而不是下雨。",
-        "watchDays": "8/12 海德堡古堡+哲學家小徑戶外健走風險最高，建議早點出發、多帶水"
-      }
+    "checkedDate": "2026-07-29",
+    "disclaimer": "出發只剩1天，7/31-8/8這段已經是實際短中期預報（誤差較小）；8/9以後還是延伸期/統計預報，準確度有限，模型彼此還有分歧，建議每天出門前再看一次當日預報。",
+    "dailyForecast": [
+      { "date": "7/31 (五)", "location": "鹿特丹", "high": 25, "low": 17, "condition": "多雲時晴", "rainChance": 30, "confidence": "high" },
+      { "date": "8/1 (六)", "location": "鹿特丹/台夫特/海牙", "high": 25, "low": 15, "condition": "晴朗少雲", "rainChance": 0, "confidence": "high", "flag": "海灘好天氣" },
+      { "date": "8/2 (日)", "location": "鹿特丹/小孩堤防/多德雷赫特", "high": 26, "low": 14, "condition": "多雲時晴", "rainChance": 0, "confidence": "high", "flag": "戶外風車行程天氣良好" },
+      { "date": "8/3 (一)", "location": "阿姆斯特丹", "high": 26, "low": 17, "condition": "多雲偶陣雨", "rainChance": 25, "confidence": "high" },
+      { "date": "8/4 (二)", "location": "阿姆斯特丹", "high": 23, "low": 18, "condition": "陣雨/雷雨機率高", "rainChance": 60, "confidence": "high", "flag": "⚠️熱浪消退，雷雨風險升高" },
+      { "date": "8/5 (三)", "location": "阿姆斯特丹/羊角村", "high": 21, "low": 16, "condition": "多雲", "rainChance": 50, "confidence": "medium", "flag": "⚠️船遊是露天船，降雨機率偏高要留意" },
+      { "date": "8/6 (四)", "location": "阿姆斯特丹", "high": 21, "low": 16, "condition": "晴朗少雲", "rainChance": 30, "confidence": "medium" },
+      { "date": "8/7 (五)", "location": "烏特勒支", "high": 22, "low": 14, "condition": "晴朗", "rainChance": 25, "confidence": "medium" },
+      { "date": "8/8 (六)", "location": "烏特勒支/梵谷森林", "high": 23, "low": 14, "condition": "晴朗少雲", "rainChance": 40, "confidence": "medium", "flag": "整天騎單車，降雨機率中等，帶輕便雨衣備用" },
+      { "date": "8/9 (日)", "location": "烏特勒支/德哈爾城堡", "high": 23, "low": 15, "condition": "晴朗", "rainChance": 35, "confidence": "low" },
+      { "date": "8/10 (一)", "location": "科隆", "high": 24, "low": 16, "condition": "晴到多雲（模型分歧，範圍22-25°C）", "rainChance": 15, "confidence": "low" },
+      { "date": "8/11 (二)", "location": "科隆/法蘭克福", "high": 27, "low": 15, "condition": "晴朗", "rainChance": 25, "confidence": "low" },
+      { "date": "8/12 (三)", "location": "海德堡", "high": 21, "low": 16, "condition": "間歇小雨", "rainChance": 80, "confidence": "low", "flag": "⚠️全程降雨機率最高的一天，古堡+哲學家小徑都是戶外健走，建議帶雨具" },
+      { "date": "8/13 (四)", "location": "法蘭克福", "high": 21, "low": 16, "condition": "多雲偶有小雨", "rainChance": 70, "confidence": "low" },
+      { "date": "8/14 (五)", "location": "法蘭克福（返程）", "high": 24, "low": 15, "condition": "多雲少陽光", "rainChance": 0, "confidence": "low" }
     ],
-    "verdict": "打包清單原本「夏季高溫」的設定方向是對的，防曬/降溫/補水類用品應該加強準備，不用特別加雨具當主力（輕便防水外套帶一件當保險就好）。",
+    "warnings": [
+      "🇳🇱 KNMI：黃色高溫警戒目前生效中（截至7/29），預計7/31稍緩，但8/3-4可能再度回升到30-35°C，隨後降溫伴隨雷陣雨風險。目前沒有橙色/紅色警戒。",
+      "🇩🇪 DWD：原本的高溫警戒會在7/31（行程開始前）解除。目前沒有生效中的劇烈天氣警戒（Unwetterwarnung），但短期預報顯示7/30起雷雨不穩定度上升，目前主要集中在德國東部，還沒有涵蓋科隆/法蘭克福/海德堡這條萊茵河—黑森走廊；8/9-8/13偏高的降雨機率是延伸模型的機率值，不是正式警戒，建議接近日期時再查 dwd.de/wettergefahren.de 確認。"
+    ],
+    "verdict": "8/4阿姆斯特丹跟8/12海德堡是目前看起來風險最高的兩天（雷雨/持續小雨），建議這兩天行李裡的輕便雨衣/雨傘拿出來備用，鞋子也選防滑不怕濕的。其餘荷蘭段大致延續乾熱格局，防曬/補水還是要準備足。德國段8/9以後的數字還在延伸預報範圍，出發前3天左右會再更新一次比較準的版本。",
     "sources": [
-      { "label": "NL Times - Fourth heat wave possible", "url": "nltimes.nl" },
-      { "label": "Weeronline 月展望", "url": "weeronline.nl" },
-      { "label": "Wetterprognose 8月德國展望", "url": "wetterprognose-wettervorhersage.de" }
+      { "label": "meteoblue 10-day forecast", "url": "meteoblue.com" },
+      { "label": "Wetterdienst.de (DWD) 10-Tage-Trend", "url": "wetterdienst.de" },
+      { "label": "kachelmannwetter DWD-MOS", "url": "kachelmannwetter.com" },
+      { "label": "wetter.com 16-Tage", "url": "wetter.com" },
+      { "label": "KNMI 警戒", "url": "knmi.nl" },
+      { "label": "DWD 警戒", "url": "dwd.de" }
     ]
   },
   "laundry_cooking_notes": {
