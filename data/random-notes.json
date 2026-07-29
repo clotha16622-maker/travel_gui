@@ -1,0 +1,125 @@
+{
+  "sections": [
+    {
+      "title": "🎒 出發前準備",
+      "items": [
+        "插頭：220V，Type C / Type F 歐規轉接頭",
+        "緊急電話：112；駐荷蘭台北代表處：+31 (0)6 5494-8849 / 0654-948849（富邦）",
+        "不要把重要購物排在星期日晚上",
+        "開啟信用卡海外刷卡功能並確認國外交易通知"
+      ]
+    },
+    {
+      "title": "🛒 超市推薦（已查證住宿/路線附近的分店）",
+      "items": [
+        "Albert Heijn（AH）— 最大最好逛，品質高",
+        "AH推薦：荷蘭優格（Skyr、Greek Yogurt）、新鮮莓果、沙拉、現做三明治、微波義大利麵、濃湯、Vla（荷蘭國民甜點，介於布丁和卡士達之間）、焦糖餅乾、Tony's Chocolonely、荷蘭薯條醬、花生醬",
+        "Jumbo — 比AH稍微便宜一點",
+        "Lidl — 最便宜之一",
+        "📍順路(8/3-8/6住宿) AH to go（Orlyplein 113，Sloterdijk車站旁約5分鐘），或再近一點的SPAR（車站旁約70公尺），適合每天補貨",
+        "📍順路(8/7-8/9) Albert Heijn就在NH飯店對面（Stationsplein/Noordgebouw，烏特勒支中央車站正前方），Jumbo也在附近（Vredenburg 9）",
+        "📍順路(8/11-8/13) REWE（Zeil 106-110，采爾大道購物中心地下樓層）— 德國沒有AH/Jumbo，這間離飯店最近，逛街動線上就會經過"
+      ]
+    },
+    {
+      "title": "🍽️ 推薦必吃（已查證跟每日路線的順路程度）",
+      "items": [
+        "Rudi's Original Stroopwafels — ⚠️在Albert Cuyp Market（De Pijp區），不順路，已排進吃喝玩樂手冊阿姆斯特丹小吃但需專程去",
+        "📍順路(8/3,8/6) Melly's StroopWafels（Nieuwezijds Voorburgwal 141）— 距離水壩廣場僅2分鐘，8/3中央車站→水壩廣場路線、8/6水壩廣場行程都會經過",
+        "Bitterballen 荷蘭炸肉球",
+        "Poffertjes 迷你鬆餅",
+        "Fries 荷蘭薯條",
+        "Herring 生鯡魚",
+        "薯條口味：Oorlog",
+        "Fabel Friet（Runstraat 1）— 已排進吃喝玩樂手冊，📍順路(8/3) 9 Streets範圍內",
+        "📍順路(8/6) Vleminckx Sausmeesters（Voetboogstraat 33）— 介於Spui跟水壩廣場之間，步行3-4分鐘小繞",
+        "📍順路(8/3,8/6) Manneken Pis（Damrak 41）— 就在中央車站到水壩廣場的必經幹道上，兩天都會經過，完全不用刻意繞",
+        "Winkel43 — 阿姆斯特丹最好吃的蘋果派，熱門時段可能排隊（尤其週末、Noordermarkt市集日），建議上午9-10點或平日下午，已排進吃喝玩樂手冊",
+        "📍順路(8/4) THE SEAFOOD BAR Van Baerlestraat 5店 — 緊鄰Museumplein，對應8/4梵谷/國家博物館那天",
+        "📍順路(8/6) THE SEAFOOD BAR Spui 15店 — 就在Vleminckx薯條店旁邊",
+        "📍順路(8/3) THE SEAFOOD BAR Damrak/Beurs van Berlage店 — 對應8/3中央車站到水壩廣場路線",
+        "THE SEAFOOD BAR Ferdinand Bolstraat 32店（De Pijp）— ⚠️離其他行程較遠，不特別推薦"
+      ]
+    },
+    {
+      "title": "☕ 咖啡（已查證跟每日路線的順路程度）",
+      "items": [
+        "📍順路(8/3) Coffee Company Berenstraat 6店（9 Streets/Jordaan）、Haarlemmerdijk 62店（近西教堂）",
+        "📍順路(8/4) Coffee Company Van Baerlestraat 45店（緊鄰Museumplein）",
+        "📍順路(8/6) Coffee Company Waterlooplein 129店（近林布蘭故居）",
+        "Starbucks",
+        "📍順路(8/11或8/13) Wacker's Kaffee 總店（Kornmarkt 9，老城區）— 距離Residence Inn飯店約800公尺-1公里，就在羅馬廣場(Römerberg)散步範圍內，如果會去法蘭克福一定要喝；其他分店（Grüneburgweg西區店、Sachsenhausen店、Bornheim店）離行程動線較遠，建議直接去Kornmarkt這間"
+      ]
+    },
+    {
+      "title": "✨ 很酷的地方（候選景點 — 已查證+對照行程空檔）",
+      "note": "每一項都查了現況資訊，並對照你實際行程有沒有空檔，誠實標記塞不塞得進去，不會為了塞而塞。",
+      "places": [
+        { "name": "Giethoorn 羊角村", "verdict": "already", "detail": "行程已有（8/5 一日遊）" },
+        { "name": "Kinderdijk 小孩堤防", "verdict": "already", "detail": "行程已有（8/2）" },
+        { "name": "Cube Houses 立體方塊屋", "verdict": "already", "detail": "行程已有（7/31）" },
+        { "name": "Markthal", "verdict": "already", "detail": "行程已有（7/31）" },
+        { "name": "Van Gogh Museum 梵谷博物館", "verdict": "already", "detail": "行程已有（8/4）" },
+        { "name": "Corpus Museum", "verdict": "already", "detail": "就是行程裡7/31萊頓的「人體博物館」，同一個地方" },
+        { "name": "阿姆斯特丹運河夜遊", "verdict": "already", "detail": "行程已有（8/3 起司美酒運河遊船，20:30出發，就是這個體驗）" },
+        { "name": "Rembrandt House Museum", "verdict": "already", "detail": "行程已有確定時間，不是備案：8/6 14:30已排「林布蘭故居或羅曼漢倫博物館」兩選一，不需要額外找時間" },
+        { "name": "萊茵河畔散步（科隆黃昏）", "verdict": "already", "detail": "行程已有（8/10 霍亨索倫橋鎖牆夜景就在河畔）" },
+        { "name": "Depot Boijmans Van Beuningen", "verdict": "skip", "detail": "這只是7/31的「空檔備案」，不是排定行程——實際分析：7/31從降落到21:00天鵝橋散步整天滿檔（含時差+萊頓來回），中間唯一的「16:00返回鹿特丹休息」是要用來調時差的，Depot需要2-3小時根本塞不進1小時的休息空檔；8/1、8/2也都是全天在外沒有回鹿特丹的空檔。誠實說：這個備案在現有行程下幾乎不會被用到，除非臨時取消其他行程，不建議特地排時間。" },
+        { "name": "Museum Ludwig", "verdict": "tight", "detail": "⚠️這張備案卡原本標在8/10，但那天是週一、博物館公休，去了會撲空（已修正資料庫警示）。真正可行的時段是8/11上午10:00開館後到12:00退房前，但那正是原訂「舊市集晨光咖啡+萊茵河畔散步」的時間，等於要放棄悠閒早晨、換成緊湊參觀2小時再趕回飯店退房+趕13:18的車。如果願意犧牲那段悠閒時光就排8/11上午，不然就跳過。" },
+        { "name": "找米菲兔／Dick Bruna雕像／Groeten uit Utrecht／米菲博物館商店", "verdict": "already", "detail": "8/7-8/9烏特勒支市區走動時自然會經過，8/9已排米菲博物館+旗艦店，不用特別排時間" },
+        { "name": "Rotterdam／Albert Cuyp Market", "verdict": "already", "detail": "鹿特丹行程已有；Albert Cuyp Market已在吃喝玩樂手冊阿姆斯特丹小吃清單裡" },
+
+        { "name": "Delft 的兩座百年教堂 Nieuwe Kerk / Oude Kerk", "verdict": "fits", "detail": "週一至週六10:00-17:00開放，收Museumkaart博物館卡折扣。8/1早上在台夫特本來就有散步時間，順路加進去即可，不用額外排時間。" },
+        { "name": "KattenKabinet 貓咪博物館", "verdict": "fits", "detail": "運河邊、就在9 Streets/Jordaan範圍內，€12.50建議先訂票。⚠️週一公休，8/3是週一不能去，建議排在8/6（週四）De Wallen晚間行程之前順路。" },
+        { "name": "Red Light Secrets Museum", "verdict": "fits", "detail": "就在紅燈區裡，跟8/6 De Wallen晚餐行程同一區域，那個時段本來就沒排死，順路加進去很輕鬆，約€14.50（離峰€10）。" },
+        { "name": "免費渡輪（IJ河渡輪）", "verdict": "fits", "detail": "中央車站後方搭乘，全免費，班次密集到深夜。8/6 De Wallen晚上散步時可以順道去搭一趟來回，10分鐘，零成本零風險。" },
+
+        { "name": "Body Worlds Amsterdam", "verdict": "tight", "detail": "Damrak 66，市中心位置，€22.50。8/3抵達阿姆斯特丹到13:30安妮之家之間有個約10:00-13:00的空檔，理論上塞得進去，但扣掉放行李、移動、吃午餐，實際可用時間很緊，要有心理準備可能來不及。" },
+        { "name": "Moco Museum", "verdict": "tight", "detail": "就在梵谷博物館隔壁，€17.95起。唯一可能的空檔是8/4梵谷(11:00)跟國家博物館(14:00)之間，但那天本來就排很滿，要塞這個等於要從已訂的兩館裡面各自擠出一點時間，不是白撿的空檔。" },
+        { "name": "Concertgebouw 皇家音樂廳", "verdict": "tight", "detail": "查到8/3 20:00場次（Mendelssohn/Chopin，€25起）但撞期你們20:30的運河遊船；8/4 20:00場次（€39起）是唯一沒撞期的，但會取代原本Vondelpark+晚餐的安排。而且要另外買票，這麼接近出發日位子可能已經不多了。" },
+        { "name": "Städel Museum 法蘭克福", "verdict": "tight", "detail": "從法蘭克福飯店走路約20-25分鐘沿河可達，不是遠程景點，€19（週二15:00-18:00只要€10，8/11剛好是週二）。如果8/11羅馬廣場散步後到晚餐前真的有1.5小時以上空檔，可以考慮；8/13完全沒有空檔，不要嘗試排那天。" },
+
+        { "name": "Museum Vrolik", "verdict": "skip", "detail": "在阿姆斯特丹UMC醫學中心裡，位置偏東南郊區，不在任何行程動線上，€11現場買票不能預約，除非特別想去否則不建議專程繞過去。" },
+        { "name": "Zaanse Schans 桑斯安斯風車村", "verdict": "skip", "detail": "從阿姆斯特丹交通其實方便（單程約30-35分鐘），但8/3-8/6每天都已經排滿，沒有空的一整天可以放，硬塞會排擠掉已訂的行程。" },
+        { "name": "Paleis Het Loo", "verdict": "skip", "detail": "從烏特勒支來回要4.5-5小時，行程裡沒有這麼大的空檔，會等於要放棄一整個已排的高景國家公園或德哈爾城堡行程。" },
+        { "name": "Efteling", "verdict": "skip", "detail": "遊樂園需要完整6-8小時才值回票價，交通單程還要2小時以上，這趟行程完全沒有可以塞的空檔。" },
+        { "name": "書店 Boekhandel Dominicanen（馬斯垂克）", "verdict": "skip", "detail": "從鹿特丹/阿姆斯特丹單程都要2小時以上，來回快5小時只為了逛20分鐘書店，這趟不會去馬斯垂克，不划算。" },
+        { "name": "紅燈區秀（Casa Rosso等）", "verdict": "skip", "detail": "合法演出、不是治安風險，但實際評價偏兩極到負面：€55-65/人，含飲料普通，有網友反應街頭拉客會帶去別的店家、報價跟實際不同。誠實建議：當成可有可無的新奇體驗就好，不特別推薦；真的想試，一定要透過官網直接訂，不要跟街頭拉客的人走。" }
+      ]
+    },
+    {
+      "title": "💊 德國藥妝（已查證跟每日路線的順路程度）",
+      "items": [
+        "一定會讓你失心瘋",
+        "📍順路(8/10) dm（Hohe Straße 73-75）— 就在科隆大教堂南側步行範圍內，8/10參觀完大教堂順路可到",
+        "📍順路(8/10) Rossmann（Schildergasse 32-34）— 跟上面dm同一條購物街延伸，距離約0.56公里，可以兩間一起逛",
+        "📍順路(8/13) dm（Zeil 23）／Rossmann（Zeil 41）— 都直接開在采爾大道上，8/13逛街行程本來就會經過，不用刻意繞"
+      ]
+    },
+    {
+      "title": "🛋️ 輕家具、選品（已查證跟每日路線的順路程度）",
+      "items": [
+        "📍順路(8/3) HAY HOUSE Amsterdam旗艦店（Spuistraat）— 就在9 Streets跟Kalverstraat之間，8/3逛9 Streets/Jordaan時順路，丹麥品牌但荷蘭旗艦店非常值得",
+        "📍順路(8/3，稍微多走幾分鐘) Frozen Fountain（Prinsengracht 645）— 在9 Streets南側/Leidsegracht附近，比HAY再往南走一點，同一趟可以順道安排",
+        "Depot Boijmans（鹿特丹）— 跟「很酷的地方」清單裡同一間，已標記「建議跳過」（7/31行程滿檔塞不進去），這裡僅供參考不特別推薦"
+      ]
+    },
+    {
+      "title": "🎁 紀念品（已查證購買地點+順路程度）",
+      "items": [
+        "📍順路(8/6) 荷蘭0 Euro紀念紙鈔／運河屋磁鐵／陶瓷浮雕磁鐵／木頭雷雕磁鐵 — Dam Square Souvenirs（Dam 17，09:00-22:00），就在8/6水壩廣場行程範圍內，各式紀念小物一次買齊，不用特地繞",
+        "📍順路(8/2) 木鞋 — Kinderdijk遊客中心禮品店，就在8/2風車行程裡，賣木鞋、台夫特藍陶、焦糖煎餅、起司，逛完風車順手買；⚠️有網友評價說品質普通、選擇有限，如果想買精品等級可以留到阿姆斯特丹市區店家比較",
+        "博物館限定商品 — 不用特地找地點，8/3安妮之家、8/4梵谷博物館/國家博物館、8/9米飛兔博物館，每個已排行程的館內禮品店就有，逛完自然會經過",
+        "Delft Blue（台夫特藍陶）磁鐵 — 已排進吃喝玩樂手冊：📍順路(8/1) 台夫特Royal Delft旗艦店/Heinen（Markt 45市集廣場旁），或📍順路(8/3-8/6) 阿姆斯特丹Heinen Delfts Blauw（Muntplein 12、Damrak 65等分店，都在路線範圍內）",
+        "📍順路(8/10) 科隆大教堂官方磁鐵／大教堂立體模型／彩繪玻璃元素小紀念品 — Kölner Domshop官方商店（Am Roncalliplatz，大教堂正對面廣場），8/10參觀完大教堂直接走過去就到，⚠️查到教堂周邊有3間分店，其中Roncalliplatz本店曾傳出暫時關閉，抵達當天可以順便問一下現場哪間有開"
+      ]
+    },
+    {
+      "title": "💬 鄒雲的關鍵字 / 德鐵施工問答",
+      "items": [
+        "德鐵施工可以先知道嗎？可以，而且很建議。",
+        "會用三個來源：① DB Navigator App（官方）② 官方網站搜尋 engineering works 或 construction ③（原文未完）"
+      ]
+    }
+  ]
+}

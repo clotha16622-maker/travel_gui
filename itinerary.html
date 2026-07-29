@@ -1399,6 +1399,7 @@
             <button class="tab-btn" onclick="switchTab('flexible')">🍽️ 吃喝玩樂手冊</button>
             <button class="tab-btn" onclick="switchTab('transport')">🚌 大眾交通</button>
             <button class="tab-btn" onclick="switchTab('packing')">🎒 打包清單</button>
+            <button class="tab-btn" onclick="switchTab('notes')">📝 隨興小筆</button>
         </div>
 
         <div id="cards" class="tab-content active">
@@ -1438,6 +1439,13 @@
             <div class="laundry-cooking-container" id="laundryCookingContainer"></div>
             <div class="packing-stats" id="packingStats"></div>
             <div class="packing-container" id="packingContainer"></div>
+        </div>
+
+        <div id="notes" class="tab-content">
+            <div class="packing-header">
+                <h2>📝 隨興小筆</h2>
+            </div>
+            <div id="notesContainer"></div>
         </div>
     </div>
 
@@ -1493,7 +1501,8 @@
                 loadHotelsData(),
                 loadTransportationData(),
                 loadPackingListData(),
-                loadRecommendationsData()
+                loadRecommendationsData(),
+                loadNotesData()
             ]);
             await loadItinerary(id);
         });
@@ -1582,6 +1591,7 @@
             renderWeatherOutlook();
             renderLaundryCookingNotes();
             renderPackingList();
+            renderNotes();
             setTimeout(renderMap, 300);
         }
 
@@ -1985,6 +1995,19 @@
                 }
             } catch (error) {
                 console.log('Packing list data not loaded');
+            }
+        }
+
+        let notesData = null;
+
+        async function loadNotesData() {
+            try {
+                const response = await fetch('data/random-notes.json');
+                if (response.ok) {
+                    notesData = await response.json();
+                }
+            } catch (error) {
+                console.log('Notes data not loaded');
             }
         }
 
@@ -2431,6 +2454,15 @@
             '8/14 (五)': '法蘭克福機場'
         };
 
+        // 把推薦項目開頭的「📍順路(...)」標記轉成徽章樣式，其餘文字照常顯示
+        function formatRecommendationItem(text) {
+            const match = text.match(/^📍順路(\([^)]*\))?\s*/);
+            if (!match) return text;
+            const badgeText = '📍順路' + (match[1] || '');
+            const rest = text.slice(match[0].length);
+            return `<span style="display:inline-block; background:#8B6F47; color:#fff; font-size:0.72em; font-weight:700; padding:2px 7px; border-radius:10px; margin-right:6px; vertical-align:middle; white-space:nowrap;">${badgeText}</span>${rest}`;
+        }
+
         // 渲染彈性行程（按城市分類的博物館卡推薦 + 吃喝玩樂推薦）
         function renderFlexible() {
             const container = document.getElementById('flexibleContainer');
@@ -2548,7 +2580,7 @@
                             <ul class="recommendation-list">
                     `;
                     recs.snacks.forEach(snack => {
-                        html += `<li>${snack}</li>`;
+                        html += `<li>${formatRecommendationItem(snack)}</li>`;
                     });
                     html += `
                             </ul>
@@ -2564,7 +2596,7 @@
                             <ul class="recommendation-list">
                     `;
                     recs.restaurants.forEach(restaurant => {
-                        html += `<li>${restaurant}</li>`;
+                        html += `<li>${formatRecommendationItem(restaurant)}</li>`;
                     });
                     html += `
                             </ul>
@@ -2764,6 +2796,54 @@
                     ${notes.verdict ? `<div style="font-size: 0.9em; color: #6B5335; margin-top: 8px; padding-top: 10px; border-top: 1px dashed #E0CBA8;"><strong>💡 建議：</strong>${notes.verdict}</div>` : ''}
                 </div>
             `;
+        }
+
+        function renderNotes() {
+            const container = document.getElementById('notesContainer');
+            if (!container) return;
+
+            if (!notesData || !notesData.sections) {
+                container.innerHTML = '<div style="padding: 20px; text-align: center; color: #999;">無隨興小筆資料</div>';
+                return;
+            }
+
+            const verdictStyle = {
+                already: { label: '✅ 已在行程', color: '#6B8E5A' },
+                fits: { label: '👍 推薦加入', color: '#8B6F47' },
+                tight: { label: '⚖️ 要取捨', color: '#C98A3E' },
+                skip: { label: '➖ 建議跳過', color: '#B08454' }
+            };
+
+            const html = notesData.sections.map(section => {
+                const bodyHtml = section.places ? `
+                    ${section.note ? `<div style="font-size: 0.85em; color: #999; margin-bottom: 10px;">${section.note}</div>` : ''}
+                    ${section.places.map(p => {
+                        const vs = verdictStyle[p.verdict] || { label: '', color: '#D4A574' };
+                        return `
+                            <div style="background: #fff; border-radius: 6px; padding: 10px 12px; margin-bottom: 8px; border-left: 3px solid ${vs.color};">
+                                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+                                    <div style="font-weight: 700; color: #5C4A36; font-size: 0.92em;">${p.name}</div>
+                                    <div style="font-size: 0.78em; color: ${vs.color}; font-weight: 700; white-space: nowrap;">${vs.label}</div>
+                                </div>
+                                <div style="font-size: 0.85em; color: #7A6A57; line-height: 1.6; margin-top: 4px;">${p.detail}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                ` : `
+                    <ul style="margin: 0; padding-left: 20px; color: #5C4A36; font-size: 0.92em; line-height: 1.9;">
+                        ${(section.items || []).map(item => `<li>${formatRecommendationItem(item)}</li>`).join('')}
+                    </ul>
+                `;
+
+                return `
+                    <div style="background: #FBF3E7; border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(139, 111, 71, 0.12);">
+                        <div style="font-weight: 800; color: #8B6F47; font-size: 1.1em; margin-bottom: 10px;">${section.title}</div>
+                        ${bodyHtml}
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = html;
         }
 
         function renderPackingList() {
