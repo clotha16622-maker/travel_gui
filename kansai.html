@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0b1638">
+<title>神戶・大阪聖誕行程</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+        font-family: 'Segoe UI', -apple-system, 'PingFang TC', BlinkMacSystemFont, sans-serif;
+        min-height: 100vh;
+        color: #eef2ff;
+        background:
+            radial-gradient(ellipse 120% 60% at 50% -10%, rgba(212,175,55,0.16), transparent 60%),
+            radial-gradient(circle at 15% 20%, rgba(255,255,255,0.9) 0px, rgba(255,255,255,0.9) 1.5px, transparent 2px),
+            radial-gradient(circle at 75% 10%, rgba(255,255,255,0.7) 0px, rgba(255,255,255,0.7) 1px, transparent 1.5px),
+            radial-gradient(circle at 40% 35%, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1.5px),
+            radial-gradient(circle at 90% 45%, rgba(255,255,255,0.85) 0px, rgba(255,255,255,0.85) 1.5px, transparent 2px),
+            radial-gradient(circle at 25% 60%, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1.5px),
+            radial-gradient(circle at 60% 70%, rgba(255,255,255,0.75) 0px, rgba(255,255,255,0.75) 1.5px, transparent 2px),
+            radial-gradient(circle at 85% 85%, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1.5px),
+            radial-gradient(circle at 10% 90%, rgba(255,255,255,0.7) 0px, rgba(255,255,255,0.7) 1.5px, transparent 2px),
+            linear-gradient(180deg, #0a1230 0%, #0f1c47 45%, #14275c 100%);
+        background-repeat: no-repeat;
+        padding-block: 32px;
+    }
+
+    .wrap { max-width: 760px; margin: 0 auto; padding-inline: 20px; }
+
+    a.back { color: #cdd7ff; text-decoration: none; font-size: 0.9rem; opacity: 0.8; }
+    a.back:hover { opacity: 1; }
+
+    .header {
+        text-align: center;
+        margin: 24px 0 40px;
+        position: relative;
+    }
+    .header .snowflakes {
+        font-size: 1.3rem;
+        letter-spacing: 14px;
+        opacity: 0.55;
+        margin-bottom: 6px;
+    }
+    .header h1 {
+        font-size: clamp(1.6rem, 5vw, 2.3rem);
+        font-weight: 700;
+        background: linear-gradient(180deg, #ffe9b8, #d4af37);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        letter-spacing: 1px;
+        text-shadow: 0 0 30px rgba(212,175,55,0.25);
+    }
+    .header .dates {
+        margin-top: 10px;
+        color: #cdd7ff;
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+    }
+    .header .dates .dash { color: #b91d3a; margin: 0 6px; }
+
+    .day-card {
+        position: relative;
+        background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+        border: 1px solid rgba(212,175,55,0.35);
+        border-radius: 16px;
+        padding: 22px 22px 20px;
+        margin-bottom: 22px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+        backdrop-filter: blur(2px);
+    }
+
+    .day-card::before {
+        content: attr(data-day);
+        position: absolute;
+        top: -14px;
+        left: 22px;
+        background: linear-gradient(135deg, #b91d3a, #7d1027);
+        color: #fff2e0;
+        font-weight: 700;
+        font-size: 0.8rem;
+        padding: 5px 14px;
+        border-radius: 999px;
+        box-shadow: 0 4px 10px rgba(185,29,58,0.5);
+        letter-spacing: 1px;
+    }
+
+    .day-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 10px;
+        margin: 8px 0 14px;
+    }
+    .day-meta .date { color: #ffe9b8; font-weight: 600; font-size: 1.05rem; }
+    .day-meta .weekday { color: #9fb0e6; font-size: 0.85rem; }
+    .day-title { font-size: 1.15rem; font-weight: 600; color: #ffffff; margin-bottom: 14px; }
+
+    .slot { display: flex; gap: 12px; margin-bottom: 12px; }
+    .slot:last-child { margin-bottom: 0; }
+    .slot .tag {
+        flex: 0 0 auto;
+        font-size: 0.78rem;
+        color: #14275c;
+        background: linear-gradient(135deg, #ffe9b8, #d4af37);
+        border-radius: 6px;
+        padding: 3px 9px;
+        height: fit-content;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+    .slot .text { color: #dbe3ff; font-size: 0.93rem; line-height: 1.6; }
+    .slot .text b { color: #ffffff; }
+
+    .hotel-box {
+        margin-top: 16px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: rgba(212,175,55,0.10);
+        border: 1px dashed rgba(212,175,55,0.5);
+        font-size: 0.88rem;
+        color: #ffe9b8;
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+    }
+
+    .reminders {
+        background: linear-gradient(160deg, rgba(185,29,58,0.16), rgba(185,29,58,0.04));
+        border: 1px solid rgba(185,29,58,0.4);
+        border-radius: 16px;
+        padding: 22px;
+        margin-top: 30px;
+    }
+    .reminders h2 {
+        font-size: 1.05rem;
+        color: #ffb3c0;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .reminders ul { list-style: none; }
+    .reminders li {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        font-size: 0.9rem;
+        color: #f0d8dd;
+        margin-bottom: 10px;
+        line-height: 1.55;
+    }
+    .reminders li:last-child { margin-bottom: 0; }
+    .reminders li .box {
+        flex: 0 0 auto;
+        width: 16px; height: 16px;
+        margin-top: 2px;
+        border: 1.5px solid #ffb3c0;
+        border-radius: 4px;
+    }
+    .reminders b { color: #fff; }
+
+    .footer-note {
+        text-align: center;
+        margin-top: 36px;
+        color: #7c8ac0;
+        font-size: 0.78rem;
+    }
+
+    @media (max-width: 480px) {
+        .day-card { padding: 20px 16px 18px; }
+        .slot { gap: 8px; }
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <a class="back" href="index.html">← 回旅程列表</a>
+
+    <div class="header">
+        <div class="snowflakes">❆ ❅ ❆</div>
+        <h1>神戶・大阪聖誕行程</h1>
+        <div class="dates">2026 / 12 / 25 <span class="dash">—</span> 2026 / 12 / 28</div>
+    </div>
+
+    <div class="day-card" data-day="DAY 1">
+        <div class="day-meta">
+            <span class="date">12/25（三）</span>
+            <span class="weekday">神戶港灣浪漫一日遊</span>
+        </div>
+        <div class="slot">
+            <span class="tag">白天</span>
+            <span class="text">抵達關西機場後前往神戶，走訪<b>北野異人館街</b>、生田神社或三宮商圈</span>
+        </div>
+        <div class="slot">
+            <span class="tag">晚上</span>
+            <span class="text">入住神戶美利堅公園東方酒店，欣賞<b>神戶港塔</b>與港灣聖誕燈飾夜景</span>
+        </div>
+        <div class="hotel-box">🏨 <span>神戶美利堅公園東方酒店（Kobe Meriken Park Oriental Hotel）</span></div>
+    </div>
+
+    <div class="day-card" data-day="DAY 2">
+        <div class="day-meta">
+            <span class="date">12/26（四）</span>
+            <span class="weekday">神戶移防大阪＋梅田聖誕燈火體驗</span>
+        </div>
+        <div class="slot">
+            <span class="tag">上午</span>
+            <span class="text">逛神戶Harborland／馬賽克廣場，隨後搭JR返回大阪</span>
+        </div>
+        <div class="slot">
+            <span class="tag">下午</span>
+            <span class="text">入住大阪阪急龍仕柏飯店寄放行李，梅田商圈（<b>LUCUA</b>、<b>GRAND FRONT</b>）逛街採買</span>
+        </div>
+        <div class="slot">
+            <span class="tag">晚上</span>
+            <span class="text">欣賞<b>梅田藍天大廈</b>空中庭園夜景，或體驗<b>御堂筋聖誕點燈</b></span>
+        </div>
+        <div class="hotel-box">🏨 <span>大阪阪急龍仕柏飯店</span></div>
+    </div>
+
+    <div class="day-card" data-day="DAY 3">
+        <div class="day-meta">
+            <span class="date">12/27（五）</span>
+            <span class="weekday">日本環球影城（USJ）全日衝刺</span>
+        </div>
+        <div class="slot">
+            <span class="tag">全天</span>
+            <span class="text">於<b>日本環球影城</b>遊玩，大阪站搭JR直達約11分鐘，交通迅速便利</span>
+        </div>
+    </div>
+
+    <div class="day-card" data-day="DAY 4">
+        <div class="day-meta">
+            <span class="date">12/28（六）</span>
+            <span class="weekday">市區最後補貨＋愉快返程</span>
+        </div>
+        <div class="slot">
+            <span class="tag">上午</span>
+            <span class="text">飯店退房（可先寄放行李），梅田或心齋橋進行最後購物與伴手禮採買</span>
+        </div>
+        <div class="slot">
+            <span class="tag">下午</span>
+            <span class="text">前往關西國際機場搭機返台</span>
+        </div>
+    </div>
+
+    <div class="reminders">
+        <h2>🎁 預訂與準備提醒</h2>
+        <ul>
+            <li><span class="box"></span><span><b>神戶美利堅公園東方酒店</b>：確認房型，建議選高樓層海景房</span></li>
+            <li><span class="box"></span><span><b>大阪阪急龍仕柏飯店</b>：鎖定25㎡標準雙床房（Standard Twin Room）</span></li>
+            <li><span class="box"></span><span><b>USJ門票＋Express Pass</b>：入園日12/27（五），預計約10/27（入園前2個月）開賣，需留意開賣時間搶購</span></li>
+        </ul>
+    </div>
+
+    <div class="footer-note">❆ Kobe × Osaka Christmas Trip 2026 ❆</div>
+</div>
+</body>
+</html>
