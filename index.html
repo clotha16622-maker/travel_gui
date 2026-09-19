@@ -552,7 +552,6 @@
             <button class="btn btn-primary" onclick="openAddModal()">➕ 新增行程</button>
             <button class="btn btn-secondary" onclick="importJSON()">📥 匯入行程</button>
             <button class="btn btn-secondary" onclick="location.href='manage.html'">⚙️ 行程管理</button>
-            <button class="btn btn-secondary" onclick="location.href='kansai.html'">🎄 神戶大阪聖誕行程</button>
         </div>
 
         <div id="itinerariesContainer"></div>
@@ -634,8 +633,8 @@
                             ).length;
                         }
 
-                        // 提取路線
-                        const route = generateRoute(data);
+                        // 提取路線（若資料本身有指定 route 就直接用，不套NL的城市關鍵字判斷）
+                        const route = data.route || generateRoute(data);
 
                         itineraries.push({
                             id: item.filename.replace('.json', ''),
@@ -646,7 +645,8 @@
                             startDate: data.startDate,
                             endDate: data.endDate,
                             days: days,
-                            description: '旅遊紀錄'
+                            description: '旅遊紀錄',
+                            customPage: data.customPage || null
                         });
                     } catch (error) {
                         console.error(`Error loading ${item.filename}:`, error);
@@ -803,6 +803,11 @@
 
         // 查看行程
         function viewItinerary(id) {
+            const it = itineraries.find(i => i.id === id);
+            if (it && it.customPage) {
+                window.location.href = it.customPage;
+                return;
+            }
             window.location.href = `itinerary.html?id=${id}`;
         }
 

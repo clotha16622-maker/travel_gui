@@ -115,6 +115,99 @@
     .slot .text { color: #dbe3ff; font-size: 0.93rem; line-height: 1.6; }
     .slot .text b { color: #ffffff; }
 
+    .flight-card {
+        position: relative;
+        margin-top: 16px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(212,175,55,0.14), rgba(212,175,55,0.05));
+        border: 1px solid rgba(212,175,55,0.4);
+        color: #eef2ff;
+        padding: 14px 16px;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+        overflow: hidden;
+    }
+    .flight-card::before {
+        content: '';
+        position: absolute;
+        top: 0; bottom: 0; left: 68px;
+        border-left: 2px dashed rgba(212,175,55,0.3);
+    }
+    .flight-card .flight-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding-left: 78px;
+    }
+    .flight-card .airline {
+        font-weight: 800;
+        font-size: 0.95rem;
+        color: #ff8fa3;
+        letter-spacing: 0.5px;
+    }
+    .flight-card .flight-no {
+        font-weight: 700;
+        font-size: 0.85rem;
+        background: rgba(212,175,55,0.9);
+        color: #14275c;
+        padding: 2px 10px;
+        border-radius: 999px;
+        letter-spacing: 0.5px;
+    }
+    .flight-card .plane-icon {
+        position: absolute;
+        left: 16px; top: 12px;
+        font-size: 1.7rem;
+        filter: grayscale(0.15) brightness(1.1);
+    }
+    .flight-card .route-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-left: 78px;
+    }
+    .flight-card .airport {
+        text-align: center;
+    }
+    .flight-card .airport .code {
+        font-size: 1.3rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: #ffe9b8;
+    }
+    .flight-card .airport .time {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #ffffff;
+    }
+    .flight-card .airport .name {
+        font-size: 0.68rem;
+        color: #9fb0e6;
+        margin-top: 2px;
+    }
+    .flight-card .arrow {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        color: #d4af37;
+        font-size: 0.75rem;
+        white-space: nowrap;
+    }
+    .flight-card .arrow::before, .flight-card .arrow::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: rgba(212,175,55,0.3);
+    }
+    .flight-card .flight-note {
+        margin-top: 10px;
+        padding-left: 78px;
+        font-size: 0.72rem;
+        color: #9fb0e6;
+        line-height: 1.5;
+    }
+
     .hotel-box {
         margin-top: 16px;
         padding: 12px 14px;
@@ -179,6 +272,7 @@
 <body>
 <div class="wrap">
     <a class="back" href="index.html">← 回旅程列表</a>
+    <a class="back" href="kansai-events.html" style="float:right;">🎄 行程期間確定活動 →</a>
 
     <div class="header">
         <div class="snowflakes">❆ ❅ ❆</div>
@@ -188,12 +282,33 @@
 
     <div class="day-card" data-day="DAY 1">
         <div class="day-meta">
-            <span class="date">12/25（三）</span>
+            <span class="date">12/25（五）</span>
             <span class="weekday">神戶港灣浪漫一日遊</span>
+        </div>
+        <div class="flight-card">
+            <span class="plane-icon">🛫</span>
+            <div class="flight-top">
+                <span class="airline">STARLUX 星宇航空</span>
+                <span class="flight-no">JX1834</span>
+            </div>
+            <div class="route-row">
+                <div class="airport">
+                    <div class="code">TPE</div>
+                    <div class="time">08:20</div>
+                    <div class="name">桃園國際機場</div>
+                </div>
+                <div class="arrow">✈</div>
+                <div class="airport">
+                    <div class="code">UKB</div>
+                    <div class="time">11:45</div>
+                    <div class="name">神戶機場</div>
+                </div>
+            </div>
+            <div class="flight-note">降落神戶機場（不是關西機場！）有Port Liner直達三宮站約18分鐘，比從關西機場進神戶方便很多</div>
         </div>
         <div class="slot">
             <span class="tag">白天</span>
-            <span class="text">抵達關西機場後前往神戶，走訪<b>北野異人館街</b>、生田神社或三宮商圈</span>
+            <span class="text">抵達神戶機場後前往市區，走訪<b>北野異人館街</b>、生田神社或三宮商圈</span>
         </div>
         <div class="slot">
             <span class="tag">晚上</span>
@@ -204,7 +319,7 @@
 
     <div class="day-card" data-day="DAY 2">
         <div class="day-meta">
-            <span class="date">12/26（四）</span>
+            <span class="date">12/26（六）</span>
             <span class="weekday">神戶移防大阪＋梅田聖誕燈火體驗</span>
         </div>
         <div class="slot">
@@ -219,23 +334,28 @@
             <span class="tag">晚上</span>
             <span class="text">欣賞<b>梅田藍天大廈</b>空中庭園夜景，或體驗<b>御堂筋聖誕點燈</b></span>
         </div>
-        <div class="hotel-box">🏨 <span>大阪阪急龍仕柏飯店</span></div>
+        <div class="hotel-box">🏨 <span>Hotel Hankyu RESPIRE OSAKA</span></div>
     </div>
 
     <div class="day-card" data-day="DAY 3">
         <div class="day-meta">
-            <span class="date">12/27（五）</span>
+            <span class="date">12/27（日）</span>
             <span class="weekday">日本環球影城（USJ）全日衝刺</span>
         </div>
         <div class="slot">
             <span class="tag">全天</span>
             <span class="text">於<b>日本環球影城</b>遊玩，大阪站搭JR直達約11分鐘，交通迅速便利</span>
         </div>
+        <div class="slot">
+            <span class="tag">建議</span>
+            <span class="text">12/27是聖誕假期+跨年前的旺季週日，建議<b>早上7:00-7:15從飯店出發</b>，目標7:30前到園區大門卡位（實際開門常比官方時間早30-90分鐘）；閉園時間12月週末常到22:00，若有夜間光雕投影秀建議留到<b>21:30-22:00</b>再走，確切時間等10月官方公布後再確認</span>
+        </div>
+        <div class="hotel-box">🏨 <span>Hotel Hankyu RESPIRE OSAKA</span></div>
     </div>
 
     <div class="day-card" data-day="DAY 4">
         <div class="day-meta">
-            <span class="date">12/28（六）</span>
+            <span class="date">12/28（一）</span>
             <span class="weekday">市區最後補貨＋愉快返程</span>
         </div>
         <div class="slot">
@@ -246,15 +366,40 @@
             <span class="tag">下午</span>
             <span class="text">前往關西國際機場搭機返台</span>
         </div>
+        <div class="flight-card">
+            <span class="plane-icon">🛬</span>
+            <div class="flight-top">
+                <span class="airline">STARLUX 星宇航空</span>
+                <span class="flight-no">JX823</span>
+            </div>
+            <div class="route-row">
+                <div class="airport">
+                    <div class="code">KIX</div>
+                    <div class="time">14:00</div>
+                    <div class="name">關西國際機場</div>
+                </div>
+                <div class="arrow">✈</div>
+                <div class="airport">
+                    <div class="code">TPE</div>
+                    <div class="time">16:20</div>
+                    <div class="name">桃園國際機場</div>
+                </div>
+            </div>
+            <div class="flight-note">這次是關西機場（跟去程的神戶機場不同），從JR大阪駅搭特急HARUKA（はるか）直達約47分鐘，記得抓好時間出發</div>
+        </div>
+        <div class="hotel-box">🏨 <span>Hotel Hankyu RESPIRE OSAKA</span></div>
     </div>
 
     <div class="reminders">
         <h2>🎁 預訂與準備提醒</h2>
         <ul>
-            <li><span class="box"></span><span><b>神戶美利堅公園東方酒店</b>：確認房型，建議選高樓層海景房</span></li>
-            <li><span class="box"></span><span><b>大阪阪急龍仕柏飯店</b>：鎖定25㎡標準雙床房（Standard Twin Room）</span></li>
-            <li><span class="box"></span><span><b>USJ門票＋Express Pass</b>：入園日12/27（五），預計約10/27（入園前2個月）開賣，需留意開賣時間搶購</span></li>
+            <li><span class="box"></span><span><b>USJ門票＋Express Pass</b>：入園日12/27（日），預計約10/27（入園前2個月）開賣，需留意開賣時間搶購</span></li>
+            <li><span class="box"></span><span><b>神戶→大阪 JR車票</b>：三宮→大阪搭「新快速」最快約21分鐘、單程420日圓，屬於一般通勤班次，班距密集、<b>不需要也無法預先購票或劃位</b>，建議直接用ICOCA / Suica等IC卡感應進出即可，比買票方便，當天現場搭乘就好。飯店(Hotel Hankyu RESPIRE OSAKA)離JR大阪駅步行約3分鐘最近，備案是阪急特急(神戶三宮→大阪梅田，約27分鐘、330日圓)，到飯店步行約5分鐘</span></li>
+            <li><span class="box"></span><span><b>Day1晚餐（神戶牛/牛排餐廳）</b>：12/25聖誕夜當天是全日本餐廳訂位最搶手的一晚，熱門神戶牛名店訂位高峰約在1個月前就會排滿，建議盡早訂三宮/元町的餐廳</span></li>
+            <li><span class="box"></span><span><b>梅田藍天大廈空中庭園展望台</b>：營業到22:30(最後入場22:00)，聖誕期間現場售票容易賣完，建議事先買WEB電子票(效期3個月，不怕買太早)</span></li>
+            <li><span class="box"></span><span><b>USJ園內餐廳優先案內（SAIDO、Parkside Grill）</b>：開放預約時間是入園日前1個月的當天11:00(日本時間)，也就是<b>11/27 11:00 日本時間／10:00 台灣時間</b>開放，假日+聖誕假期非常搶手，建議準時上線搶</span></li>
         </ul>
+        <div style="margin-top:10px;font-size:0.72rem;color:#f0d8dd;opacity:0.8;">※以上時間未特別註明皆為日本時間（比台灣快1小時）</div>
     </div>
 
     <div class="footer-note">❆ Kobe × Osaka Christmas Trip 2026 ❆</div>

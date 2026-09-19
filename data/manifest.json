@@ -1,8 +1,12 @@
 {
   "itineraries": [
     {
-      "filename": "2026-07-NL_GE.json",
+      "filename": "nl_germany/itinerary.json",
       "countries": "荷蘭 & 德國"
+    },
+    {
+      "filename": "kansai/trip.json",
+      "countries": "日本（神戶・大阪）"
     }
   ]
 }

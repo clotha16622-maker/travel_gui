@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0b1638">
+<title>神戶・大阪聖誕行程｜確定活動</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+        font-family: 'Segoe UI', -apple-system, 'PingFang TC', BlinkMacSystemFont, sans-serif;
+        min-height: 100vh;
+        color: #eef2ff;
+        background:
+            radial-gradient(ellipse 120% 60% at 50% -10%, rgba(212,175,55,0.16), transparent 60%),
+            radial-gradient(circle at 15% 20%, rgba(255,255,255,0.9) 0px, rgba(255,255,255,0.9) 1.5px, transparent 2px),
+            radial-gradient(circle at 75% 10%, rgba(255,255,255,0.7) 0px, rgba(255,255,255,0.7) 1px, transparent 1.5px),
+            radial-gradient(circle at 40% 35%, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1.5px),
+            radial-gradient(circle at 90% 45%, rgba(255,255,255,0.85) 0px, rgba(255,255,255,0.85) 1.5px, transparent 2px),
+            radial-gradient(circle at 25% 60%, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1.5px),
+            radial-gradient(circle at 60% 70%, rgba(255,255,255,0.75) 0px, rgba(255,255,255,0.75) 1.5px, transparent 2px),
+            radial-gradient(circle at 85% 85%, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1.5px),
+            radial-gradient(circle at 10% 90%, rgba(255,255,255,0.7) 0px, rgba(255,255,255,0.7) 1.5px, transparent 2px),
+            linear-gradient(180deg, #0a1230 0%, #0f1c47 45%, #14275c 100%);
+        background-repeat: no-repeat;
+        padding-block: 32px;
+    }
+
+    .wrap { max-width: 760px; margin: 0 auto; padding-inline: 20px; }
+
+    a.back { color: #cdd7ff; text-decoration: none; font-size: 0.9rem; opacity: 0.8; }
+    a.back:hover { opacity: 1; }
+
+    .header { text-align: center; margin: 24px 0 36px; }
+    .header .snowflakes { font-size: 1.3rem; letter-spacing: 14px; opacity: 0.55; margin-bottom: 6px; }
+    .header h1 {
+        font-size: clamp(1.4rem, 4.6vw, 2rem);
+        font-weight: 700;
+        background: linear-gradient(180deg, #ffe9b8, #d4af37);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        letter-spacing: 1px;
+        text-shadow: 0 0 30px rgba(212,175,55,0.25);
+    }
+    .header .sub { margin-top: 8px; color: #9fb0e6; font-size: 0.85rem; }
+
+    .event-card {
+        position: relative;
+        background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+        border: 1px solid rgba(212,175,55,0.35);
+        border-radius: 16px;
+        padding: 22px 22px 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .event-card::before {
+        content: attr(data-day);
+        position: absolute;
+        top: -14px;
+        left: 22px;
+        background: linear-gradient(135deg, #b91d3a, #7d1027);
+        color: #fff2e0;
+        font-weight: 700;
+        font-size: 0.8rem;
+        padding: 5px 14px;
+        border-radius: 999px;
+        box-shadow: 0 4px 10px rgba(185,29,58,0.5);
+        letter-spacing: 1px;
+    }
+    .event-title { font-size: 1.1rem; font-weight: 700; color: #ffe9b8; margin: 10px 0 6px; }
+    .event-status {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 2px 9px;
+        border-radius: 999px;
+        margin-bottom: 10px;
+        letter-spacing: 0.5px;
+    }
+    .status-confirmed { background: rgba(80,200,120,0.18); color: #7be8a0; border: 1px solid rgba(80,200,120,0.4); }
+    .status-check { background: rgba(255,180,80,0.18); color: #ffc978; border: 1px solid rgba(255,180,80,0.4); }
+    .event-body { color: #dbe3ff; font-size: 0.9rem; line-height: 1.7; }
+    .event-body b { color: #fff; }
+    .event-body .row { margin-bottom: 4px; }
+    .event-body .label { color: #9fb0e6; }
+    .source {
+        margin-top: 10px;
+        font-size: 0.78rem;
+    }
+    .source a { color: #a9bcff; }
+
+    .warning-card {
+        background: linear-gradient(160deg, rgba(185,29,58,0.18), rgba(185,29,58,0.05));
+        border: 1px solid rgba(185,29,58,0.45);
+        border-radius: 16px;
+        padding: 20px 22px;
+        margin-bottom: 28px;
+    }
+    .warning-card .title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #ffb3c0;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .warning-card .body { color: #f0d8dd; font-size: 0.88rem; line-height: 1.65; }
+    .warning-card .body b { color: #fff; }
+
+    .footer-note { text-align: center; margin-top: 30px; color: #7c8ac0; font-size: 0.78rem; }
+
+    @media (max-width: 480px) {
+        .event-card { padding: 20px 16px 18px; }
+    }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <a class="back" href="kansai.html">← 回行程總覽</a>
+
+    <div class="header">
+        <div class="snowflakes">❆ ❅ ❆</div>
+        <h1>行程期間確定活動</h1>
+        <div class="sub">2026/12/25 — 2026/12/28 神戶・大阪</div>
+    </div>
+
+    <div class="warning-card">
+        <div class="title">⚠️ 提醒：神戶ルミナリエ「不在」這次行程期間</div>
+        <div class="body">神戶最知名的「神戶ルミナリエ」光雕燈會，2026年確定日期是<b>1月30日（五）～2月8日（日）</b>，跟這趟12/25-12/28的行程<b>對不上</b>，去的時候不會遇到，避免預期落空。神戶當地這次能看到的是下面的「神戶メリケンクリスマス」，規模較小但也有無人機表演。</div>
+    </div>
+
+    <div class="event-card" data-day="DAY 1 · 12/25">
+        <div class="event-title">神戶メリケンクリスマス（Kobe Meriken Christmas）</div>
+        <span class="event-status status-confirmed">✓ 確定舉辦</span>
+        <div class="event-body">
+            <div class="row"><span class="label">期間：</span>12月16日（三）～12月25日（五）</div>
+            <div class="row"><span class="label">地點：</span>神戶美利堅公園（Meriken Park）— 就在你們Day 1晚上安排的地方</div>
+            <div class="row"><span class="label">無人機表演：</span>12/21（六）～12/25（五）限定5天，每天<b>18:00 / 20:00</b>各一場，約500架無人機搭配燈光音樂</div>
+            <div class="row"><span class="label">其他：</span>每天約20台餐車進駐的美食市集</div>
+            <div class="row" style="margin-top:6px;"><b>你們12/25剛好是活動最後一天，也還在無人機表演的5天範圍內，晚上可以順道看兩場中的一場</b></div>
+        </div>
+        <div class="source">來源：<a href="https://www.city.kobe.lg.jp/a44800/merikenpark_illumination.html" target="_blank" rel="noopener">神戶市官方網站</a></div>
+    </div>
+
+    <div class="event-card" data-day="DAY 2 · 12/26">
+        <div class="event-title">大阪・光の饗宴2026｜御堂筋イルミネーション</div>
+        <span class="event-status status-confirmed">✓ 確定舉辦</span>
+        <div class="event-body">
+            <div class="row"><span class="label">期間：</span>11月3日（二・國定假日）～12月31日（四）</div>
+            <div class="row"><span class="label">點燈時間：</span>每日 <b>17:00 - 23:00</b></div>
+            <div class="row"><span class="label">範圍：</span>阪神前交叉路口（梅田）～難波西口交叉路口，約4公里，免費參觀</div>
+            <div class="row" style="margin-top:6px;">跟行程裡Day 2晚上的「御堂筋聖誕點燈」對得上，確定看得到</div>
+        </div>
+        <div class="source">來源：<a href="https://www.hikari-kyoen.com/index.html" target="_blank" rel="noopener">大阪・光の饗宴官方網站</a></div>
+    </div>
+
+    <div class="event-card" data-day="DAY 3 · 12/27">
+        <div class="event-title">USJ「ユニバーサル・クリスマス・ジョイ」</div>
+        <span class="event-status status-check">△ 大方向確定，細節待官方公布</span>
+        <div class="event-body">
+            <div class="row"><span class="label">期間：</span>11月13日（五）起，預期跨年延續到2027年1月上旬（往年模式，2026年確切結束日尚未查到官方公告）</div>
+            <div class="row"><span class="label">內容：</span>聖誕主題裝飾、限定美食市集、聖誕夜間表演（過去有Hello Kitty、史努比與查理布朗、芝麻街角色等登場的舞台秀）</div>
+            <div class="row" style="margin-top:6px;">大方向(有沒有聖誕活動)是確定的，但今年具體的夜間秀名稱/場次時間，查到的資料新舊年份混雜、不夠肯定，<b>建議10月官方公布門票時一併確認當天的表演時刻表</b></div>
+        </div>
+        <div class="source">來源：<a href="https://www.usj.co.jp/company/news/2025/0918/" target="_blank" rel="noopener">USJ官方新聞稿</a>（部分細節為往年資訊，需覆核）</div>
+    </div>
+
+    <div class="footer-note">❆ 資料查詢日：2026-09-19，活動內容以官方最新公告為準 ❆</div>
+</div>
+</body>
+</html>

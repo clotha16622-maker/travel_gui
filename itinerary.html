@@ -2006,7 +2006,7 @@
         let recommendationsData = null;
         async function loadAttractionsData() {
             try {
-                const response = await fetch('attractions.json');
+                const response = await fetch('data/nl_germany/attractions.json');
                 if (response.ok) {
                     attractionsData = await response.json();
                 }
@@ -2017,7 +2017,7 @@
 
         async function loadMuseumCardData() {
             try {
-                const response = await fetch('data/museum_card_details.json');
+                const response = await fetch('data/nl_germany/museum_card_details.json');
                 if (response.ok) {
                     museumCardData = await response.json();
                 }
@@ -2028,7 +2028,7 @@
 
         async function loadHotelsData() {
             try {
-                const response = await fetch('data/hotels.json');
+                const response = await fetch('data/nl_germany/hotels.json');
                 if (response.ok) {
                     hotelsData = await response.json();
                 }
@@ -2039,7 +2039,7 @@
 
         async function loadTransportationData() {
             try {
-                const response = await fetch('data/transportation.json');
+                const response = await fetch('data/nl_germany/transportation.json');
                 if (response.ok) {
                     transportationData = await response.json();
                 }
@@ -2050,7 +2050,7 @@
 
         async function loadPackingListData() {
             try {
-                const response = await fetch('data/packing-list.json');
+                const response = await fetch('data/nl_germany/packing-list.json');
                 if (response.ok) {
                     packingListData = await response.json();
                 }
@@ -2063,7 +2063,7 @@
 
         async function loadNotesData() {
             try {
-                const response = await fetch('data/random-notes.json');
+                const response = await fetch('data/nl_germany/random-notes.json');
                 if (response.ok) {
                     notesData = await response.json();
                 }
@@ -2074,7 +2074,7 @@
 
         async function loadRecommendationsData() {
             try {
-                const response = await fetch('data/recommendations.json');
+                const response = await fetch('data/nl_germany/recommendations.json');
                 if (response.ok) {
                     recommendationsData = await response.json();
                 }
