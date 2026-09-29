@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#667eea">
+    <meta name="theme-color" content="#8B6F47">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
     <title>我的旅程 - 行程管理</title>
     <style>
         * {
@@ -931,6 +934,14 @@
                 closeAddModal();
             }
         });
+
+        // 註冊 service worker，讓整個網站（含各行程資料）可以離線瀏覽；
+        // 用相對路徑註冊，部署在 GitHub Pages 子路徑（/travel_gui/）時才會抓對 scope
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(() => {});
+            });
+        }
     </script>
 </body>
 </html>

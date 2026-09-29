@@ -84,7 +84,8 @@
           { "label": "期間：", "html": "12月16日（三）～12月25日（五）" },
           { "html": "沒有 label 的整行文字也可以" }
         ],
-        "source": { "label": "神戶市官方網站", "url": "https://...", "note": "選填，連結後面的補充文字" }
+        "source": { "label": "神戶市官方網站", "url": "https://...", "note": "選填，連結後面的補充文字" },
+        "venue": "神戶美利堅公園 Meriken Park 神戶" // 選填，有填才會在標題旁加「導航」連結（見下方「一鍵導航」）
       }
     ],
     "footnote": "❆ 資料查詢日：2026-09-19，活動內容以官方最新公告為準 ❆"
@@ -103,6 +104,28 @@
 - 吃喝玩樂手冊：legacy schema 且實際有算出城市卡片才顯示
 - 大眾交通／打包清單／隨興小筆：對應的輔助資料檔存在且非空才顯示
 - 確定活動：`events.items` 非空才顯示
+
+## 今天模式（stage 2）
+
+`itinerary.html` 會在渲染完成後，把 `itinerary`（legacy）或 `days`
+（daycard）正規化成同一份 `normalizedDays` 陣列（每項有 `dateISO` /
+`dayNumber` / `title` / `hotelRaw` / `hotelName` / `items` / `flight`），
+今天模式、日期 chip 的捲動定位／scroll-spy、"今天" 徽章都只讀這份資料，
+不必個別處理兩種 schema。日期字串（例如「7/30 (四)」「12/25（五）」）
+沒有年份，靠行程的 `startDate`/`endDate` 推回實際西元年份。
+
+用網址參數 `?today=YYYY-MM-DD` 可以覆寫「今天」方便測試，例如
+`itinerary.html?id=kansai/itinerary&today=2026-12-26`。
+
+## 一鍵導航
+
+`mapsLink(name, city)` / `navLinkHtml(name, city)` 組出 Google Maps 搜尋
+連結（`https://www.google.com/maps/search/?api=1&query=...`）。只加在
+「資料裡本來就有明確名稱」的地方：飯店（`hotels.json` 的 `name`/`city`，
+或 daycard 行程每天的 `hotel` 字串）、`attractions.json` 的景點
+（`name`/`city`）、`recommendations.json` 每筆用固定格式
+「店名 (地址) - 說明」開頭、能明確切出店名的小吃/餐廳/紀念品、以及
+events 項目裡選填的 `venue` 欄位。不會從自由描述文字裡憑空猜地點。
 
 ## 舊網址
 

@@ -87,6 +87,7 @@
       {
         "day": "DAY 1 · 12/25",
         "title": "神戶メリケンクリスマス（Kobe Meriken Christmas）",
+        "venue": "神戶美利堅公園 Meriken Park 神戶",
         "status": "confirmed",
         "statusLabel": "✓ 確定舉辦",
         "rows": [
@@ -101,6 +102,7 @@
       {
         "day": "DAY 2 · 12/26",
         "title": "大阪・光の饗宴2026｜御堂筋イルミネーション",
+        "venue": "御堂筋 大阪",
         "status": "confirmed",
         "statusLabel": "✓ 確定舉辦",
         "rows": [
@@ -114,6 +116,7 @@
       {
         "day": "DAY 3 · 12/27",
         "title": "USJ「ユニバーサル・クリスマス・ジョイ」",
+        "venue": "日本環球影城 大阪",
         "status": "check",
         "statusLabel": "△ 大方向確定，細節待官方公布",
         "rows": [

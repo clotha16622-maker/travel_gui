@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#8B6F47">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
     <title>行程詳情</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
@@ -43,6 +46,11 @@
             --tab-btn-shadow: rgba(0, 0, 0, 0.08);
             --fab-shadow: rgba(107, 68, 35, 0.35);
             --fab-shadow-hover: rgba(107, 68, 35, 0.45);
+            --chip-nav-bg: rgba(251, 243, 231, 0.95);
+            --chip-bg: #ffffff;
+            --chip-border: #D4A574;
+            --chip-text: #8B6F47;
+            --nav-link-color: #8B6F47;
 
             /* day-card family (used by trips with the "daycard" schema, e.g. kansai) */
             --dc-card-bg: linear-gradient(160deg, rgba(139,111,71,0.07), rgba(139,111,71,0.02));
@@ -117,6 +125,11 @@
             --tab-btn-shadow: rgba(0,0,0,0.3);
             --fab-shadow: rgba(0,0,0,0.4);
             --fab-shadow-hover: rgba(0,0,0,0.5);
+            --chip-nav-bg: rgba(10, 18, 48, 0.92);
+            --chip-bg: rgba(255,255,255,0.06);
+            --chip-border: rgba(212,175,55,0.4);
+            --chip-text: #ffe9b8;
+            --nav-link-color: #a9bcff;
 
             --dc-card-bg: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
             --dc-card-border: rgba(212,175,55,0.35);
@@ -436,9 +449,144 @@
         @media (max-width: 768px) {
             #backToTopBtn {
                 right: 16px;
-                bottom: 16px;
+                /* 疊在底部導覽列上面，不要被蓋住 */
+                bottom: calc(72px + env(safe-area-inset-bottom, 0px));
                 width: 44px;
                 height: 44px;
+            }
+        }
+
+        /* ===== Mobile bottom navigation (≤768px) =====
+           桌面維持原本頂部一整排的 .tabs；手機版把 .tabs 藏起來，改用固定在
+           底部的導覽列（「今天」＋前幾個看得到的分頁＋「更多」），並且尊重
+           safe-area（iPhone 的 home indicator 那一截）。 */
+        .mobile-nav {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                display: none;
+            }
+
+            .mobile-nav {
+                display: flex;
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 300;
+                background: var(--tabs-bg);
+                box-shadow: 0 -4px 14px var(--tabs-shadow);
+                padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
+                gap: 2px;
+            }
+
+            .mobile-nav-btn {
+                flex: 1 1 0;
+                min-width: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2px;
+                background: none;
+                border: none;
+                color: var(--tab-btn-text);
+                font-size: 0.68rem;
+                font-weight: 600;
+                padding: 6px 2px;
+                border-radius: 10px;
+                cursor: pointer;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .mobile-nav-btn .mobile-nav-icon {
+                font-size: 1.15rem;
+                line-height: 1;
+            }
+
+            .mobile-nav-btn.active {
+                color: var(--accent-text-on);
+                background: var(--accent-grad);
+            }
+
+            /* 有底部導覽列時，頁面內容底下留白避免最後一塊內容被蓋住 */
+            .container {
+                padding-bottom: 78px;
+            }
+        }
+
+        .more-sheet-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 350;
+        }
+        .more-sheet-backdrop.open { display: block; }
+
+        .more-sheet {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 360;
+            background: var(--tabs-bg);
+            border-radius: 16px 16px 0 0;
+            padding: 10px 10px calc(14px + env(safe-area-inset-bottom, 0px));
+            box-shadow: 0 -6px 20px var(--tabs-shadow);
+            transform: translateY(100%);
+            transition: transform 0.25s ease;
+        }
+        .more-sheet-backdrop.open .more-sheet {
+            transform: translateY(0);
+        }
+        .more-sheet-handle {
+            width: 36px;
+            height: 4px;
+            background: var(--tab-btn-border);
+            border-radius: 2px;
+            margin: 6px auto 12px;
+        }
+        .more-sheet-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: var(--tab-btn-bg);
+            color: var(--tab-btn-text);
+            border: 1px solid var(--tab-btn-border);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .more-sheet-btn.active {
+            background: var(--accent-grad);
+            color: var(--accent-text-on);
+            border-color: transparent;
+        }
+
+        /* ===== Compact mobile hero (≤768px) =====
+           手機版把票根 header 精簡成「標題＋一行日期資訊」，原本的三欄
+           出發/返回/總天數格線、分隔線、下方日期描述都先藏起來，改顯示
+           JS 組好的單行 .ticket-compact-line（日期範圍・總天數・倒數/今天資訊） */
+        @media (max-width: 768px) {
+            .ticket-cover {
+                padding: 18px 16px;
+            }
+            .ticket-info-grid,
+            .ticket-divider,
+            #pageSubtitle,
+            .trip-countdown {
+                display: none;
+            }
+            .ticket-compact-line {
+                display: block;
             }
         }
 
@@ -512,7 +660,9 @@
             margin-bottom: 5px;
         }
 
-        /* Day jump nav */
+        /* Day jump nav — sticky 位置由 JS 依「上面還有多高的固定元素」動態算
+           （桌面版貼在 .tabs 下面；手機版 .tabs 被底部導覽取代後貼在最上面），
+           見 updateDayJumpNavOffset() */
         .day-jump-nav {
             position: sticky;
             top: 0;
@@ -522,7 +672,7 @@
             gap: 8px;
             padding: 10px 4px;
             margin-bottom: 16px;
-            background: rgba(251, 243, 231, 0.95);
+            background: var(--chip-nav-bg);
             backdrop-filter: blur(4px);
             border-radius: 8px;
             -webkit-overflow-scrolling: touch;
@@ -535,9 +685,9 @@
         .day-jump-chip {
             flex: 0 0 auto;
             white-space: nowrap;
-            background: #fff;
-            color: #8B6F47;
-            border: 1px solid #D4A574;
+            background: var(--chip-bg);
+            color: var(--chip-text);
+            border: 1px solid var(--chip-border);
             border-radius: 16px;
             padding: 6px 14px;
             font-size: 0.82em;
@@ -547,9 +697,108 @@
         }
 
         .day-jump-chip:hover,
-        .day-jump-chip:active {
-            background: #8B6F47;
-            color: #fff;
+        .day-jump-chip:active,
+        .day-jump-chip.active {
+            background: var(--accent-grad);
+            color: var(--accent-text-on);
+            border-color: transparent;
+        }
+
+        /* Today mode / navigate-to-map links / mobile nav / compact hero */
+        .trip-countdown {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--accent-strong);
+        }
+        .trip-countdown:empty { display: none; }
+
+        /* 預設（桌面）不顯示；顯示邏輯交給下面 max-width:768px 那個
+           media query（該規則必須排在這條「基礎規則」之後才會生效，因為
+           CSS cascade 是同層級選擇器看誰在檔案裡排在後面——這裡刻意用
+           min-width 讓兩個 media query 互斥，就不必在意兩段 CSS 誰先誰後） */
+        @media (min-width: 769px) {
+            .ticket-compact-line {
+                display: none;
+            }
+        }
+        .ticket-compact-line {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+
+        .nav-link {
+            display: inline-block;
+            font-size: 0.8em;
+            font-weight: 700;
+            color: var(--nav-link-color);
+            text-decoration: none;
+            border-bottom: 1px solid currentColor;
+            white-space: nowrap;
+        }
+        .nav-link:hover { opacity: 0.75; }
+
+        .today-panel {
+            display: none;
+            background: var(--dc-card-bg, var(--cover-bg));
+            border: 1px solid var(--dc-card-border, var(--cover-border-accent));
+            border-left: 5px solid var(--accent-strong);
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 18px var(--dc-card-shadow, var(--cover-shadow));
+        }
+        .today-panel.visible { display: block; }
+        .today-panel-badge {
+            display: inline-block;
+            background: var(--accent-grad);
+            color: var(--accent-text-on);
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 3px 12px;
+            border-radius: 999px;
+            margin-bottom: 10px;
+        }
+        .today-panel-date { color: var(--dc-date, var(--accent-strong)); font-weight: 700; font-size: 1rem; }
+        .today-panel-title { color: var(--dc-text-strong, var(--text-primary)); font-size: 1.15rem; font-weight: 700; margin: 4px 0 12px; }
+        .today-panel-flight { margin-bottom: 12px; }
+        .today-panel-items {
+            list-style: none;
+            margin: 0 0 12px;
+            padding: 0;
+        }
+        .today-panel-items li {
+            font-size: 0.92rem;
+            color: var(--dc-text, var(--text-primary));
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        .today-panel-items li b { color: var(--dc-text-strong, var(--text-primary)); }
+        .today-panel-hotel {
+            font-size: 0.9rem;
+            color: var(--dc-hotel-text, var(--accent-strong));
+            padding-top: 10px;
+            border-top: 1px dashed var(--dc-card-border, var(--divider-color));
+        }
+
+        /* 標示「今天」的那張日卡：外框強調 + 右上角徽章（JS 依 today.dateISO 加上 .today-card class） */
+        .card, .dc-day-card { position: relative; }
+        .today-card { box-shadow: 0 0 0 2px var(--accent-strong); }
+        .today-card .today-card-badge {
+            position: absolute;
+            top: -12px;
+            right: 14px;
+            background: var(--accent-grad);
+            color: var(--accent-text-on);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 999px;
+            box-shadow: 0 3px 8px var(--accent-shadow);
+            z-index: 2;
         }
 
         /* Cards */
@@ -1872,7 +2121,11 @@
 
             <div class="ticket-divider"></div>
             <p id="pageSubtitle" class="ticket-description"></p>
+            <div id="tripCountdown" class="trip-countdown"></div>
+            <div id="ticketCompactLine" class="ticket-compact-line"></div>
         </div>
+
+        <div id="todayPanel" class="today-panel"></div>
 
         <div class="tabs">
             <button class="tab-btn active" data-tab="cards" onclick="switchTab('cards', this)">🎴 簡要概覽</button>
@@ -1939,6 +2192,16 @@
     </div>
 
     <button id="backToTopBtn" onclick="scrollToTop()" title="回到頂部" aria-label="回到頂部">↑</button>
+
+    <!-- 手機版（≤768px）底部導覽列，取代頂部那一整排分頁按鈕；內容由
+         renderMobileNav() 依目前有哪些分頁可見動態產生 -->
+    <nav id="mobileNav" class="mobile-nav"></nav>
+    <div id="moreSheetBackdrop" class="more-sheet-backdrop" onclick="closeMoreSheet(event)">
+        <div class="more-sheet" onclick="event.stopPropagation()">
+            <div class="more-sheet-handle"></div>
+            <div id="moreSheetContent"></div>
+        </div>
+    </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
@@ -2097,6 +2360,412 @@
             return days;
         }
 
+        // ============================================================
+        // 「今天模式」共用的正規化每日資料模型
+        // 不管行程是 legacy schema（travelData.itinerary，中文欄位）還是
+        // daycard schema（travelData.days），都轉成同一份陣列：
+        //   { index, dayNumber, dateISO, dateLabel, title, hotelRaw,
+        //     hotelName, hotelCity, items:[{label, html}], flight }
+        // 今天模式／導航連結／日期 chip／捲動定位等新功能一律只讀這份資料，
+        // 不直接碰 travelData.itinerary / travelData.days，兩種 schema 才能
+        // 共用同一套邏輯。
+        // ============================================================
+        let normalizedDays = [];
+
+        // 取得目前「今天」的日期（YYYY-MM-DD，用本地時區而非 UTC，避免快到
+        // 午夜時因時區換算跑到前一天）。支援 ?today=YYYY-MM-DD 覆寫方便測試。
+        function getTodayISO() {
+            const override = getUrlParam('today');
+            if (override && /^\d{4}-\d{2}-\d{2}$/.test(override)) return override;
+            const d = new Date();
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        }
+
+        // 兩種 schema 的每日日期字串都只有「月/日」沒有年份（例如「7/30 (四)」
+        // 「12/25（五）」），要靠行程本身的 startDate/endDate 推回實際年份。
+        // 用行程起訖年份 -1/0/+1 三個候選年份，挑離 startDate~endDate 這個區間
+        // 最近的那個，可以正確處理跨年行程（例如12月出發、1月回來）。
+        function resolveDayISO(dateLabel, startISO, endISO) {
+            if (!dateLabel) return null;
+            const m = dateLabel.match(/(\d{1,2})\s*\/\s*(\d{1,2})/);
+            if (!m) return null;
+            const month = parseInt(m[1], 10);
+            const day = parseInt(m[2], 10);
+            const pad = n => String(n).padStart(2, '0');
+            const baseYear = startISO ? parseInt(startISO.slice(0, 4), 10) : new Date().getFullYear();
+            const candidates = [baseYear - 1, baseYear, baseYear + 1].map(y => `${y}-${pad(month)}-${pad(day)}`);
+            if (!startISO || !endISO) return candidates[1];
+            const startTime = new Date(startISO).getTime();
+            const endTime = new Date(endISO).getTime();
+            let best = candidates[1];
+            let bestDist = Infinity;
+            candidates.forEach(c => {
+                const t = new Date(c).getTime();
+                const dist = Math.min(Math.abs(t - startTime), Math.abs(t - endTime));
+                if (dist < bestDist) { bestDist = dist; best = c; }
+            });
+            return best;
+        }
+
+        function buildNormalizedDays() {
+            normalizedDays = [];
+            const startISO = travelData.startDate;
+            const endISO = travelData.endDate;
+
+            if (Array.isArray(travelData.days) && travelData.days.length > 0) {
+                // daycard schema（例如 kansai）
+                travelData.days.forEach((day, i) => {
+                    const blocks = day.blocks || [];
+                    const flightBlock = blocks.find(b => b.type === 'flight') || null;
+                    const items = blocks.filter(b => b.type === 'slot').map(b => ({ label: b.tag || '', html: b.html || '' }));
+                    normalizedDays.push({
+                        index: i,
+                        dayNumber: i + 1,
+                        dateISO: resolveDayISO(day.date, startISO, endISO),
+                        dateLabel: day.date || '',
+                        title: day.weekday || '',
+                        hotelRaw: day.hotel || null,
+                        hotelName: day.hotel || null,
+                        hotelCity: null,
+                        items,
+                        flight: flightBlock
+                    });
+                });
+                return;
+            }
+
+            if (Array.isArray(travelData.itinerary)) {
+                // legacy schema（例如 nl_germany），沿用 renderCards() 同一套「有日期
+                // 或地點才算一天」的過濾規則，確保 index 跟畫面上渲染出來的卡片對得上
+                let idx = 0;
+                travelData.itinerary.forEach(day => {
+                    if (!day || typeof day !== 'object') return;
+                    const dateLabel = day['時間'] || '';
+                    const location = day['地點 / 移動'] || '';
+                    if (!dateLabel && !location) return;
+
+                    const accommodation = day['每日基地 (住宿地區 / 飯店與訂單資訊)'] || '';
+                    const highlights = day['精選景點 (含黃金預約時間)'] || '';
+                    const hotelMatch = accommodation.match(/【[^】]+】\s*([^（]+)/);
+                    const hotelCleanName = hotelMatch ? hotelMatch[1].trim() : null;
+                    const hotelInfo = hotelCleanName ? getHotelInfo(hotelCleanName) : null;
+                    const items = highlights.split('、').map(s => s.trim()).filter(Boolean).map(s => ({
+                        label: '',
+                        html: s.replace(/^\d{1,2}:\d{2}\s+/, '').replace(/\s*\([^)]*\)/, '')
+                    }));
+
+                    normalizedDays.push({
+                        index: idx,
+                        dayNumber: idx + 1,
+                        dateISO: resolveDayISO(dateLabel, startISO, endISO),
+                        dateLabel,
+                        title: location,
+                        hotelRaw: accommodation || null,
+                        hotelName: hotelInfo ? hotelInfo.name : null,
+                        hotelCity: hotelInfo ? hotelInfo.city : null,
+                        items,
+                        flight: null
+                    });
+                    idx++;
+                });
+            }
+        }
+
+        // ============================================================
+        // 一鍵導航（Google Maps 搜尋連結）
+        // 只在「資料裡本來就有明確名稱」的地方加連結（飯店、景點、有結構化
+        // venue 欄位的活動、可以從推薦清單開頭明確切出名稱的餐廳/小吃/伴手
+        // 禮），不會從自由描述文字裡憑空猜地點。
+        // ============================================================
+        function mapsLink(name, city) {
+            const cleanName = (name || '').trim();
+            if (!cleanName) return null;
+            const query = city ? `${cleanName} ${city}` : cleanName;
+            return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
+        }
+
+        function navLinkHtml(name, city) {
+            const url = mapsLink(name, city);
+            if (!url) return '';
+            return ` <a class="nav-link" href="${url}" target="_blank" rel="noopener">導航</a>`;
+        }
+
+        // 從「Name (地址) - 說明」這種推薦清單固定格式裡，切出開頭那段明確的
+        // 店名（到第一個全形/半形括號為止）；切不出來就不加連結，不亂猜
+        function extractRecommendationName(text) {
+            const m = (text || '').match(/^([^(（]{2,40}?)\s*[\(（]/);
+            return m ? m[1].trim() : null;
+        }
+
+        // ============================================================
+        // 今天模式：出發前顯示倒數，行程期間顯示「今天」面板並標記當天卡片，
+        // 結束後兩者都不顯示（"nothing intrusive"）
+        // ============================================================
+        let currentTripStatus = 'unknown'; // 'before' | 'during' | 'after' | 'unknown'
+        let currentTodayDay = null;
+
+        function getTripStatus(todayISO) {
+            if (!travelData.startDate || !travelData.endDate) return 'unknown';
+            if (todayISO < travelData.startDate) return 'before';
+            if (todayISO > travelData.endDate) return 'after';
+            return 'during';
+        }
+
+        function renderTodayMode() {
+            const todayISO = getTodayISO();
+            currentTripStatus = getTripStatus(todayISO);
+            currentTodayDay = normalizedDays.find(d => d.dateISO === todayISO) || null;
+
+            const countdownEl = document.getElementById('tripCountdown');
+            const compactLineEl = document.getElementById('ticketCompactLine');
+            const panelEl = document.getElementById('todayPanel');
+
+            const totalDays = calculateDays();
+            const dateRange = travelData.startDate && travelData.endDate
+                ? `${travelData.startDate} ~ ${travelData.endDate}`
+                : '';
+            let compactSuffix = '';
+
+            if (currentTripStatus === 'before') {
+                const diffDays = Math.ceil((new Date(travelData.startDate) - new Date(todayISO)) / (1000 * 60 * 60 * 24));
+                const text = `距離出發還有 ${diffDays} 天`;
+                if (countdownEl) countdownEl.textContent = text;
+                compactSuffix = ` · ${text}`;
+            } else if (countdownEl) {
+                countdownEl.textContent = '';
+            }
+
+            if (compactLineEl) {
+                compactLineEl.textContent = dateRange ? `${dateRange} · 共${totalDays}天${compactSuffix}` : '';
+            }
+
+            // 清掉先前可能標記過的「今天」卡片徽章（例如切換 ?today= 測試時）
+            document.querySelectorAll('.today-card').forEach(el => {
+                el.classList.remove('today-card');
+                el.querySelector('.today-card-badge')?.remove();
+            });
+
+            if (currentTripStatus !== 'during' || !currentTodayDay) {
+                panelEl.classList.remove('visible');
+                panelEl.innerHTML = '';
+                return;
+            }
+
+            const d = currentTodayDay;
+            compactSuffix = ` · 今天是第 ${d.dayNumber} 天`;
+            if (compactLineEl && dateRange) {
+                compactLineEl.textContent = `${dateRange} · 共${totalDays}天${compactSuffix}`;
+            }
+
+            const flightHtml = d.flight ? `
+                <div class="today-panel-flight">${renderDayFlightBlock(d.flight)}</div>
+            ` : '';
+
+            const itemsHtml = d.items.length ? `
+                <ul class="today-panel-items">
+                    ${d.items.map(item => `<li>${item.label ? `<span class="dc-tag">${item.label}</span> ` : ''}${item.html}</li>`).join('')}
+                </ul>
+            ` : '';
+
+            const hotelDisplay = d.hotelRaw || d.hotelName;
+            const hotelHtml = hotelDisplay ? `
+                <div class="today-panel-hotel">今晚住宿：${hotelDisplay}${navLinkHtml(d.hotelName || d.hotelRaw, d.hotelCity)}</div>
+            ` : '';
+
+            panelEl.innerHTML = `
+                <div class="today-panel-badge">今天 · 第${d.dayNumber}天</div>
+                <div class="today-panel-date">${d.dateLabel}</div>
+                <div class="today-panel-title">${d.title}</div>
+                ${flightHtml}
+                ${itemsHtml}
+                ${hotelHtml}
+            `;
+            panelEl.classList.add('visible');
+
+            // 在「簡要概覽」對應的那張日卡加上「今天」徽章，並在首次載入時捲過去
+            const dayEl = document.querySelector(`#cardsContainer [data-day-index="${d.index}"]`);
+            if (dayEl) {
+                dayEl.classList.add('today-card');
+                const badge = document.createElement('span');
+                badge.className = 'today-card-badge';
+                badge.textContent = '今天';
+                dayEl.appendChild(badge);
+                setTimeout(() => {
+                    if (document.querySelector('.tab-btn[data-tab="cards"]')?.classList.contains('active')) {
+                        dayEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 700);
+            }
+        }
+
+        // ============================================================
+        // 日期 chip 的 sticky 偏移量：桌面版貼在 .tabs 下方；手機版 .tabs
+        // 被底部導覽列取代、畫面上沒有東西擋在上面，所以貼齊最上面即可
+        // ============================================================
+        function updateDayJumpNavOffset() {
+            const nav = document.getElementById('dayJumpNav');
+            if (!nav) return;
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+                nav.style.top = '0px';
+                return;
+            }
+            const tabsEl = document.querySelector('.tabs');
+            nav.style.top = (tabsEl ? Math.ceil(tabsEl.getBoundingClientRect().height) : 0) + 'px';
+        }
+        window.addEventListener('resize', () => {
+            updateDayJumpNavOffset();
+            updateScrollSpyActive();
+        });
+
+        // ============================================================
+        // Scroll-spy：捲動時高亮目前畫面中的那一天對應的 chip。
+        // 用「哪張日卡的頂端離參考線（貼齊 sticky chip 列下方）最近」來判斷，
+        // 而不是用 IntersectionObserver 的 isIntersecting——legacy schema
+        // 的卡片是三欄網格，同一列的卡片會同時觸發 intersecting，用
+        // IntersectionObserver 只看「有沒有進入」會在同一列裡挑到不一定是
+        // 使用者觀感上「現在看到的那天」的卡片；改成量測實際位置後，同一列
+        // 裡固定挑最左邊（DOM 順序最前面）的那張，結果穩定不會亂跳。
+        // ============================================================
+        let scrollSpyBound = false;
+        let scrollSpyTicking = false;
+
+        function updateScrollSpyActive() {
+            const nav = document.getElementById('dayJumpNav');
+            const dayEls = document.querySelectorAll('#cardsContainer [data-day-index]');
+            if (!dayEls.length || !nav || nav.style.display === 'none') return;
+
+            const refLine = nav.getBoundingClientRect().bottom + 4;
+            let bestEl = null;
+            let bestDist = Infinity;
+            dayEls.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                if (top <= refLine) {
+                    const dist = refLine - top;
+                    if (dist < bestDist) { bestDist = dist; bestEl = el; }
+                }
+            });
+            if (!bestEl) bestEl = dayEls[0];
+
+            const idx = bestEl.getAttribute('data-day-index');
+            document.querySelectorAll('.day-jump-chip').forEach(chip => {
+                chip.classList.toggle('active', chip.getAttribute('data-day-index') === idx);
+            });
+        }
+
+        function setupScrollSpy() {
+            updateScrollSpyActive();
+            if (scrollSpyBound) return;
+            scrollSpyBound = true;
+            window.addEventListener('scroll', () => {
+                if (scrollSpyTicking) return;
+                scrollSpyTicking = true;
+                requestAnimationFrame(() => {
+                    updateScrollSpyActive();
+                    scrollSpyTicking = false;
+                });
+            }, { passive: true });
+        }
+
+        // ============================================================
+        // 手機版底部導覽列：「今天」＋看得到的分頁（超過 5 個項目時把多出來
+        // 的收進「更多」的下拉選單），依 applyTabVisibility() 算出來的
+        // visibility 決定要放哪些分頁
+        // ============================================================
+        const TAB_LABELS = {
+            cards: { icon: '🎴', label: '概覽' },
+            overview: { icon: '📅', label: '每日' },
+            schedule: { icon: '⏰', label: '時間表' },
+            map: { icon: '📍', label: '軌跡' },
+            flexible: { icon: '🍽️', label: '手冊' },
+            transport: { icon: '🚌', label: '交通' },
+            packing: { icon: '🎒', label: '打包' },
+            notes: { icon: '📝', label: '小筆' },
+            events: { icon: '🎄', label: '活動' }
+        };
+        const TAB_ORDER = ['cards', 'overview', 'schedule', 'map', 'flexible', 'transport', 'packing', 'notes', 'events'];
+        let mobileNavOverflowTabs = [];
+
+        function renderMobileNav(visibility) {
+            const nav = document.getElementById('mobileNav');
+            if (!nav) return;
+
+            const visibleTabs = TAB_ORDER.filter(t => visibility[t]);
+            const maxSlots = 5;
+            const remaining = maxSlots - 1; // 扣掉固定佔一格的「今天」
+
+            let shown = visibleTabs;
+            let overflow = [];
+            if (visibleTabs.length > remaining) {
+                shown = visibleTabs.slice(0, remaining - 1);
+                overflow = visibleTabs.slice(remaining - 1);
+            }
+            mobileNavOverflowTabs = overflow;
+
+            const activeTab = document.querySelector('.tab-btn.active')?.dataset.tab;
+
+            let html = `
+                <button type="button" class="mobile-nav-btn" onclick="scrollToToday()">
+                    <span class="mobile-nav-icon">◆</span>今天
+                </button>
+            `;
+            shown.forEach(tab => {
+                const meta = TAB_LABELS[tab];
+                html += `
+                    <button type="button" class="mobile-nav-btn${activeTab === tab ? ' active' : ''}" data-tab="${tab}" onclick="switchTab('${tab}', this)">
+                        <span class="mobile-nav-icon">${meta.icon}</span>${meta.label}
+                    </button>
+                `;
+            });
+            if (overflow.length) {
+                const overflowActive = overflow.includes(activeTab) ? ' active' : '';
+                html += `
+                    <button type="button" class="mobile-nav-btn${overflowActive}" id="mobileNavMoreBtn" onclick="openMoreSheet()">
+                        <span class="mobile-nav-icon">☰</span>更多
+                    </button>
+                `;
+            }
+
+            nav.innerHTML = html;
+        }
+
+        function updateMobileNavActive(tabName) {
+            document.querySelectorAll('.mobile-nav-btn[data-tab]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tabName);
+            });
+            const moreBtn = document.getElementById('mobileNavMoreBtn');
+            if (moreBtn) moreBtn.classList.toggle('active', mobileNavOverflowTabs.includes(tabName));
+        }
+
+        function openMoreSheet() {
+            const content = document.getElementById('moreSheetContent');
+            const activeTab = document.querySelector('.tab-btn.active')?.dataset.tab;
+            content.innerHTML = mobileNavOverflowTabs.map(tab => {
+                const meta = TAB_LABELS[tab];
+                return `<button type="button" class="more-sheet-btn${activeTab === tab ? ' active' : ''}" onclick="switchTab('${tab}', document.querySelector('.tab-btn[data-tab=&quot;${tab}&quot;]'))">${meta.icon} ${document.querySelector('.tab-btn[data-tab="' + tab + '"]')?.textContent.trim() || meta.label}</button>`;
+            }).join('');
+            document.getElementById('moreSheetBackdrop').classList.add('open');
+        }
+
+        function closeMoreSheet(event) {
+            if (event && event.target !== event.currentTarget) return;
+            document.getElementById('moreSheetBackdrop')?.classList.remove('open');
+        }
+
+        function scrollToToday() {
+            if (currentTripStatus === 'during') {
+                const panel = document.getElementById('todayPanel');
+                if (panel && panel.classList.contains('visible')) {
+                    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    return;
+                }
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         // 渲染页面
         function renderPage() {
             const days = calculateDays();
@@ -2107,6 +2776,8 @@
             document.getElementById('totalDaysDisplay').textContent = days + '天';
             document.getElementById('pageSubtitle').textContent =
                 `${travelData.startDate} ✈ ${travelData.endDate}`;
+
+            buildNormalizedDays();
 
             renderDayOverview();
             // renderTimeline(); // 已用地圖替代
@@ -2124,6 +2795,9 @@
                 setTimeout(renderMap, 300);
             }
             applyTabVisibility();
+            renderTodayMode();
+            updateDayJumpNavOffset();
+            setupScrollSpy();
         }
 
         // 依實際載入到的資料決定哪些分頁要顯示：沒有資料的分頁直接隱藏分頁按鈕，
@@ -2160,6 +2834,8 @@
                     switchTab(fallbackTab, document.querySelector(`.tab-btn[data-tab="${fallbackTab}"]`));
                 }
             }
+
+            renderMobileNav(visibility);
         }
 
         // 切换标签
@@ -2176,6 +2852,8 @@
             // 沒傳的情況（例如程式化切換分頁）就用 data-tab 找回對應按鈕
             const activeBtn = btnEl || document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
             if (activeBtn) activeBtn.classList.add('active');
+            updateMobileNavActive(tabName);
+            closeMoreSheet();
 
             // 切換分頁時捲回頁面頂部，避免停留在舊分頁的捲動位置看新分頁內容
             // 注意：.tabs 是 sticky 元素，scrollIntoView 會誤判「已經可見」而不捲動，故直接用 window.scrollTo
@@ -2271,6 +2949,7 @@
 
             let html = '';
             let navHtml = '';
+            let dayIndex = 0;
             itinerary.forEach((day, index) => {
                 if (!day || typeof day !== 'object') return;
 
@@ -2280,14 +2959,15 @@
                 // 只顯示有日期或地點的行程
                 if (!date && !location) return;
 
+                const thisDayIndex = dayIndex++;
                 const accommodation = day['每日基地 (住宿地區 / 飯店與訂單資訊)'] || '';
                 const highlights = day['精選景點 (含黃金預約時間)'] || '';
                 const tips = day['備註 / 在地指南'] || '';
 
-                navHtml += `<div class="day-jump-chip" data-jump-date="${date}">${date}</div>`;
+                navHtml += `<div class="day-jump-chip" data-jump-date="${date}" data-day-index="${thisDayIndex}">${date}</div>`;
 
                 html += `
-                    <div class="card" data-card-date="${date}" style="cursor: pointer;">
+                    <div class="card" data-card-date="${date}" data-day-index="${thisDayIndex}" style="cursor: pointer;">
                         <div class="card-date" style="font-size: 0.9em; color: #8B6F47; font-weight: 700; margin-bottom: 8px;">${date}</div>
                         <div class="card-location">${location || '行程'}</div>
 
@@ -2335,12 +3015,18 @@
                 });
             });
 
-            // 頂部快速跳轉列：點日期直接捲到該張卡片（停留在同一個分頁，不切換）
-            document.querySelectorAll('.day-jump-chip[data-jump-date]').forEach(chip => {
+            wireDayJumpChips();
+        }
+
+        // 頂部快速跳轉列：點 chip 直接捲到對應那張日卡（停留在同一個分頁，
+        // 不切換分頁）。legacy／daycard schema 都靠 data-day-index 對應，
+        // 讓兩種 schema 共用同一套邏輯（也是 scroll-spy 用的同一個屬性）
+        function wireDayJumpChips() {
+            document.querySelectorAll('.day-jump-chip[data-day-index]').forEach(chip => {
                 chip.addEventListener('click', function(event) {
                     event.stopPropagation();
-                    const date = this.getAttribute('data-jump-date');
-                    const target = document.querySelector(`.card[data-card-date="${date}"]`);
+                    const idx = this.getAttribute('data-day-index');
+                    const target = document.querySelector(`#cardsContainer [data-day-index="${idx}"]`);
                     if (target) {
                         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
@@ -2381,15 +3067,17 @@
         function renderDayCards() {
             const container = document.getElementById('cardsContainer');
             const navContainer = document.getElementById('dayJumpNav');
-            // daycard schema 目前沒有像 legacy schema 那樣的快速跳轉列，
-            // 清空之餘也把這個空盒子整個藏起來，避免留白色空條
-            if (navContainer) {
-                navContainer.innerHTML = '';
-                navContainer.style.display = 'none';
-            }
 
             const days = travelData.days || [];
-            let html = days.map(day => {
+
+            if (navContainer) {
+                navContainer.style.display = days.length ? '' : 'none';
+                navContainer.innerHTML = days.map((day, i) =>
+                    `<div class="day-jump-chip" data-day-index="${i}">${day.day || day.date || (i + 1)}</div>`
+                ).join('');
+            }
+
+            let html = days.map((day, i) => {
                 const blocksHtml = (day.blocks || []).map(block => {
                     if (block.type === 'flight') return renderDayFlightBlock(block);
                     if (block.type === 'slot') {
@@ -2404,14 +3092,14 @@
                 }).join('');
 
                 return `
-                    <div class="dc-day-card">
+                    <div class="dc-day-card" data-day-index="${i}">
                         <span class="dc-day-badge">${day.day || ''}</span>
                         <div class="dc-day-meta">
                             <span class="dc-date">${day.date || ''}</span>
                             <span class="dc-weekday">${day.weekday || ''}</span>
                         </div>
                         ${blocksHtml}
-                        ${day.hotel ? `<div class="dc-hotel-box">🏨 <span>${day.hotel}</span></div>` : ''}
+                        ${day.hotel ? `<div class="dc-hotel-box">🏨 <span>${day.hotel}</span>${navLinkHtml(day.hotel)}</div>` : ''}
                     </div>
                 `;
             }).join('');
@@ -2434,6 +3122,7 @@
             }
 
             container.innerHTML = html || '<p style="color: white; text-align: center;">無行程數據</p>';
+            wireDayJumpChips();
         }
 
         // 渲染「確定活動」分頁（travelData.events）：警告卡（若有）+ 活動卡列表。
@@ -2471,7 +3160,7 @@
                 return `
                     <div class="dc-event-card">
                         <span class="dc-day-badge">${item.day || ''}</span>
-                        <div class="dc-event-title">${item.title || ''}</div>
+                        <div class="dc-event-title">${item.title || ''}${item.venue ? navLinkHtml(item.venue) : ''}</div>
                         <span class="dc-event-status ${statusClass}">${item.statusLabel || ''}</span>
                         <div class="dc-event-body">${rowsHtml}</div>
                         ${item.source ? `<div class="dc-event-source">來源：<a href="${item.source.url}" target="_blank" rel="noopener">${item.source.label}</a>${item.source.note || ''}</div>` : ''}
@@ -2824,7 +3513,7 @@
 
             return `
                 <div class="museum-card-detail">
-                    <div class="museum-card-title">🏛️ ${info.name}</div>
+                    <div class="museum-card-title">🏛️ ${info.name}${navLinkHtml(info.name, info.city)}</div>
                     <div class="museum-card-subtitle">${info.englishName || ''}</div>
 
                     <div class="museum-card-section">
@@ -2964,6 +3653,7 @@
                                             </div>
                                             ${info ? `
                                                 <div class="attraction-details">
+                                                    ${info.city ? `<div class="detail-row"><div class="detail-label">🌍 地點</div><div class="detail-value">${info.city}${navLinkHtml(info.name, info.city)}</div></div>` : ''}
                                                     ${info.description ? `<div class="detail-row"><div class="detail-label">介紹</div><div class="detail-value">${info.description}</div></div>` : ''}
                                                     ${info.openingHours ? `<div class="detail-row"><div class="detail-label">開放時間</div><div class="detail-value">${info.openingHours}</div></div>` : ''}
                                                     ${info.ticket ? `<div class="detail-row"><div class="detail-label">門票</div><div class="detail-value">${info.ticket}</div></div>` : ''}
@@ -3110,7 +3800,7 @@
 
             return `
                 <div class="hotel-card">
-                    <div class="hotel-title">🏨 ${info.name}</div>
+                    <div class="hotel-title">🏨 ${info.name}${navLinkHtml(info.englishName || info.name, info.city)}</div>
                     ${info.englishName ? `<div class="hotel-subtitle">${info.englishName}</div>` : ''}
 
                     <div class="hotel-info-grid">
@@ -3197,6 +3887,14 @@
             const badgeText = '📍順路' + (match[1] || '');
             const rest = text.slice(match[0].length);
             return `<span style="display:inline-block; background:#8B6F47; color:#fff; font-size:0.72em; font-weight:700; padding:2px 7px; border-radius:10px; margin-right:6px; vertical-align:middle; white-space:nowrap;">${badgeText}</span>${rest}`;
+        }
+
+        // 推薦清單（必吃小吃／推薦餐廳／紀念品）專用：在 formatRecommendationItem
+        // 的基礎上，額外從開頭「店名 (地址) - 說明」的固定格式切出明確店名，
+        // 有切到才加「導航」連結，切不到就不加（不從自由文字猜地點）
+        function formatRecommendationItemWithNav(text, city) {
+            const name = extractRecommendationName(text);
+            return formatRecommendationItem(text) + navLinkHtml(name, city);
         }
 
         // 渲染彈性行程（按城市分類的博物館卡推薦 + 吃喝玩樂推薦）
@@ -3316,7 +4014,7 @@
                             <ul class="recommendation-list">
                     `;
                     recs.snacks.forEach(snack => {
-                        html += `<li>${formatRecommendationItem(snack)}</li>`;
+                        html += `<li>${formatRecommendationItemWithNav(snack, city)}</li>`;
                     });
                     html += `
                             </ul>
@@ -3332,7 +4030,7 @@
                             <ul class="recommendation-list">
                     `;
                     recs.restaurants.forEach(restaurant => {
-                        html += `<li>${formatRecommendationItem(restaurant)}</li>`;
+                        html += `<li>${formatRecommendationItemWithNav(restaurant, city)}</li>`;
                     });
                     html += `
                             </ul>
@@ -3348,7 +4046,7 @@
                             <ul class="recommendation-list">
                     `;
                     recs.souvenirs.forEach(souvenir => {
-                        html += `<li>${souvenir}</li>`;
+                        html += `<li>${souvenir}${navLinkHtml(extractRecommendationName(souvenir), city)}</li>`;
                     });
                     html += `
                             </ul>
@@ -3662,6 +4360,12 @@
                 renderPackingList();
                 alert('✅ 已重置清單');
             }
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(() => {});
+            });
         }
     </script>
 </body>
