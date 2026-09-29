@@ -10,18 +10,177 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'PingFang TC', sans-serif;
-            background:
+        /* ===== Theme tokens =====
+           `leather` (default, :root) reproduces the original warm NL/Germany look.
+           `winter-night` ([data-theme="winter-night"] on <html>) reproduces the
+           original kansai.html dark navy/gold look. Components below (day-card,
+           flight-card, hotel-box, reminders, events, tabs, ticket-cover, buttons)
+           read colors only from these tokens so a trip's `theme` field is the only
+           thing that needs to change to reskin the whole page. See
+           data/SCHEMA_EXTENSIONS.md for how a trip picks its theme. */
+        :root {
+            --page-bg:
                 radial-gradient(ellipse at center, transparent 45%, rgba(107, 68, 35, 0.12) 100%),
                 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"),
                 linear-gradient(135deg, #E8DCC8 0%, #F3E5D8 50%, #E8DCC8 100%);
+            --text-primary: #6B4423;
+            --text-secondary: #666;
+            --accent-strong: #8B6F47;
+            --accent-soft: #D4A574;
+            --accent-grad: linear-gradient(135deg, #8B6F47, #D4A574);
+            --accent-text-on: #ffffff;
+            --accent-shadow: rgba(255, 107, 53, 0.3);
+            --accent-shadow-hover: rgba(255, 107, 53, 0.4);
+            --cover-bg: linear-gradient(135deg, #F5E6D3 0%, #EBD8C3 100%);
+            --cover-panel-bg: linear-gradient(135deg, #f8f9fa 0%, #f0f1fa 100%);
+            --cover-shadow: rgba(0,0,0,0.15);
+            --divider-color: #ddd;
+            --tabs-bg: #E8DCC8;
+            --tabs-shadow: rgba(107, 68, 35, 0.12);
+            --tab-btn-bg: #ffffff;
+            --tab-btn-border: #e0e0e0;
+            --tab-btn-text: #2c3e50;
+            --tab-btn-shadow: rgba(0, 0, 0, 0.08);
+            --fab-shadow: rgba(107, 68, 35, 0.35);
+            --fab-shadow-hover: rgba(107, 68, 35, 0.45);
+
+            /* day-card family (used by trips with the "daycard" schema, e.g. kansai) */
+            --dc-card-bg: linear-gradient(160deg, rgba(139,111,71,0.07), rgba(139,111,71,0.02));
+            --dc-card-border: rgba(212, 165, 116, 0.5);
+            --dc-card-shadow: rgba(139, 90, 60, 0.15);
+            --dc-badge-grad: linear-gradient(135deg, #8B6F47, #D4A574);
+            --dc-badge-text: #fffaf3;
+            --dc-badge-shadow: rgba(139, 111, 71, 0.4);
+            --dc-date: #8B6F47;
+            --dc-weekday: #a0826d;
+            --dc-tag-grad: linear-gradient(135deg, #D4A574, #8B6F47);
+            --dc-tag-text: #fffaf3;
+            --dc-text: #5C4A36;
+            --dc-text-strong: #4A3B28;
+            --dc-flight-bg: linear-gradient(135deg, rgba(212,165,116,0.18), rgba(212,165,116,0.05));
+            --dc-flight-border: rgba(212, 165, 116, 0.5);
+            --dc-flight-airline: #b0522d;
+            --dc-flight-code: #8B6F47;
+            --dc-flight-note: #a0826d;
+            --dc-hotel-bg: rgba(212, 165, 116, 0.14);
+            --dc-hotel-border: rgba(212, 165, 116, 0.6);
+            --dc-hotel-text: #8B6F47;
+            --dc-reminders-bg: linear-gradient(160deg, rgba(139,111,71,0.12), rgba(139,111,71,0.03));
+            --dc-reminders-border: rgba(139, 111, 71, 0.35);
+            --dc-reminders-title: #8B6F47;
+            --dc-reminders-text: #5C4A36;
+            --dc-reminders-box: #8B6F47;
+            --dc-event-confirmed-bg: rgba(80,163,80,0.15);
+            --dc-event-confirmed-text: #2e7d32;
+            --dc-event-confirmed-border: rgba(80,163,80,0.4);
+            --dc-event-check-bg: rgba(200,140,40,0.16);
+            --dc-event-check-text: #b0522d;
+            --dc-event-check-border: rgba(200,140,40,0.4);
+            --dc-event-source-link: #8B6F47;
+            --dc-warning-bg: linear-gradient(160deg, rgba(176,60,45,0.12), rgba(176,60,45,0.03));
+            --dc-warning-border: rgba(176,60,45,0.35);
+            --dc-warning-title: #b0522d;
+            --dc-warning-text: #5C4A36;
+            --dc-footer-text: #a0826d;
+            --snow-opacity: 0;
+        }
+
+        html[data-theme="winter-night"] {
+            --page-bg:
+                radial-gradient(ellipse 120% 60% at 50% -10%, rgba(212,175,55,0.16), transparent 60%),
+                radial-gradient(circle at 15% 20%, rgba(255,255,255,0.9) 0px, rgba(255,255,255,0.9) 1.5px, transparent 2px),
+                radial-gradient(circle at 75% 10%, rgba(255,255,255,0.7) 0px, rgba(255,255,255,0.7) 1px, transparent 1.5px),
+                radial-gradient(circle at 40% 35%, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1.5px),
+                radial-gradient(circle at 90% 45%, rgba(255,255,255,0.85) 0px, rgba(255,255,255,0.85) 1.5px, transparent 2px),
+                radial-gradient(circle at 25% 60%, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1.5px),
+                radial-gradient(circle at 60% 70%, rgba(255,255,255,0.75) 0px, rgba(255,255,255,0.75) 1.5px, transparent 2px),
+                radial-gradient(circle at 85% 85%, rgba(255,255,255,0.6) 0px, rgba(255,255,255,0.6) 1px, transparent 1.5px),
+                radial-gradient(circle at 10% 90%, rgba(255,255,255,0.7) 0px, rgba(255,255,255,0.7) 1.5px, transparent 2px),
+                linear-gradient(180deg, #0a1230 0%, #0f1c47 45%, #14275c 100%);
+            --text-primary: #eef2ff;
+            --text-secondary: #9fb0e6;
+            --accent-strong: #d4af37;
+            --accent-soft: #ffe9b8;
+            --accent-grad: linear-gradient(135deg, #d4af37, #b8952e);
+            --accent-text-on: #14275c;
+            --accent-shadow: rgba(212, 175, 55, 0.35);
+            --accent-shadow-hover: rgba(212, 175, 55, 0.45);
+            --cover-bg: linear-gradient(160deg, rgba(255,255,255,0.07), rgba(255,255,255,0.02));
+            --cover-panel-bg: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(212,175,55,0.04));
+            --cover-shadow: rgba(0,0,0,0.4);
+            --divider-color: rgba(212,175,55,0.3);
+            --tabs-bg: #0f1c3f;
+            --tabs-shadow: rgba(0,0,0,0.4);
+            --tab-btn-bg: rgba(255,255,255,0.06);
+            --tab-btn-border: rgba(212,175,55,0.3);
+            --tab-btn-text: #cdd7ff;
+            --tab-btn-shadow: rgba(0,0,0,0.3);
+            --fab-shadow: rgba(0,0,0,0.4);
+            --fab-shadow-hover: rgba(0,0,0,0.5);
+
+            --dc-card-bg: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+            --dc-card-border: rgba(212,175,55,0.35);
+            --dc-card-shadow: rgba(0,0,0,0.35);
+            --dc-badge-grad: linear-gradient(135deg, #b91d3a, #7d1027);
+            --dc-badge-text: #fff2e0;
+            --dc-badge-shadow: rgba(185,29,58,0.5);
+            --dc-date: #ffe9b8;
+            --dc-weekday: #9fb0e6;
+            --dc-tag-grad: linear-gradient(135deg, #ffe9b8, #d4af37);
+            --dc-tag-text: #14275c;
+            --dc-text: #dbe3ff;
+            --dc-text-strong: #ffffff;
+            --dc-flight-bg: linear-gradient(135deg, rgba(212,175,55,0.14), rgba(212,175,55,0.05));
+            --dc-flight-border: rgba(212,175,55,0.4);
+            --dc-flight-airline: #ff8fa3;
+            --dc-flight-code: #ffe9b8;
+            --dc-flight-note: #9fb0e6;
+            --dc-hotel-bg: rgba(212,175,55,0.10);
+            --dc-hotel-border: rgba(212,175,55,0.5);
+            --dc-hotel-text: #ffe9b8;
+            --dc-reminders-bg: linear-gradient(160deg, rgba(185,29,58,0.16), rgba(185,29,58,0.04));
+            --dc-reminders-border: rgba(185,29,58,0.4);
+            --dc-reminders-title: #ffb3c0;
+            --dc-reminders-text: #f0d8dd;
+            --dc-reminders-box: #ffb3c0;
+            --dc-event-confirmed-bg: rgba(80,200,120,0.18);
+            --dc-event-confirmed-text: #7be8a0;
+            --dc-event-confirmed-border: rgba(80,200,120,0.4);
+            --dc-event-check-bg: rgba(255,180,80,0.18);
+            --dc-event-check-text: #ffc978;
+            --dc-event-check-border: rgba(255,180,80,0.4);
+            --dc-event-source-link: #a9bcff;
+            --dc-warning-bg: linear-gradient(160deg, rgba(185,29,58,0.18), rgba(185,29,58,0.05));
+            --dc-warning-border: rgba(185,29,58,0.45);
+            --dc-warning-title: #ffb3c0;
+            --dc-warning-text: #f0d8dd;
+            --dc-footer-text: #7c8ac0;
+            --snow-opacity: 0.55;
+        }
+
+        html[data-theme="winter-night"] .ticket-main-title {
+            background: linear-gradient(180deg, #ffe9b8, #d4af37);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(212,175,55,0.25);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', 'PingFang TC', sans-serif;
+            background: var(--page-bg);
             background-repeat: no-repeat, repeat, no-repeat;
             background-attachment: fixed, fixed, fixed;
             min-height: 100vh;
             padding: 20px;
-            color: #6B4423;
+            color: var(--text-primary);
             overflow-x: hidden;
+        }
+
+        /* winter-night's page background has 10 layers that must all stay no-repeat
+           (the leather rule above is written for its own 3-layer stack) */
+        html[data-theme="winter-night"] body {
+            background-repeat: no-repeat;
         }
 
         .container {
@@ -48,31 +207,31 @@
 
         .back-btn {
             display: inline-block;
-            color: white;
+            color: var(--accent-text-on);
             text-decoration: none;
             font-size: 1rem;
             margin-bottom: 25px;
             padding: 10px 20px;
-            background: linear-gradient(135deg, #8B6F47, #D4A574);
+            background: var(--accent-grad);
             border-radius: 8px;
             transition: all 0.3s ease;
             font-weight: 700;
-            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 4px 12px var(--accent-shadow);
         }
 
         .back-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+            box-shadow: 0 6px 20px var(--accent-shadow-hover);
         }
 
         /* Ticket Cover */
         .ticket-cover {
-            background: linear-gradient(135deg, #F5E6D3 0%, #EBD8C3 100%);
+            background: var(--cover-bg);
             border-radius: 0;
             padding: 50px;
             margin-bottom: 30px;
             box-shadow:
-                8px 8px 16px rgba(0,0,0,0.15),
+                8px 8px 16px var(--cover-shadow),
                 inset 0 0 0 1px rgba(139, 111, 71, 0.3);
             position: relative;
             overflow: hidden;
@@ -86,7 +245,17 @@
             left: 0;
             right: 0;
             height: 8px;
-            background: linear-gradient(90deg, #8B6F47 0%, #D4A574 50%, #8B6F47 100%);
+            background: var(--accent-grad);
+        }
+
+        .ticket-snowflakes {
+            text-align: center;
+            font-size: 1.2rem;
+            letter-spacing: 12px;
+            opacity: var(--snow-opacity);
+            margin-bottom: 10px;
+            height: 0;
+            overflow: visible;
         }
 
         .ticket-header-banner {
@@ -98,25 +267,29 @@
             border-bottom: 2px solid #f0f0f0;
         }
 
+        html[data-theme="winter-night"] .ticket-header-banner {
+            border-bottom-color: rgba(212,175,55,0.2);
+        }
+
         .ticket-airline-name {
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 3px;
-            color: #8B6F47;
+            color: var(--accent-strong);
             font-weight: 800;
         }
 
         .ticket-flight-number {
             font-size: 1.2rem;
             font-weight: 700;
-            color: #8B6F47;
+            color: var(--accent-strong);
             font-family: 'Courier New', monospace;
         }
 
         .ticket-main-title {
             font-size: 2.2rem;
             font-weight: 900;
-            color: #8B6F47;
+            color: var(--accent-strong);
             margin-bottom: 25px;
             text-align: center;
             letter-spacing: 0.5px;
@@ -128,7 +301,7 @@
             gap: 20px;
             margin-bottom: 25px;
             padding: 20px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #f0f1fa 100%);
+            background: var(--cover-panel-bg);
             border-radius: 8px;
         }
 
@@ -149,7 +322,7 @@
         .ticket-value {
             font-size: 1.4rem;
             font-weight: 800;
-            color: #8B6F47;
+            color: var(--accent-strong);
             font-family: 'Courier New', monospace;
         }
 
@@ -157,8 +330,8 @@
             height: 2px;
             background: repeating-linear-gradient(
                 90deg,
-                #ddd 0px,
-                #ddd 10px,
+                var(--divider-color) 0px,
+                var(--divider-color) 10px,
                 transparent 10px,
                 transparent 20px
             );
@@ -168,7 +341,7 @@
         .ticket-description {
             text-align: center;
             font-size: 1rem;
-            color: #666;
+            color: var(--text-secondary);
             font-weight: 500;
         }
 
@@ -181,36 +354,40 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: #E8DCC8;
+            background: var(--tabs-bg);
             padding: 12px 0;
-            box-shadow: 0 4px 10px rgba(107, 68, 35, 0.12);
+            box-shadow: 0 4px 10px var(--tabs-shadow);
         }
 
         .tab-btn {
             padding: 12px 24px;
-            background: white;
-            border: 2px solid #e0e0e0;
+            background: var(--tab-btn-bg);
+            border: 2px solid var(--tab-btn-border);
             border-radius: 8px;
             cursor: pointer;
             font-size: 0.95em;
             font-weight: 600;
             transition: all 0.3s ease;
-            color: #2c3e50;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            color: var(--tab-btn-text);
+            box-shadow: 0 2px 8px var(--tab-btn-shadow);
+        }
+
+        .tab-btn.tab-hidden {
+            display: none;
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, #8B6F47, #D4A574);
-            color: white;
-            border-color: #D4A574;
+            background: var(--accent-grad);
+            color: var(--accent-text-on);
+            border-color: var(--accent-soft);
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 8px 20px var(--accent-shadow);
         }
 
         .tab-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-            border-color: #8B6F47;
+            box-shadow: 0 4px 12px var(--tab-btn-shadow);
+            border-color: var(--accent-strong);
         }
 
         .tab-content {
@@ -233,12 +410,12 @@
             height: 48px;
             border-radius: 50%;
             border: none;
-            background: linear-gradient(135deg, #8B6F47, #D4A574);
-            color: white;
+            background: var(--accent-grad);
+            color: var(--accent-text-on);
             font-size: 1.3em;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 14px rgba(107, 68, 35, 0.35);
+            box-shadow: 0 4px 14px var(--fab-shadow);
             opacity: 0;
             transform: translateY(12px);
             pointer-events: none;
@@ -253,7 +430,7 @@
         }
 
         #backToTopBtn:hover {
-            box-shadow: 0 6px 18px rgba(107, 68, 35, 0.45);
+            box-shadow: 0 6px 18px var(--fab-shadow-hover);
         }
 
         @media (max-width: 768px) {
@@ -1247,6 +1424,270 @@
             margin-bottom: 15px;
         }
 
+        /* ===== Day-card family =====
+           Shared components for trips using the "daycard" schema (see
+           data/SCHEMA_EXTENSIONS.md) — day-by-day cards with optional flight
+           info, time-of-day slots and a hotel line. Currently used by kansai
+           (winter-night theme); styled through the --dc-* tokens above so a
+           future trip on the leather theme gets a matching, if plainer, look. */
+        .dc-day-card {
+            position: relative;
+            background: var(--dc-card-bg);
+            border: 1px solid var(--dc-card-border);
+            border-radius: 16px;
+            padding: 22px 22px 20px;
+            margin-bottom: 22px;
+            box-shadow: 0 8px 24px var(--dc-card-shadow), inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+
+        .dc-day-badge {
+            position: absolute;
+            top: -14px;
+            left: 22px;
+            background: var(--dc-badge-grad);
+            color: var(--dc-badge-text);
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 5px 14px;
+            border-radius: 999px;
+            box-shadow: 0 4px 10px var(--dc-badge-shadow);
+            letter-spacing: 1px;
+            display: inline-block;
+        }
+
+        .dc-day-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 10px;
+            margin: 18px 0 14px;
+        }
+
+        .dc-day-meta .dc-date { color: var(--dc-date); font-weight: 600; font-size: 1.05rem; }
+        .dc-day-meta .dc-weekday { color: var(--dc-weekday); font-size: 0.85rem; }
+
+        .dc-slot { display: flex; gap: 12px; margin-bottom: 12px; }
+        .dc-slot:last-child { margin-bottom: 0; }
+        .dc-slot .dc-tag {
+            flex: 0 0 auto;
+            font-size: 0.78rem;
+            color: var(--dc-tag-text);
+            background: var(--dc-tag-grad);
+            border-radius: 6px;
+            padding: 3px 9px;
+            height: fit-content;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .dc-slot .dc-text { color: var(--dc-text); font-size: 0.93rem; line-height: 1.6; }
+        .dc-slot .dc-text b { color: var(--dc-text-strong); }
+
+        .dc-flight-card {
+            position: relative;
+            margin-top: 16px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            background: var(--dc-flight-bg);
+            border: 1px solid var(--dc-flight-border);
+            color: var(--dc-text);
+            padding: 14px 16px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+            overflow: hidden;
+        }
+        .dc-flight-card::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 68px;
+            border-left: 2px dashed var(--dc-flight-border);
+        }
+        .dc-flight-card .dc-flight-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-left: 78px;
+        }
+        .dc-flight-card .dc-airline {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--dc-flight-airline);
+            letter-spacing: 0.5px;
+        }
+        .dc-flight-card .dc-flight-no {
+            font-weight: 700;
+            font-size: 0.85rem;
+            background: var(--dc-tag-grad);
+            color: var(--dc-tag-text);
+            padding: 2px 10px;
+            border-radius: 999px;
+            letter-spacing: 0.5px;
+        }
+        .dc-flight-card .dc-plane-icon {
+            position: absolute;
+            left: 16px; top: 12px;
+            font-size: 1.7rem;
+            filter: grayscale(0.15) brightness(1.1);
+        }
+        .dc-flight-card .dc-route-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-left: 78px;
+        }
+        .dc-flight-card .dc-airport { text-align: center; }
+        .dc-flight-card .dc-airport .dc-code {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--dc-flight-code);
+        }
+        .dc-flight-card .dc-airport .dc-time {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--dc-text-strong);
+        }
+        .dc-flight-card .dc-airport .dc-name {
+            font-size: 0.68rem;
+            color: var(--dc-flight-note);
+            margin-top: 2px;
+        }
+        .dc-flight-card .dc-arrow {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--accent-strong);
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+        .dc-flight-card .dc-arrow::before, .dc-flight-card .dc-arrow::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--dc-flight-border);
+        }
+        .dc-flight-card .dc-flight-note {
+            margin-top: 10px;
+            padding-left: 78px;
+            font-size: 0.72rem;
+            color: var(--dc-flight-note);
+            line-height: 1.5;
+        }
+
+        .dc-hotel-box {
+            margin-top: 16px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: var(--dc-hotel-bg);
+            border: 1px dashed var(--dc-hotel-border);
+            font-size: 0.88rem;
+            color: var(--dc-hotel-text);
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+        }
+
+        .dc-reminders {
+            background: var(--dc-reminders-bg);
+            border: 1px solid var(--dc-reminders-border);
+            border-radius: 16px;
+            padding: 22px;
+            margin-top: 10px;
+        }
+        .dc-reminders h2 {
+            font-size: 1.05rem;
+            color: var(--dc-reminders-title);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dc-reminders ul { list-style: none; }
+        .dc-reminders li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            font-size: 0.9rem;
+            color: var(--dc-reminders-text);
+            margin-bottom: 10px;
+            line-height: 1.55;
+        }
+        .dc-reminders li:last-child { margin-bottom: 0; }
+        .dc-reminders li .dc-box {
+            flex: 0 0 auto;
+            width: 16px; height: 16px;
+            margin-top: 2px;
+            border: 1.5px solid var(--dc-reminders-box);
+            border-radius: 4px;
+        }
+        .dc-reminders b { color: var(--dc-text-strong); }
+        .dc-reminders .dc-footnote {
+            margin-top: 10px;
+            font-size: 0.72rem;
+            color: var(--dc-reminders-text);
+            opacity: 0.8;
+        }
+
+        .dc-footer-note {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--dc-footer-text);
+            font-size: 0.78rem;
+        }
+
+        /* Events tab */
+        .dc-warning-card {
+            background: var(--dc-warning-bg);
+            border: 1px solid var(--dc-warning-border);
+            border-radius: 16px;
+            padding: 20px 22px;
+            margin-bottom: 24px;
+        }
+        .dc-warning-card .dc-warning-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--dc-warning-title);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dc-warning-card .dc-warning-body { color: var(--dc-warning-text); font-size: 0.88rem; line-height: 1.65; }
+        .dc-warning-card .dc-warning-body b { color: var(--dc-text-strong); }
+
+        .dc-event-card {
+            position: relative;
+            background: var(--dc-card-bg);
+            border: 1px solid var(--dc-card-border);
+            border-radius: 16px;
+            padding: 22px 22px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px var(--dc-card-shadow), inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+        .dc-event-card .dc-event-title { font-size: 1.1rem; font-weight: 700; color: var(--dc-date); margin: 10px 0 6px; }
+        .dc-event-status {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 9px;
+            border-radius: 999px;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+        .dc-event-status.confirmed { background: var(--dc-event-confirmed-bg); color: var(--dc-event-confirmed-text); border: 1px solid var(--dc-event-confirmed-border); }
+        .dc-event-status.check { background: var(--dc-event-check-bg); color: var(--dc-event-check-text); border: 1px solid var(--dc-event-check-border); }
+        .dc-event-body { color: var(--dc-text); font-size: 0.9rem; line-height: 1.7; }
+        .dc-event-body b { color: var(--dc-text-strong); }
+        .dc-event-body .dc-row { margin-bottom: 4px; }
+        .dc-event-body .dc-label { color: var(--dc-weekday); }
+        .dc-event-source { margin-top: 10px; font-size: 0.78rem; color: var(--dc-text); }
+        .dc-event-source a { color: var(--dc-event-source-link); }
+
+        @media (max-width: 480px) {
+            .dc-day-card { padding: 20px 16px 18px; }
+            .dc-slot { gap: 8px; }
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 12px;
@@ -1406,6 +1847,7 @@
         <a href="index.html" class="back-btn">← 返回行程列表</a>
 
         <div class="ticket-cover">
+            <div class="ticket-snowflakes" id="ticketSnowflakes"></div>
             <div class="ticket-header-banner">
                 <div class="ticket-airline-name">✈ TRAVEL ITINERARY</div>
                 <div class="ticket-flight-number" id="flightNumber">TG-2026</div>
@@ -1433,14 +1875,15 @@
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('cards')">🎴 簡要概覽</button>
-            <button class="tab-btn" onclick="switchTab('overview')">📅 每日詳情</button>
-            <button class="tab-btn" onclick="switchTab('schedule')">⏰ 時間表</button>
-            <button class="tab-btn" onclick="switchTab('map')">📍 行程軌跡</button>
-            <button class="tab-btn" onclick="switchTab('flexible')">🍽️ 吃喝玩樂手冊</button>
-            <button class="tab-btn" onclick="switchTab('transport')">🚌 大眾交通</button>
-            <button class="tab-btn" onclick="switchTab('packing')">🎒 打包清單</button>
-            <button class="tab-btn" onclick="switchTab('notes')">📝 隨興小筆</button>
+            <button class="tab-btn active" data-tab="cards" onclick="switchTab('cards', this)">🎴 簡要概覽</button>
+            <button class="tab-btn" data-tab="overview" onclick="switchTab('overview', this)">📅 每日詳情</button>
+            <button class="tab-btn" data-tab="schedule" onclick="switchTab('schedule', this)">⏰ 時間表</button>
+            <button class="tab-btn" data-tab="map" onclick="switchTab('map', this)">📍 行程軌跡</button>
+            <button class="tab-btn" data-tab="flexible" onclick="switchTab('flexible', this)">🍽️ 吃喝玩樂手冊</button>
+            <button class="tab-btn" data-tab="transport" onclick="switchTab('transport', this)">🚌 大眾交通</button>
+            <button class="tab-btn" data-tab="packing" onclick="switchTab('packing', this)">🎒 打包清單</button>
+            <button class="tab-btn" data-tab="notes" onclick="switchTab('notes', this)">📝 隨興小筆</button>
+            <button class="tab-btn" data-tab="events" onclick="switchTab('events', this)">🎄 確定活動</button>
         </div>
 
         <div id="cards" class="tab-content active">
@@ -1489,6 +1932,10 @@
             </div>
             <div id="notesContainer"></div>
         </div>
+
+        <div id="events" class="tab-content">
+            <div id="eventsContainer"></div>
+        </div>
     </div>
 
     <button id="backToTopBtn" onclick="scrollToTop()" title="回到頂部" aria-label="回到頂部">↑</button>
@@ -1497,6 +1944,10 @@
     <script>
         let travelData = null;
         let map = null;
+        // 目前這個行程的資料夾（例如 'nl_germany'、'kansai'），用來組出
+        // attractions.json / hotels.json 等輔助資料的路徑，取代舊版寫死
+        // 'data/nl_germany/...' 的做法，讓引擎可以服務任何一個行程資料夾
+        let tripFolder = 'nl_germany';
 
         // 获取URL参数
         function getUrlParam(name) {
@@ -1521,13 +1972,16 @@
         // 初始化（DOMContentLoaded 比 load 更早觸發，不必等待地圖庫的圖片/字型資源）
         document.addEventListener('DOMContentLoaded', async () => {
             let id = getUrlParam('id');
+            let manifest = null;
+            try {
+                manifest = await fetch('data/manifest.json').then(r => r.json());
+            } catch (e) {
+                manifest = null;
+            }
             if (!id) {
-                try {
-                    const manifest = await fetch('data/manifest.json').then(r => r.json());
-                    if (manifest.itineraries && manifest.itineraries.length > 0) {
-                        id = manifest.itineraries[0].filename.replace('.json', '');
-                    }
-                } catch (e) {
+                if (manifest && manifest.itineraries && manifest.itineraries.length > 0) {
+                    id = manifest.itineraries[0].filename.replace('.json', '');
+                } else {
                     showError('找不到行程');
                     return;
                 }
@@ -1536,17 +1990,47 @@
                 showError('找不到行程');
                 return;
             }
-            // 等所有輔助資料都載入完成後才渲染，避免 recommendationsData 等尚未就緒導致區塊漏顯示
-            await Promise.all([
-                loadAttractionsData(),
-                loadMuseumCardData(),
-                loadHotelsData(),
-                loadTransportationData(),
-                loadPackingListData(),
-                loadRecommendationsData(),
-                loadNotesData()
-            ]);
+
+            // 依 id 找出這個行程所在的資料夾、主題與 schema（daycard schema 的行程如
+            // kansai 會把 theme/schema 放在 manifest 裡；找不到就照舊預設
+            // leather + legacy，行為與舊版一致）
+            tripFolder = id.split('/')[0] || 'nl_germany';
+            const manifestItem = manifest && manifest.itineraries
+                ? manifest.itineraries.find(it => it.filename.replace('.json', '') === id)
+                : null;
+            const theme = (manifestItem && manifestItem.theme) || 'leather';
+            document.documentElement.dataset.theme = theme;
+            const tripSchema = (manifestItem && manifestItem.schema) || 'legacy';
+            // 雪花裝飾只在 winter-night 主題才有內容；leather 主題保持完全空白，
+            // 確保頁面文字內容跟改版前逐字一致（不只是視覺上看不見而已）
+            const snowEl = document.getElementById('ticketSnowflakes');
+            if (snowEl) snowEl.textContent = theme === 'winter-night' ? '❆ ❅ ❆' : '';
+
+            // legacy schema（例如 nl_germany）才需要景點/博物館卡/飯店/交通/打包清單/
+            // 推薦/隨興小筆這一整套輔助資料；daycard schema（例如 kansai）目前沒有
+            // 這些資料檔，直接跳過可避免一堆沒意義的 404
+            if (tripSchema === 'legacy') {
+                // 等所有輔助資料都載入完成後才渲染，避免 recommendationsData 等尚未就緒導致區塊漏顯示
+                await Promise.all([
+                    loadAttractionsData(),
+                    loadMuseumCardData(),
+                    loadHotelsData(),
+                    loadTransportationData(),
+                    loadPackingListData(),
+                    loadRecommendationsData(),
+                    loadNotesData()
+                ]);
+            }
             await loadItinerary(id);
+
+            // 支援舊網址轉址帶著要開哪個分頁過來，例如 ?tab=events（見 kansai-events.html）
+            const wantedTab = getUrlParam('tab');
+            if (wantedTab) {
+                const btn = document.querySelector(`.tab-btn[data-tab="${wantedTab}"]`);
+                if (btn && !btn.classList.contains('tab-hidden')) {
+                    switchTab(wantedTab, btn);
+                }
+            }
         });
 
         // 加载行程数据
@@ -1634,11 +2118,52 @@
             renderLaundryCookingNotes();
             renderPackingList();
             renderNotes();
-            setTimeout(renderMap, 300);
+            renderEvents();
+            const hasLegacyItinerary = Array.isArray(travelData.itinerary) && travelData.itinerary.length > 0;
+            if (hasLegacyItinerary) {
+                setTimeout(renderMap, 300);
+            }
+            applyTabVisibility();
+        }
+
+        // 依實際載入到的資料決定哪些分頁要顯示：沒有資料的分頁直接隱藏分頁按鈕，
+        // 而不是顯示一個空白畫面（例如 kansai 目前沒有打包清單/交通/彈性行程資料）
+        function applyTabVisibility() {
+            const hasLegacyItinerary = Array.isArray(travelData.itinerary) && travelData.itinerary.length > 0;
+            const hasDayCards = Array.isArray(travelData.days) && travelData.days.length > 0;
+            const flexibleHasContent = document.getElementById('flexibleContainer') &&
+                document.getElementById('flexibleContainer').querySelector('.flexible-location-group') !== null;
+
+            const visibility = {
+                cards: hasLegacyItinerary || hasDayCards,
+                overview: hasLegacyItinerary,
+                schedule: hasLegacyItinerary,
+                map: hasLegacyItinerary,
+                flexible: hasLegacyItinerary && flexibleHasContent,
+                transport: !!(transportationData && transportationData.transport_segments && transportationData.transport_segments.length),
+                packing: !!(packingListData && packingListData.packing_categories && packingListData.packing_categories.length),
+                notes: !!(notesData && notesData.sections && notesData.sections.length),
+                events: !!(travelData.events && travelData.events.items && travelData.events.items.length)
+            };
+
+            let activeTabHidden = false;
+            Object.entries(visibility).forEach(([tab, visible]) => {
+                const btn = document.querySelector(`.tab-btn[data-tab="${tab}"]`);
+                if (!btn) return;
+                btn.classList.toggle('tab-hidden', !visible);
+                if (!visible && btn.classList.contains('active')) activeTabHidden = true;
+            });
+
+            if (activeTabHidden) {
+                const fallbackTab = visibility.cards ? 'cards' : Object.keys(visibility).find(t => visibility[t]);
+                if (fallbackTab) {
+                    switchTab(fallbackTab, document.querySelector(`.tab-btn[data-tab="${fallbackTab}"]`));
+                }
+            }
         }
 
         // 切换标签
-        function switchTab(tabName) {
+        function switchTab(tabName, btnEl) {
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
@@ -1647,7 +2172,10 @@
             });
 
             document.getElementById(tabName).classList.add('active');
-            event.target.classList.add('active');
+            // btnEl 是呼叫端傳進來的按鈕（onclick="switchTab('x', this)"）；
+            // 沒傳的情況（例如程式化切換分頁）就用 data-tab 找回對應按鈕
+            const activeBtn = btnEl || document.querySelector(`.tab-btn[data-tab="${tabName}"]`);
+            if (activeBtn) activeBtn.classList.add('active');
 
             // 切換分頁時捲回頁面頂部，避免停留在舊分頁的捲動位置看新分頁內容
             // 注意：.tabs 是 sticky 元素，scrollIntoView 會誤判「已經可見」而不捲動，故直接用 window.scrollTo
@@ -1729,6 +2257,14 @@
 
         // 渲染卡片
         function renderCards() {
+            // daycard schema（travelData.days，例如 kansai）用完全不同的卡片版型
+            // （航班卡／時段條目／飯店框／預訂提醒），走專屬的渲染函式；
+            // legacy schema（travelData.itinerary，例如 nl_germany）維持原本邏輯不變
+            if (Array.isArray(travelData.days) && travelData.days.length > 0) {
+                renderDayCards();
+                return;
+            }
+
             const container = document.getElementById('cardsContainer');
             const navContainer = document.getElementById('dayJumpNav');
             const itinerary = travelData.itinerary || [];
@@ -1781,6 +2317,7 @@
 
             container.innerHTML = html || '<p style="color: white; text-align: center;">無行程數據</p>';
             if (navContainer) {
+                navContainer.style.display = '';
                 navContainer.innerHTML = navHtml;
             }
 
@@ -1809,6 +2346,144 @@
                     }
                 });
             });
+        }
+
+        // 渲染 daycard schema 的每日卡片（航班卡／時段條目／飯店框），
+        // 以及行程最後的「預訂與準備提醒」清單（travelData.reminders）。
+        // 見 data/SCHEMA_EXTENSIONS.md 說明每個欄位的用途。
+        function renderDayFlightBlock(flight) {
+            const dirIcon = flight.direction === 'return' ? '🛬' : '🛫';
+            return `
+                <div class="dc-flight-card">
+                    <span class="dc-plane-icon">${dirIcon}</span>
+                    <div class="dc-flight-top">
+                        <span class="dc-airline">${flight.airline || ''}</span>
+                        <span class="dc-flight-no">${flight.flightNo || ''}</span>
+                    </div>
+                    <div class="dc-route-row">
+                        <div class="dc-airport">
+                            <div class="dc-code">${flight.from?.code || ''}</div>
+                            <div class="dc-time">${flight.from?.time || ''}</div>
+                            <div class="dc-name">${flight.from?.name || ''}</div>
+                        </div>
+                        <div class="dc-arrow">✈</div>
+                        <div class="dc-airport">
+                            <div class="dc-code">${flight.to?.code || ''}</div>
+                            <div class="dc-time">${flight.to?.time || ''}</div>
+                            <div class="dc-name">${flight.to?.name || ''}</div>
+                        </div>
+                    </div>
+                    ${flight.note ? `<div class="dc-flight-note">${flight.note}</div>` : ''}
+                </div>
+            `;
+        }
+
+        function renderDayCards() {
+            const container = document.getElementById('cardsContainer');
+            const navContainer = document.getElementById('dayJumpNav');
+            // daycard schema 目前沒有像 legacy schema 那樣的快速跳轉列，
+            // 清空之餘也把這個空盒子整個藏起來，避免留白色空條
+            if (navContainer) {
+                navContainer.innerHTML = '';
+                navContainer.style.display = 'none';
+            }
+
+            const days = travelData.days || [];
+            let html = days.map(day => {
+                const blocksHtml = (day.blocks || []).map(block => {
+                    if (block.type === 'flight') return renderDayFlightBlock(block);
+                    if (block.type === 'slot') {
+                        return `
+                            <div class="dc-slot">
+                                <span class="dc-tag">${block.tag || ''}</span>
+                                <span class="dc-text">${block.html || ''}</span>
+                            </div>
+                        `;
+                    }
+                    return '';
+                }).join('');
+
+                return `
+                    <div class="dc-day-card">
+                        <span class="dc-day-badge">${day.day || ''}</span>
+                        <div class="dc-day-meta">
+                            <span class="dc-date">${day.date || ''}</span>
+                            <span class="dc-weekday">${day.weekday || ''}</span>
+                        </div>
+                        ${blocksHtml}
+                        ${day.hotel ? `<div class="dc-hotel-box">🏨 <span>${day.hotel}</span></div>` : ''}
+                    </div>
+                `;
+            }).join('');
+
+            if (travelData.reminders && travelData.reminders.items && travelData.reminders.items.length) {
+                const r = travelData.reminders;
+                html += `
+                    <div class="dc-reminders">
+                        <h2>${r.title || '預訂與準備提醒'}</h2>
+                        <ul>
+                            ${r.items.map(item => `<li><span class="dc-box"></span><span>${item}</span></li>`).join('')}
+                        </ul>
+                        ${r.footnote ? `<div class="dc-footnote">${r.footnote}</div>` : ''}
+                    </div>
+                `;
+            }
+
+            if (travelData.footerNote) {
+                html += `<div class="dc-footer-note">${travelData.footerNote}</div>`;
+            }
+
+            container.innerHTML = html || '<p style="color: white; text-align: center;">無行程數據</p>';
+        }
+
+        // 渲染「確定活動」分頁（travelData.events）：警告卡（若有）+ 活動卡列表。
+        // 目前只有 kansai 有這份資料；沒有 events 資料的行程分頁按鈕會被
+        // applyTabVisibility() 隱藏，不會顯示空白分頁。
+        function renderEvents() {
+            const container = document.getElementById('eventsContainer');
+            if (!container) return;
+
+            const events = travelData.events;
+            if (!events || !events.items || !events.items.length) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            if (events.subtitle) {
+                html += `<p style="text-align:center; color: var(--text-secondary); margin-bottom: 20px;">${events.subtitle}</p>`;
+            }
+
+            if (events.warning) {
+                html += `
+                    <div class="dc-warning-card">
+                        <div class="dc-warning-title">${events.warning.title || ''}</div>
+                        <div class="dc-warning-body">${events.warning.html || ''}</div>
+                    </div>
+                `;
+            }
+
+            html += events.items.map(item => {
+                const statusClass = item.status === 'confirmed' ? 'confirmed' : 'check';
+                const rowsHtml = (item.rows || []).map(row => `
+                    <div class="dc-row">${row.label ? `<span class="dc-label">${row.label}</span>` : ''}${row.html || ''}</div>
+                `).join('');
+                return `
+                    <div class="dc-event-card">
+                        <span class="dc-day-badge">${item.day || ''}</span>
+                        <div class="dc-event-title">${item.title || ''}</div>
+                        <span class="dc-event-status ${statusClass}">${item.statusLabel || ''}</span>
+                        <div class="dc-event-body">${rowsHtml}</div>
+                        ${item.source ? `<div class="dc-event-source">來源：<a href="${item.source.url}" target="_blank" rel="noopener">${item.source.label}</a>${item.source.note || ''}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+
+            if (events.footnote) {
+                html += `<div class="dc-footer-note">${events.footnote}</div>`;
+            }
+
+            container.innerHTML = html;
         }
 
         // 渲染地图 - 顯示行程軌跡
@@ -2006,7 +2681,7 @@
         let recommendationsData = null;
         async function loadAttractionsData() {
             try {
-                const response = await fetch('data/nl_germany/attractions.json');
+                const response = await fetch(`data/${tripFolder}/attractions.json`);
                 if (response.ok) {
                     attractionsData = await response.json();
                 }
@@ -2017,7 +2692,7 @@
 
         async function loadMuseumCardData() {
             try {
-                const response = await fetch('data/nl_germany/museum_card_details.json');
+                const response = await fetch(`data/${tripFolder}/museum_card_details.json`);
                 if (response.ok) {
                     museumCardData = await response.json();
                 }
@@ -2028,7 +2703,7 @@
 
         async function loadHotelsData() {
             try {
-                const response = await fetch('data/nl_germany/hotels.json');
+                const response = await fetch(`data/${tripFolder}/hotels.json`);
                 if (response.ok) {
                     hotelsData = await response.json();
                 }
@@ -2039,7 +2714,7 @@
 
         async function loadTransportationData() {
             try {
-                const response = await fetch('data/nl_germany/transportation.json');
+                const response = await fetch(`data/${tripFolder}/transportation.json`);
                 if (response.ok) {
                     transportationData = await response.json();
                 }
@@ -2050,7 +2725,7 @@
 
         async function loadPackingListData() {
             try {
-                const response = await fetch('data/nl_germany/packing-list.json');
+                const response = await fetch(`data/${tripFolder}/packing-list.json`);
                 if (response.ok) {
                     packingListData = await response.json();
                 }
@@ -2063,7 +2738,7 @@
 
         async function loadNotesData() {
             try {
-                const response = await fetch('data/nl_germany/random-notes.json');
+                const response = await fetch(`data/${tripFolder}/random-notes.json`);
                 if (response.ok) {
                     notesData = await response.json();
                 }
@@ -2074,7 +2749,7 @@
 
         async function loadRecommendationsData() {
             try {
-                const response = await fetch('data/nl_germany/recommendations.json');
+                const response = await fetch(`data/${tripFolder}/recommendations.json`);
                 if (response.ok) {
                     recommendationsData = await response.json();
                 }

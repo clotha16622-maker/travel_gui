@@ -76,7 +76,7 @@
         .header::after {
             content: '🌍';
             position: absolute;
-            bottom: -10px;
+            bottom: -34px;
             left: 40px;
             font-size: 2.5rem;
             opacity: 0.3;
@@ -147,6 +147,12 @@
 
         /* Ticket Style - Travel Journal */
         .itinerary-card {
+            /* 每張行程卡片的按鈕/強調色，依 manifest 裡該行程的 theme 決定
+               （見下方 [data-theme="winter-night"] 覆寫），讓「查看行程」按鈕
+               跟目的地本身的行程頁配色一致，而不是固定的紫色漸層 */
+            --card-btn-grad: linear-gradient(135deg, #8B6F47, #D4A574);
+            --card-btn-text: #ffffff;
+            --card-accent: #8b5a3c;
             background: linear-gradient(135deg, #fffbf7 0%, #fff5ee 100%);
             border-radius: 8px;
             padding: 0;
@@ -304,7 +310,8 @@
             color: #8b5a3c;
         }
 
-        /* 二維碼區域 */
+        /* 二維碼區域（Seat 那行用一般中文字型顯示，避免 Courier New 對中文字
+           排版跑掉；顏色改用該張卡片自己的強調色，不再是不相干的紫色） */
         .ticket-barcode {
             background: #f8f9fa;
             border: 1px solid #f0f0f0;
@@ -312,10 +319,9 @@
             padding: 12px;
             text-align: center;
             margin-bottom: 15px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            color: #667eea;
+            font-size: 0.78rem;
+            letter-spacing: 0.5px;
+            color: var(--card-accent);
         }
 
         .itinerary-actions {
@@ -336,12 +342,20 @@
         }
 
         .btn-view {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            background: var(--card-btn-grad);
+            color: var(--card-btn-text);
         }
 
         .btn-view:hover {
-            background: linear-gradient(135deg, #5568d3, #6a3e8f);
+            filter: brightness(1.08);
+        }
+
+        /* winter-night 行程卡片（例如關西行程）用深藍金配色的按鈕，
+           呼應該行程頁本身的 winter-night 主題 */
+        .itinerary-card[data-theme="winter-night"] {
+            --card-btn-grad: linear-gradient(135deg, #d4af37, #b8952e);
+            --card-btn-text: #14275c;
+            --card-accent: #a67c1e;
         }
 
         .btn-delete {
@@ -646,7 +660,7 @@
                             endDate: data.endDate,
                             days: days,
                             description: '旅遊紀錄',
-                            customPage: data.customPage || null
+                            theme: item.theme || 'leather'
                         });
                     } catch (error) {
                         console.error(`Error loading ${item.filename}:`, error);
@@ -716,7 +730,7 @@
                         const durationDays = it.days || 7;
 
                         return `
-                            <div class="itinerary-card">
+                            <div class="itinerary-card" data-theme="${it.theme || 'leather'}">
                                 <div class="ticket-content">
                                     <div class="ticket-header">
                                         <div>
@@ -803,11 +817,6 @@
 
         // 查看行程
         function viewItinerary(id) {
-            const it = itineraries.find(i => i.id === id);
-            if (it && it.customPage) {
-                window.location.href = it.customPage;
-                return;
-            }
             window.location.href = `itinerary.html?id=${id}`;
         }
 

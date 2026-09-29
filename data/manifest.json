@@ -2,11 +2,15 @@
   "itineraries": [
     {
       "filename": "nl_germany/itinerary.json",
-      "countries": "荷蘭 & 德國"
+      "countries": "荷蘭 & 德國",
+      "theme": "leather",
+      "schema": "legacy"
     },
     {
-      "filename": "kansai/trip.json",
-      "countries": "日本（神戶・大阪）"
+      "filename": "kansai/itinerary.json",
+      "countries": "日本（神戶・大阪）",
+      "theme": "winter-night",
+      "schema": "daycard"
     }
   ]
 }
