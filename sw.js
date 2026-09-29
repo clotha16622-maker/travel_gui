@@ -3,7 +3,7 @@
 // sw.js 所在位置」的相對路徑，不能用 '/xxx' 這種絕對路徑，否則子路徑部署會
 // 抓錯位置。scope 也交給註冊那一端用相對路徑 './' 指定。
 
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v3';
 const APP_CACHE = `travel-gui-app-${CACHE_VERSION}`;
 const IMG_CACHE = `travel-gui-img-${CACHE_VERSION}`;
 const IMG_CACHE_MAX_ENTRIES = 60; // 跨網域圖片（例如維基百科縮圖）快取上限，避免無限長大
@@ -12,6 +12,7 @@ const IMG_CACHE_MAX_ENTRIES = 60; // 跨網域圖片（例如維基百科縮圖�
 // 網站根目錄還是 GitHub Pages 的 /travel_gui/ 子路徑都能正確運作
 const ROOT = new URL('./', self.location).pathname;
 
+// 網站本身固定的頁面／殼層資源，跟「有幾個行程」無關，可以寫死
 const APP_SHELL = [
   '', // ROOT 本身（等同 index.html，多數伺服器會這樣導向）
   'index.html',
@@ -21,18 +22,21 @@ const APP_SHELL = [
   'kansai-events.html',
   'manifest.webmanifest',
   'icons/icon-192.png',
-  'icons/icon-512.png',
-  'data/manifest.json',
-  'data/nl_germany/attractions.json',
-  'data/nl_germany/hotels.json',
-  'data/nl_germany/itinerary.json',
-  'data/nl_germany/museum_card_details.json',
-  'data/nl_germany/packing-list.json',
-  'data/nl_germany/random-notes.json',
-  'data/nl_germany/recommendations.json',
-  'data/nl_germany/transportation.json',
-  'data/kansai/itinerary.json'
+  'icons/icon-512.png'
 ].map(p => ROOT + p);
+
+// legacy schema 的行程可能有的輔助資料檔案名稱（見 data/SCHEMA_EXTENSIONS.md）。
+// daycard schema 的行程（例如 kansai）沒有這些檔案，逐一嘗試快取、抓不到就跳過，
+// 不影響其他檔案，見下面 cacheOne()。
+const KNOWN_AUX_FILES = [
+  'attractions.json',
+  'hotels.json',
+  'museum_card_details.json',
+  'packing-list.json',
+  'random-notes.json',
+  'recommendations.json',
+  'transportation.json'
+];
 
 // 地圖分頁需要的 Leaflet（跨網域 CDN），一併預先快取，離線時至少載入不會報錯
 const VENDOR_ASSETS = [
@@ -40,16 +44,54 @@ const VENDOR_ASSETS = [
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
 ];
 
+// 抓單一資源並放進快取；抓不到／抓失敗就默默跳過，不丟出例外，讓呼叫端可以
+// 用 Promise.all 平行處理一大批網址時，其中任何一個失敗都不會拖垮其他的
+// （這點很重要：cache.addAll() 是「全部成功才算成功」，少一個選填的輔助檔案
+// 就會讓整批安裝失敗；這裡逐一 cache.put() 就沒有這個問題）。
+async function cacheOne(cache, url, init) {
+  try {
+    const response = await fetch(url, init);
+    if (response && response.ok) {
+      await cache.put(url, response.clone());
+      return response;
+    }
+  } catch (e) { /* 忽略單一資源失敗 */ }
+  return null;
+}
+
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(APP_CACHE);
-    // 逐一 add，單一資源失敗（例如暫時連不上 CDN）不應該讓整個安裝失敗
-    await Promise.all(APP_SHELL.map(async (url) => {
-      try { await cache.add(url); } catch (e) { /* 忽略單一資源失敗 */ }
-    }));
-    await Promise.all(VENDOR_ASSETS.map(async (url) => {
-      try { await cache.add(new Request(url, { mode: 'cors' })); } catch (e) { /* 忽略 */ }
-    }));
+
+    await Promise.all(APP_SHELL.map((url) => cacheOne(cache, url)));
+    await Promise.all(VENDOR_ASSETS.map((url) => cacheOne(cache, url, { mode: 'cors' })));
+
+    // 每個行程實際有哪些資料檔，從 data/manifest.json 動態算出來，而不是寫死
+    // 在這個檔案裡——之後在 manifest.json 裡新增第三個行程，離線快取會自動
+    // 涵蓋到，不必記得回來改 sw.js。manifest.json 本身也快取，讓「知道有哪些
+    // 行程」這件事本身也能離線運作。
+    const manifestUrl = ROOT + 'data/manifest.json';
+    const manifestRes = await cacheOne(cache, manifestUrl, { cache: 'no-store' });
+    if (manifestRes) {
+      try {
+        const manifest = await manifestRes.clone().json();
+        const items = manifest.itineraries || [];
+        const jobs = [];
+        items.forEach((item) => {
+          if (!item || !item.filename) return;
+          const folder = item.filename.split('/')[0];
+          // 行程本身的主要資料檔（例如 nl_germany/itinerary.json、kansai/itinerary.json）
+          jobs.push(cacheOne(cache, ROOT + 'data/' + item.filename));
+          // legacy schema 可能有的輔助資料檔；daycard schema 抓不到很正常，
+          // cacheOne() 會靜默跳過，不影響其他檔案或整個安裝流程
+          KNOWN_AUX_FILES.forEach((aux) => {
+            jobs.push(cacheOne(cache, ROOT + `data/${folder}/${aux}`));
+          });
+        });
+        await Promise.all(jobs);
+      } catch (e) { /* manifest.json 格式有問題就跳過，不影響其餘快取 */ }
+    }
+
     await self.skipWaiting();
   })());
 });
@@ -78,7 +120,12 @@ async function trimImageCache() {
 async function staleWhileRevalidate(request) {
   const cache = await caches.open(APP_CACHE);
   const cached = await cache.match(request);
-  const networkPromise = fetch(request)
+  // 背景重新驗證一定要繞過瀏覽器自己的 HTTP cache（用 no-store），不然像
+  // python -m http.server 這種沒有送 Cache-Control 的靜態伺服器，瀏覽器可能
+  // 用它自己的記憶體/磁碟快取把這次 fetch 直接擋掉，結果「背景更新」抓到的
+  // 還是舊內容，SW 快取永遠不會真的更新。這裡明確蓋掉 cache 選項確保一定
+  // 打到網路拿最新版本。
+  const networkPromise = fetch(request, { cache: 'no-store' })
     .then((response) => {
       if (response && response.ok) cache.put(request, response.clone());
       return response;

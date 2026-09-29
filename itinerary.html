@@ -785,7 +785,9 @@
         }
 
         /* 標示「今天」的那張日卡：外框強調 + 右上角徽章（JS 依 today.dateISO 加上 .today-card class） */
-        .card, .dc-day-card { position: relative; }
+        /* scroll-margin-top 讓 scrollIntoView({block:'start'})／瀏覽器內建錨點
+           捲動時，卡片上緣不會剛好卡在 sticky 的分頁列／日期 chip 列下面 */
+        .card, .dc-day-card { position: relative; scroll-margin-top: 90px; }
         .today-card { box-shadow: 0 0 0 2px var(--accent-strong); }
         .today-card .today-card-badge {
             position: absolute;
@@ -2430,6 +2432,7 @@
                         hotelRaw: day.hotel || null,
                         hotelName: day.hotel || null,
                         hotelCity: null,
+                        hotelType: null,
                         items,
                         flight: flightBlock
                     });
@@ -2464,8 +2467,12 @@
                         dateLabel,
                         title: location,
                         hotelRaw: accommodation || null,
+                        // hotelName／hotelCity 只在 hotels.json 有明確比對到時才填，
+                        // 之後今天面板只用這兩個欄位組導航連結，不會拿原始文字
+                        // （可能是「【機上】華航 CI73」這種不是地點的描述）去查
                         hotelName: hotelInfo ? hotelInfo.name : null,
                         hotelCity: hotelInfo ? hotelInfo.city : null,
+                        hotelType: hotelInfo ? hotelInfo.type : null,
                         items,
                         flight: null
                     });
@@ -2480,9 +2487,23 @@
         // venue 欄位的活動、可以從推薦清單開頭明確切出名稱的餐廳/小吃/伴手
         // 禮），不會從自由描述文字裡憑空猜地點。
         // ============================================================
+        // 明確排除清單：字面上不是「可搜尋地點」的住宿/行程描述，不管從哪個
+        // schema 或哪個欄位進來，一律不加導航連結。目前遇到的情況：
+        //   - 朋友家 / 朋友住處：住朋友家，沒有可查詢的正式地址或店名
+        //   - 機上：在飛機上過夜，不是實體地點
+        // 用「文字包含這些關鍵字」比對，之後遇到類似情況（例如自己家、民宿掛
+        // 假名等）直接把關鍵字加進這裡即可，不用改呼叫端的邏輯。
+        const NAV_LINK_STOPLIST = ['朋友家', '朋友住處', '機上'];
+
+        function isRealPlaceName(name) {
+            const trimmed = (name || '').trim();
+            if (trimmed.length < 2) return false; // 太短、看起來不像地點/店名
+            return !NAV_LINK_STOPLIST.some(stop => trimmed.includes(stop));
+        }
+
         function mapsLink(name, city) {
             const cleanName = (name || '').trim();
-            if (!cleanName) return null;
+            if (!isRealPlaceName(cleanName)) return null;
             const query = city ? `${cleanName} ${city}` : cleanName;
             return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
         }
@@ -2496,8 +2517,19 @@
         // 從「Name (地址) - 說明」這種推薦清單固定格式裡，切出開頭那段明確的
         // 店名（到第一個全形/半形括號為止）；切不出來就不加連結，不亂猜
         function extractRecommendationName(text) {
-            const m = (text || '').match(/^([^(（]{2,40}?)\s*[\(（]/);
-            return m ? m[1].trim() : null;
+            // 先把「📍順路(...)」這種開頭的徽章標記拿掉（跟 formatRecommendationItem
+            // 用同一個 pattern），不然會把「📍順路」本身誤判成店名
+            const withoutBadge = (text || '').replace(/^📍順路(\([^)]*\))?\s*/, '');
+            const m = withoutBadge.match(/^([^(（]{2,40}?)\s*[\(（]/);
+            if (!m) return null;
+            const candidate = m[1].trim();
+            // 這份資料的固定格式是「店名 (地址) - 說明」，括號前只會是純店名。
+            // 但少數項目沒有明確店家，是像「海灘紀念品小物 - 說明文字（附註）」
+            // 這種先講一段描述、後面才出現一個附註用括號的寫法，此時「括號前
+            // 的文字」其實包含了「 - 」分隔的說明，不是真正的店名，要排除掉，
+            // 不然會把整句描述誤判成可搜尋的地點名稱
+            if (/[-－—]/.test(candidate)) return null;
+            return candidate;
         }
 
         // ============================================================
@@ -2570,9 +2602,14 @@
                 </ul>
             ` : '';
 
+            // 顯示文字可以用原始描述（例如「【機上】華航 CI73」比純 null 有意義）；
+            // 但導航連結只用 hotelName——那是 hotels.json 明確比對到的正式名稱，
+            // 不會拿原始描述文字去產生查不到東西的連結。hotelType === 'private'
+            // （借宿朋友家）也不給連結，isRealPlaceName() 的關鍵字比對是第二層備援
             const hotelDisplay = d.hotelRaw || d.hotelName;
+            const hotelNavLink = d.hotelType === 'private' ? '' : navLinkHtml(d.hotelName, d.hotelCity);
             const hotelHtml = hotelDisplay ? `
-                <div class="today-panel-hotel">今晚住宿：${hotelDisplay}${navLinkHtml(d.hotelName || d.hotelRaw, d.hotelCity)}</div>
+                <div class="today-panel-hotel">今晚住宿：${hotelDisplay}${hotelNavLink}</div>
             ` : '';
 
             panelEl.innerHTML = `
@@ -2595,7 +2632,28 @@
                 dayEl.appendChild(badge);
                 setTimeout(() => {
                     if (document.querySelector('.tab-btn[data-tab="cards"]')?.classList.contains('active')) {
-                        dayEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // 手動算捲動位置（不是用 scrollIntoView）：要讓今天這張卡片捲到
+                        // 「緊貼 sticky 日期 chip 列下緣」——這跟 scroll-spy 判斷「目前
+                        // 在看哪天」的參考線是同一條線，捲動完成後 chip 高亮才會穩定跟
+                        // 「今天」徽章對上同一天，不會因為對齊點沒完全對齊參考線而在
+                        // scroll 事件觸發重算時跳回前一天。
+                        const nav = document.getElementById('dayJumpNav');
+                        const stickyTop = nav ? (parseFloat(nav.style.top) || 0) : 0;
+                        const navBottom = nav ? stickyTop + nav.getBoundingClientRect().height : 0;
+                        const targetY = dayEl.getBoundingClientRect().top + window.scrollY - navBottom - 1;
+                        window.scrollTo({ top: Math.max(targetY, 0), behavior: 'smooth' });
+
+                        // 先直接指定 active chip（不用等捲動動畫跑完/scroll 事件觸發），
+                        // 捲動完成後 scroll-spy 的參考線計算此時也會落在同一張卡片上，
+                        // 兩者是一致的，不會互相打架
+                        document.querySelectorAll('.day-jump-chip').forEach(chip => {
+                            chip.classList.toggle('active', chip.getAttribute('data-day-index') === String(d.index));
+                        });
+                        // 行程天數多的時候（例如 NL 17 天）日期 chip 列會橫向捲動、
+                        // 今天那個 chip 不一定落在一開始看到的範圍內，這裡也讓 chip
+                        // 列橫向捲到「今天」那個 chip，只捲橫向、不影響垂直捲動位置
+                        document.querySelector('.day-jump-chip.active')
+                            ?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
                     }
                 }, 700);
             }
@@ -2745,7 +2803,12 @@
             const activeTab = document.querySelector('.tab-btn.active')?.dataset.tab;
             content.innerHTML = mobileNavOverflowTabs.map(tab => {
                 const meta = TAB_LABELS[tab];
-                return `<button type="button" class="more-sheet-btn${activeTab === tab ? ' active' : ''}" onclick="switchTab('${tab}', document.querySelector('.tab-btn[data-tab=&quot;${tab}&quot;]'))">${meta.icon} ${document.querySelector('.tab-btn[data-tab="' + tab + '"]')?.textContent.trim() || meta.label}</button>`;
+                // 分頁按鈕（.tab-btn）的文字本身就已經含圖示（例如「📍 行程軌跡」），
+                // 不要再疊加 meta.icon，否則圖示會重複兩次；找不到對應按鈕時才用
+                // TAB_LABELS 的圖示＋短標籤當備援
+                const fullLabel = document.querySelector(`.tab-btn[data-tab="${tab}"]`)?.textContent.trim();
+                const label = fullLabel || `${meta.icon} ${meta.label}`;
+                return `<button type="button" class="more-sheet-btn${activeTab === tab ? ' active' : ''}" onclick="switchTab('${tab}', document.querySelector('.tab-btn[data-tab=&quot;${tab}&quot;]'))">${label}</button>`;
             }).join('');
             document.getElementById('moreSheetBackdrop').classList.add('open');
         }
@@ -3798,9 +3861,13 @@
         function renderHotelCard(info) {
             if (!info) return '';
 
+            // hotels.json 用 type 欄位明確區分「private」（借宿朋友家之類，沒有
+            // 可搜尋的正式地點）跟「hotel」（真的飯店）；private 就不加導航連結，
+            // 這是比對文字關鍵字更直接的判斷依據（NAV_LINK_STOPLIST 是額外備援）
+            const hotelNavLink = info.type === 'private' ? '' : navLinkHtml(info.englishName || info.name, info.city);
             return `
                 <div class="hotel-card">
-                    <div class="hotel-title">🏨 ${info.name}${navLinkHtml(info.englishName || info.name, info.city)}</div>
+                    <div class="hotel-title">🏨 ${info.name}${hotelNavLink}</div>
                     ${info.englishName ? `<div class="hotel-subtitle">${info.englishName}</div>` : ''}
 
                     <div class="hotel-info-grid">
