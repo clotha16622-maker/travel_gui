@@ -2514,22 +2514,31 @@
             return ` <a class="nav-link" href="${url}" target="_blank" rel="noopener">導航</a>`;
         }
 
-        // 從「Name (地址) - 說明」這種推薦清單固定格式裡，切出開頭那段明確的
-        // 店名（到第一個全形/半形括號為止）；切不出來就不加連結，不亂猜
-        function extractRecommendationName(text) {
+        // 從「店名 (地址) - 說明」這種推薦清單固定格式裡，切出店名跟括號內容，
+        // 只有括號內容看起來「像真的地址/店家位置」（含門牌號碼之類的數字，
+        // 例如「Blauwpoortshaven 7」「Tilsiter Straße 10」）才回傳；括號內容
+        // 只是產品/品牌/風格名稱（例如「(Haribo)」「(Kölsch)」
+        // 「(Rutte Jenever)」——沒有任何數字）不算地址，回傳 null 不給連結，
+        // 因為那是產品不是地點，導航過去沒有意義。回傳的地址優先於城市名，
+        // 組出來的查詢字串更精準（例如「Bembel蘋果酒陶壺
+        // Bembeltown，Bockenheim區Tilsiter Straße 10」而不是「Bembel蘋果酒陶壺
+        // 法蘭克福」這種整座城市等級、查不到特定地點的查詢）。
+        function extractRecommendationPlace(text) {
             // 先把「📍順路(...)」這種開頭的徽章標記拿掉（跟 formatRecommendationItem
             // 用同一個 pattern），不然會把「📍順路」本身誤判成店名
             const withoutBadge = (text || '').replace(/^📍順路(\([^)]*\))?\s*/, '');
-            const m = withoutBadge.match(/^([^(（]{2,40}?)\s*[\(（]/);
+            const m = withoutBadge.match(/^([^(（]{2,40}?)\s*[\(（]([^)）]*)[\)）]/);
             if (!m) return null;
-            const candidate = m[1].trim();
+            const name = m[1].trim();
+            const address = m[2].trim();
             // 這份資料的固定格式是「店名 (地址) - 說明」，括號前只會是純店名。
             // 但少數項目沒有明確店家，是像「海灘紀念品小物 - 說明文字（附註）」
             // 這種先講一段描述、後面才出現一個附註用括號的寫法，此時「括號前
             // 的文字」其實包含了「 - 」分隔的說明，不是真正的店名，要排除掉，
             // 不然會把整句描述誤判成可搜尋的地點名稱
-            if (/[-－—]/.test(candidate)) return null;
-            return candidate;
+            if (/[-－—]/.test(name)) return null;
+            if (!/\d/.test(address)) return null; // 括號內沒有門牌號碼等數字，當作不是明確地址（是產品/品牌名）
+            return { name, address };
         }
 
         // ============================================================
@@ -3957,11 +3966,13 @@
         }
 
         // 推薦清單（必吃小吃／推薦餐廳／紀念品）專用：在 formatRecommendationItem
-        // 的基礎上，額外從開頭「店名 (地址) - 說明」的固定格式切出明確店名，
-        // 有切到才加「導航」連結，切不到就不加（不從自由文字猜地點）
-        function formatRecommendationItemWithNav(text, city) {
-            const name = extractRecommendationName(text);
-            return formatRecommendationItem(text) + navLinkHtml(name, city);
+        // 的基礎上，額外從開頭「店名 (地址) - 說明」的固定格式切出店名＋地址，
+        // 只有真的有地址（含門牌號碼）才加「導航」連結，連結用「店名＋地址」
+        // 組查詢字串（不是城市），單純的產品/品牌名稱（沒有地址）不給連結
+        function formatRecommendationItemWithNav(text) {
+            const place = extractRecommendationPlace(text);
+            const link = place ? navLinkHtml(place.name, place.address) : '';
+            return formatRecommendationItem(text) + link;
         }
 
         // 渲染彈性行程（按城市分類的博物館卡推薦 + 吃喝玩樂推薦）
@@ -4081,7 +4092,7 @@
                             <ul class="recommendation-list">
                     `;
                     recs.snacks.forEach(snack => {
-                        html += `<li>${formatRecommendationItemWithNav(snack, city)}</li>`;
+                        html += `<li>${formatRecommendationItemWithNav(snack)}</li>`;
                     });
                     html += `
                             </ul>
@@ -4097,7 +4108,7 @@
                             <ul class="recommendation-list">
                     `;
                     recs.restaurants.forEach(restaurant => {
-                        html += `<li>${formatRecommendationItemWithNav(restaurant, city)}</li>`;
+                        html += `<li>${formatRecommendationItemWithNav(restaurant)}</li>`;
                     });
                     html += `
                             </ul>
@@ -4113,7 +4124,7 @@
                             <ul class="recommendation-list">
                     `;
                     recs.souvenirs.forEach(souvenir => {
-                        html += `<li>${souvenir}${navLinkHtml(extractRecommendationName(souvenir), city)}</li>`;
+                        html += `<li>${formatRecommendationItemWithNav(souvenir)}</li>`;
                     });
                     html += `
                             </ul>

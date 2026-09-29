@@ -123,9 +123,17 @@
 連結（`https://www.google.com/maps/search/?api=1&query=...`）。只加在
 「資料裡本來就有明確名稱」的地方：飯店（`hotels.json` 的 `name`/`city`，
 或 daycard 行程每天的 `hotel` 字串）、`attractions.json` 的景點
-（`name`/`city`）、`recommendations.json` 每筆用固定格式
-「店名 (地址) - 說明」開頭、能明確切出店名的小吃/餐廳/紀念品、以及
-events 項目裡選填的 `venue` 欄位。不會從自由描述文字裡憑空猜地點。
+（`name`/`city`）、events 項目裡選填的 `venue` 欄位。不會從自由描述文字
+裡憑空猜地點。
+
+`recommendations.json` 的小吃/餐廳/紀念品比較特別：這份資料裡很多項目
+是「產品/品牌」而不是「地點」（例如「德國小熊軟糖 (Haribo)」「科隆淡
+啤酒 (Kölsch)」），對這種項目按「導航」沒有意義，查不到東西。所以
+`extractRecommendationPlace()` 只有在固定格式「店名 (地址) - 說明」的
+括號內容看起來像「真的地址」（含門牌號碼等數字，例如
+「Blauwpoortshaven 7」）才會給連結，而且連結用「店名 + 地址」組查詢字
+串（不是城市），比「店名 + 城市」精準很多；括號內容只是產品/品牌/風格
+名稱（沒有任何數字，例如「(Haribo)」「(Rutte Jenever)」）就不給連結。
 
 **不是可搜尋地點的情況一律不加連結**，有兩層判斷：
 
