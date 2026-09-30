@@ -1933,6 +1933,12 @@
         .dc-event-body .dc-label { color: var(--dc-weekday); }
         .dc-event-source { margin-top: 10px; font-size: 0.78rem; color: var(--dc-text); }
         .dc-event-source a { color: var(--dc-event-source-link); }
+        .dc-reminders a, .dc-slot .dc-text a, .dc-event-body a {
+            color: var(--nav-link-color);
+            font-weight: 700;
+            text-decoration: none;
+            border-bottom: 1px solid currentColor;
+        }
 
         @media (max-width: 480px) {
             .dc-day-card { padding: 20px 16px 18px; }
