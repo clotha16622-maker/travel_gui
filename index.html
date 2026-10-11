@@ -792,49 +792,9 @@
             return '🌍';
         }
 
-        // 獲取國家代碼
-        function getCountryCode(city) {
-            const codes = {
-                '台北': 'TPE',
-                '台灣': 'TWN',
-                '荷蘭': 'AMS',
-                '阿姆斯特丹': 'AMS',
-                '鹿特丹': 'RTM',
-                '海牙': 'AMS',
-                '萊頓': 'AMS',
-                '烏特勒支': 'AMS',
-                '羊角村': 'AMS',
-                '德國': 'BER',
-                '科隆': 'CGN',
-                '法蘭克福': 'FRA',
-                '海德堡': 'FRA',
-                '日本': 'NRT',
-                '東京': 'NRT',
-                '大阪': 'KIX',
-                '韓國': 'ICN',
-                '泰國': 'BKK',
-                '美國': 'LAX'
-            };
-            return codes[city] || city.substring(0, 3).toUpperCase();
-        }
-
         // 查看行程
         function viewItinerary(id) {
             window.location.href = `itinerary.html?id=${id}`;
-        }
-
-        // 刪除行程
-        function deleteItinerary(id) {
-            if (!confirm('確定要刪除此行程嗎？')) return;
-
-            itineraries = itineraries.filter(it => it.id !== id);
-
-            // 如果是自訂行程，更新 localStorage
-            const customItineraries = itineraries.filter(it => !it.filename);
-            localStorage.setItem('customItineraries', JSON.stringify(customItineraries));
-
-            renderItineraries();
-            alert('行程已刪除');
         }
 
         // 打開新增modal

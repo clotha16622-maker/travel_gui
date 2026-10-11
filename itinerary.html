@@ -3824,21 +3824,12 @@
             if (!museumCardData) return null;
 
             // 遍歷所有博物館卡景點
-            for (const [key, museum] of Object.entries(museumCardData.museumCardRecommendations || {})) {
+            for (const museum of Object.values(museumCardData.museumCardRecommendations || {})) {
                 if (museum.name.includes(attractionName) || attractionName.includes(museum.name)) {
                     return museum;
                 }
             }
             return null;
-        }
-
-        // 為景點添加博物館卡標注
-        function getAttractionWithCardMark(attractionName) {
-            const museum = checkMuseumCardSupport(attractionName);
-            if (museum) {
-                return `${attractionName} <span style="background: #fff3cd; color: #856404; padding: 2px 6px; border-radius: 3px; font-size: 0.75em; margin-left: 4px; font-weight: 600;">🎫 博物館卡免費</span>`;
-            }
-            return attractionName;
         }
 
         // 切換博物館卡容器展開/折疊
